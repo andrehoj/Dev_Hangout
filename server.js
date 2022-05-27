@@ -5,11 +5,10 @@ const path = require("path");
 //DB, API routes import
 const sequelize = require('./config/connection');
 const routes = require('./routes');
-const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // turn on routes
-app.use(routes);
+
 
 //handlebars setup
 const { engine } = require("express-handlebars");
@@ -44,6 +43,8 @@ app.get("/signup", (req, res) => {
   res.render("signup-model");
 });
 
+app.use(routes);
+
 //" io.on" takes two arguments, the first is an event and second is a callback funtion
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
@@ -70,5 +71,7 @@ io.on("connection", (socket) => {
 
 // turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
-  server.listen(PORT, () => console.log('Now listening'));
+  server.listen(3001, () => {
+    console.log("listening on *:3001");
+  });
 });

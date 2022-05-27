@@ -17,8 +17,8 @@ router.get('/', (req, res) => {
     // Access our User model and run .findAll() method)
     User.findOne({
       where: {
-        username: req.body.loginUserName,
-        password: req.body.loginPassword
+        username: req.body.username,
+        password: req.body.password
       }
     })
       .then(dbUserData => {
@@ -58,7 +58,7 @@ router.get('/:id', (req, res) => {
 router.post('/signup', (req, res) => {
     // expects {username: 'Lernantino', password: 'password1234'}
     User.create({
-      username: req.body.userName,
+      username: req.body.username,
       password: req.body.password
     })
       .then(dbUserData => res.json(dbUserData))
