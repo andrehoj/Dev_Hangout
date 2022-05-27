@@ -13,8 +13,8 @@ async function handleSignUp(event) {
     let response = await fetch("/login", {
       method: "get",
       body: {
-        loginPassword,
         loginUserName,
+        loginPassword,
       },
       headers: {
         "Content-type": "application/json",

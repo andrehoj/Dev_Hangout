@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
-// GET /api/users
+// GET /
 router.get('/', (req, res) => {
     // Access our User model and run .findAll() method)
     User.findAll()
@@ -12,7 +12,29 @@ router.get('/', (req, res) => {
       });
   });
 
-// GET /api/users/1
+  // GET /login
+  router.get('/login', (req, res) => {
+    // Access our User model and run .findAll() method)
+    User.findOne({
+      where: {
+        username: req.body.loginUserName,
+        password: req.body.loginPassword
+      }
+    })
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this username and password' });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+
+// GET /1
 router.get('/:id', (req, res) => {
     User.findOne({
       where: {
@@ -32,11 +54,11 @@ router.get('/:id', (req, res) => {
       });
   });
 
-// POST /api/users
-router.post('/', (req, res) => {
+// POST /signup
+router.post('/signup', (req, res) => {
     // expects {username: 'Lernantino', password: 'password1234'}
     User.create({
-      username: req.body.username,
+      username: req.body.userName,
       password: req.body.password
     })
       .then(dbUserData => res.json(dbUserData))
@@ -46,7 +68,7 @@ router.post('/', (req, res) => {
       });
   });
 
-// PUT /api/users/1
+// PUT /1
 router.put('/:id', (req, res) => {
     // expects {username: 'Lernantino', password: 'password1234'}
   
@@ -69,7 +91,7 @@ router.put('/:id', (req, res) => {
       });
   });
 
-// DELETE /api/users/1
+// DELETE /1
 router.delete('/:id', (req, res) => {
     User.destroy({
       where: {
