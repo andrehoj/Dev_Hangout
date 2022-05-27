@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
-//API routes import
+//DB, API routes import
+const sequelize = require('./config/connection');
 const routes = require('./routes');
 const PORT = process.env.PORT || 3001;
 app.use(express.json());
@@ -52,6 +53,11 @@ io.on("connection", (socket) => {
     console.log("A user has disconnected.");
   });
 });
+
+// server.listen(3001, () => {
+//   console.log("listening on *:3001");
+// });
+
 
 // turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
