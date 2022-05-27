@@ -22,6 +22,7 @@ async function handleSignUp(event) {
     .then(data => {
       console.log('Success:', data);
       modal.classList.toggle("hide-modal");
+      document.location.replace('/home')
     })
     .catch((error) => {
       console.error('Error:', error);

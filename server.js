@@ -3,12 +3,11 @@ const app = express();
 const path = require("path");
 
 //DB, API routes import
-const sequelize = require('./config/connection');
-const routes = require('./routes');
+const sequelize = require("./config/connection");
+const routes = require("./routes");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // turn on routes
-
 
 //handlebars setup
 const { engine } = require("express-handlebars");
@@ -67,7 +66,6 @@ io.on("connection", (socket) => {
 // server.listen(3001, () => {
 //   console.log("listening on *:3001");
 // });
-
 
 // turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
