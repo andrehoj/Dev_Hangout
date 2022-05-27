@@ -11,7 +11,7 @@ async function handleSignUp(event) {
   if (loginUserName && loginPassword) {
     //will send userName and password to endpoint /signup
     let response = await fetch("/login", {
-      method: "post",
+      method: "get",
       body: {
         loginPassword,
         loginUserName,
