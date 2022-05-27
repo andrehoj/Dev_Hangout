@@ -27,16 +27,20 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //on the default url "localhost:3000"  send the home page
 app.get("/", (req, res) => {
-  res.render("home");
+  //render this by default
+  res.render("signup-model");
+
+  //if the user is signed in
+  //res.render("home")
 });
 
 //" io.on" takes two arguments, the first is an event and second is a callback funtion
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
 io.on("connection", (socket) => {
-  console.log(`A new user has connected. Their id is ${socket.id}` );
+  console.log(`A new user has connected. Their id is ${socket.id}`);
 
-  //here we recieve the chat message from the client 
+  //here we recieve the chat message from the client
   socket.on("chat message", (msg) => {
     console.log(`User ${socket.id} says:${msg}`);
     // emit sends to the browser
