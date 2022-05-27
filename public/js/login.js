@@ -1,20 +1,20 @@
-document.querySelector("#signup-form").addEventListener("submit", handleSignUp);
+document.querySelector("#login-form").addEventListener("submit", handleSignUp);
 
 const modal = document.querySelector(".modal");
 
 async function handleSignUp(event) {
   event.preventDefault();
 
-  let userName = document.querySelector("#signUpUserName").value.trim();
-  let password = document.querySelector("#signUpPassword").value.trim();
+  let loginUserName = document.querySelector("#loginUserName").value.trim();
+  let loginPassword = document.querySelector("#loginPassword").value.trim();
 
-  if (userName && password) {
+  if (loginUserName && loginPassword) {
     //will send userName and password to endpoint /signup
-    let response = await fetch("/signup", {
-      method: "post",
+    let response = await fetch("/login", {
+      method: "get",
       body: {
-        userName,
-        password,
+        loginPassword,
+        loginUserName,
       },
       headers: {
         "Content-type": "application/json",

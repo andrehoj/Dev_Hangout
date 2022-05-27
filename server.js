@@ -35,6 +35,15 @@ app.get("/", (req, res) => {
   //res.render("home")
 });
 
+//when the user clicks the login or signup instead link
+app.get("/login", (req, res) => {
+  res.render("login-model");
+});
+
+app.get("/signup", (req, res) => {
+  res.render("signup-model");
+});
+
 //" io.on" takes two arguments, the first is an event and second is a callback funtion
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
