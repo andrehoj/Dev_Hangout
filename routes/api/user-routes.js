@@ -13,12 +13,12 @@ router.get('/', (req, res) => {
   });
 
   // GET /login
-  router.get('/login', (req, res) => {
+  router.get('/login/:username/:password', (req, res) => {
     // Access our User model and run .findAll() method)
     User.findOne({
       where: {
-        username: req.body.username,
-        password: req.body.password
+        username: req.params.username,
+        password: req.params.password
       }
     })
       .then(dbUserData => {
