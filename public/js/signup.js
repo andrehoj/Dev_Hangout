@@ -9,7 +9,7 @@ async function handleSignUp(event) {
   if (userName && password) {
     //will send userName and password to endpoint /signup
     let response = await fetch("/signup", {
-      method: "put",
+      method: "post",
       body: {
         userName,
         password,
