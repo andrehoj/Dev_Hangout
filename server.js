@@ -28,10 +28,10 @@ app.use(express.static(path.join(__dirname, "public")));
 //on the default url "localhost:3000"  send the home page
 app.get("/", (req, res) => {
   //render this by default
-  res.render("signup-model");
+  // res.render("signup-model");
 
   //if the user is signed in
-  //res.render("home")
+  res.render("home")
 });
 
 //when the user clicks the login or signup instead link
