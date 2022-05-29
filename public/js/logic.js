@@ -3,7 +3,7 @@
 var socket = io();
 
 //get the ul, form and input in a variable
-var messages = document.getElementById("messages");
+// var messages = document.getElementById("messages");
 var form = document.getElementById("form");
 var input = document.getElementById("input");
 
@@ -19,7 +19,10 @@ form.addEventListener("submit", function (e) {
 
 //here we recieve the emit.('chat message') and append the msg
 socket.on("chat message", function (msg) {
-  var item = document.createElement("li");
-  item.textContent = msg;
-  messages.appendChild(item);
+  // var item = document.createElement("li");
+  // item.prepend('<img src="../images/gitusericon1.png"/>');
+  // item.append(`<span>${msg}</span>`);
+  // messages.appendChild(item);
+  $('#messages').append(`<li><img class="profile-image" 
+  src="../images/gitusericon1.png"/><span>User Says: ${msg}</span></li>`);
 });

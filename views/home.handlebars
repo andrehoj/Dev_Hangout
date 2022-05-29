@@ -1,12 +1,15 @@
-<div class="chat-container">
-  <ul id="messages" class="chat-messages"></ul>
+<div class="chat-container container">
+  <ul id="messages"></ul>
+  <section class="row justify-content-center">
+    <div class="col-md-10">
+      <form id="form">
+        <input id="input" placeholder="Send a message"></input>
+        <button>Send <i class="fa fa-caret-right" aria-hidden="true"></i></button>
+      </form>
+    </div>
+  </section>
 </div>
 
-<form id="form" class="msg-form">
-  <input id="input" class="msg-input" /><button class="msg-btn">
-    Send
-  </button>
-</form>
 <!-- script tag must be included in html to have access to the socket method -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/logic.js"></script>
