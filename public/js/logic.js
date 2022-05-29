@@ -1,3 +1,6 @@
+$('body').on( "click", "#account-btn", function() {
+  $('.account-slideout').toggleClass('active');
+});
 //must include the io function to communicate from the browser to the server
 //the io function comes from the script linked in main
 var socket = io();
