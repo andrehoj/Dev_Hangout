@@ -17,6 +17,28 @@ a{
 a:hover{
   color: #1f6feb;
 }
+
+.chat-container ul::-webkit-scrollbar {
+	width: 12px;
+}
+  
+/* Track */
+.chat-container ul::-webkit-scrollbar-track {
+  background: #0d1117;    
+  border-left: 1px solid #30363d;
+}
+  
+/* Thumb */
+.chat-container ul::-webkit-scrollbar-thumb {
+  background: #21262d;
+  border-radius: 3px;    
+  border-left: 1px solid #30363d;
+}
+
+/* Handle on hover */
+.chat-container ul::-webkit-scrollbar-thumb:hover {
+  background: #58a6ff;
+}
 /* Global classes styling end */
 
 /* Chat styling start */
@@ -28,7 +50,7 @@ a:hover{
 
 .chat-container ul {
   background-color: #0d1117;
-  height: 600px;
+  height: 500px;
   width: 100%;
   border-radius: 6px;
   overflow-y: auto;
