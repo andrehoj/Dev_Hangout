@@ -23,6 +23,7 @@ body {
 
 a{
   color: var(--main-text-color);
+  display: inline-block;
 }
 a:hover{
   color: var(--main-highlight-color);
