@@ -197,6 +197,7 @@ header span:hover{
   .account-slideout {
     width: 100vw;
     border-left: none;
+  }
 }
 /* Mobile styling end */
 /* Account slideout styling end */
@@ -238,7 +239,7 @@ header span:hover{
   background-color: darkgray;
 }
 .hide-modal {
-  opacity: o;
+  opacity: 0;
   visibility: hidden;
   transform: scale(1);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
