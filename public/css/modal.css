@@ -37,4 +37,7 @@
   transform: scale(1);
 }
 
+.hide-modal {
+  visibility: hidden;
+}
 /* MODEL styling end */

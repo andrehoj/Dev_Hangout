@@ -2,7 +2,7 @@ document.querySelector("#signup-form").addEventListener("submit", handleSignUp);
 
 const signupModal = document.querySelector("#signup-modal");
 
-async function handleSignUp(event) {
+function handleSignUp(event) {
   event.preventDefault();
 
   let userName = document.querySelector("#signUpUserName").value.trim();
@@ -12,7 +12,7 @@ async function handleSignUp(event) {
 
   if (userName && password) {
     //will send userName and password to endpoint /signup
-    let response = await fetch("/api/users/signup", {
+    fetch("/api/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +21,6 @@ async function handleSignUp(event) {
     })
       .then((response) => response.json())
       .then((data) => {
-        signupModal.classList.toggle("hide-modal");
         document.location.replace("/home");
       })
       .catch((error) => {

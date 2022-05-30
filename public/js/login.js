@@ -2,7 +2,7 @@ document.querySelector("#login-form").addEventListener("submit", handleSignUp);
 
 const loginModal = document.querySelector("#login-modal");
 
-async function handleSignUp(event) {
+function handleSignUp(event) {
   event.preventDefault();
 
   let userName = document.querySelector("#loginUserName").value.trim();
@@ -22,8 +22,7 @@ async function handleSignUp(event) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("jide")
-        loginModal.classList.toggle("hide-modal");
+        document.location.replace("/home");
       })
       .catch((error) => {
         console.error("Error:", error);
