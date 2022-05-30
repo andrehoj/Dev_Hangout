@@ -10,8 +10,8 @@
   align-items: center;
   visibility: hidden;
   opacity: 0;
-   transform: scale(1.1);
-  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s; 
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
 .modal .content {
   position: relative;
@@ -25,6 +25,7 @@
   box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
   transform: scale(0);
   transition: transform300ms cubic-bezier(0.57, 0.21, 0.69, 1.25);
+  transition: scale;
 }
 
 .modal.open {

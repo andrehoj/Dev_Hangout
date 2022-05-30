@@ -1,3 +1,7 @@
+//
+let currentUserName;
+//
+
 $("body").on("click", "#account-btn", function () {
   $(".account-slideout").toggleClass("active");
 });
@@ -23,10 +27,10 @@ form.addEventListener("submit", function (e) {
 //here we recieve the emit.('chat message') and append the msg
 socket.on("chat message", function (msg) {
   $("#messages").append(`<li><img class="profile-image" 
-  src="../images/gitusericon1.png"/><span>User: ${msg}</span></li>`);
+  src="../images/gitusericon1.png"/><span>${currentUserName}: ${msg}</span></li>`);
 });
 
-function getAllUsers() {
+function getUserData() {
   fetch("/api/users", {
     method: "get",
     "Content-type": "application/json",
@@ -34,6 +38,8 @@ function getAllUsers() {
     .then((res) => {
       res.json().then((data) => {
         console.log(data);
+        displayCurrentUser(data);
+        listAllUsers(data);
       });
     })
     .catch((err) => {
@@ -41,18 +47,42 @@ function getAllUsers() {
     });
 }
 
+function displayCurrentUser(data) {
+  if (data[1].username) {
+    currentUserName = data[1].username;
+    $("#slideout-username").text(currentUserName);
+  }
+}
+
+function listAllUsers(data) {
+  data[0].forEach((user) => {
+    if (user.username === currentUserName) {
+      return;
+    }
+    $("#user-list").append(
+      `<li id="user${user.id}" class="user-list-item" ><span>${
+        user.username
+      } <span class="${checkIfActive(user.is_active)}">●</span></li>`
+    );
+  });
+}
+
+function checkIfActive(loggedIn) {
+  if (loggedIn) {
+    return "logged-in";
+  } else return "logged-out";
+}
+
 //
 $("#login-link").on("click", () => {
-  console.log("click login in");
   $("#login-modal").addClass("open");
   $(".modal-blur").addClass("blur");
 });
 
 $("#signup-link").on("click", () => {
-  console.log("click sign up");
   $("#signup-modal").addClass("open");
   $(".modal-blur").addClass("blur");
 });
 //
 
-getAllUsers();
+getUserData();

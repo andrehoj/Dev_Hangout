@@ -7,8 +7,12 @@
       </div>
       <div class="col-6 d-flex align-items-center justify-content-end">
         <span id="account-btn"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
+        {{#if loggedIn}}
+        <a href="#" class="log-in" id="logout-link">Logout</a>
+      {{else}}
         <a href="#" class="log-in" id="login-link">Login</a>
         <a href="#" class="log-in" id="signup-link">SignUp</a>
+          {{/if}}
       </div>
     </section>
   </div>
@@ -17,7 +21,9 @@
 <div class="account-slideout">
   <div class="slideout">
     <div class="container">
-      <h2>Username</h2>
+      <h2 id="slideout-username"></h2>
+      <h3>Users</h3>
+      <ul id="user-list" class="list-of-users"></ul>
     </div>
   </div>
 </div>
@@ -41,3 +47,6 @@
 <script src="/js/logic.js"></script>
 <script src="/js/signup.js"></script>
 <script src="/js/login.js"></script>
+{{#if loggedIn}}
+<script src="/js/logout.js"></script>
+{{/if}}

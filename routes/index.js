@@ -7,7 +7,10 @@ router.use("/home", homeRoutes);
 router.use("/api", apiRoutes);
 
 router.get("/", (req, res) => {
-  res.render("home");
+  console.log(req.session.loggedIn);
+  if (req.session.loggedIn === undefined) {
+    res.render("home", { loggedIn: false });
+  } else res.render("home", { loggedIn: true });
 });
 
 router.get("/signup", (req, res) => {

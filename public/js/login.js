@@ -1,25 +1,29 @@
 document.querySelector("#login-form").addEventListener("submit", handleSignUp);
 
-const modal = document.querySelector(".modal");
+const loginModal = document.querySelector("#login-modal");
 
 async function handleSignUp(event) {
   event.preventDefault();
 
-  let loginUserName = document.querySelector("#loginUserName").value.trim();
-  let loginPassword = document.querySelector("#loginPassword").value.trim();
+  let userName = document.querySelector("#loginUserName").value.trim();
+  let passWord = document.querySelector("#loginPassword").value.trim();
 
   if (loginUserName && loginPassword) {
     //will send userName and password to endpoint /signup
-    fetch(`/api/users/login/${loginUserName}/${loginPassword}`, {
-      method: "GET",
+    fetch(`/api/users/login`, {
+      method: "post",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        userName,
+        passWord,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
-        modal.classList.toggle("hide-modal");
+        console.log("jide")
+        loginModal.classList.toggle("hide-modal");
       })
       .catch((error) => {
         console.error("Error:", error);

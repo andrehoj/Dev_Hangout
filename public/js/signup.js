@@ -1,9 +1,8 @@
 document.querySelector("#signup-form").addEventListener("submit", handleSignUp);
 
-const modal = document.querySelector(".modal");
+const signupModal = document.querySelector("#signup-modal");
 
 async function handleSignUp(event) {
-  console.log("submitted")
   event.preventDefault();
 
   let userName = document.querySelector("#signUpUserName").value.trim();
@@ -22,8 +21,7 @@ async function handleSignUp(event) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
-        modal.classList.toggle("hide-modal");
+        signupModal.classList.toggle("hide-modal");
         document.location.replace("/home");
       })
       .catch((error) => {

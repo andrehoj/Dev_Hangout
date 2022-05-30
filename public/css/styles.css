@@ -210,7 +210,23 @@ header span:hover {
 /* Mobile styling end */
 /* Account slideout styling end */
 
-/* apply this class when modal is clicked */
+/* apply this class when modal is active */
 .blur {
   filter: blur(5px);
+}
+
+/*  */
+.logged-in {
+  color: green;
+}
+
+.logged-out {
+  color: red;
+}
+
+/* user list styles */
+.list-of-users {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
 }
