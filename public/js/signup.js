@@ -1,8 +1,9 @@
 document.querySelector("#signup-form").addEventListener("submit", handleSignUp);
 
-const modal = document.querySelector(".modal-content");
+const modal = document.querySelector(".modal");
 
 async function handleSignUp(event) {
+  console.log("submitted")
   event.preventDefault();
 
   let userName = document.querySelector("#signUpUserName").value.trim();

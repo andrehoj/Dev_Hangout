@@ -1,9 +1,26 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const session = require("express-session");
+const sequelize = require("./config/connection");
+
+//session setup
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
+const sess = {
+  secret: "secret that no one knows",
+  cookie: {},
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
+};
+
+app.use(session(sess));
 
 //DB, API routes import
-const sequelize = require("./config/connection");
+
 const routes = require("./routes");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

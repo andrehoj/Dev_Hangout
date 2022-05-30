@@ -58,6 +58,14 @@ header span:hover {
   transform: scale(1.1);
 }
 
+.log-in {
+  margin-left: 12px;
+}
+
+.log-in:hover {
+  color: var(--main-highlight-color);
+}
+
 /* Header styling end */
 
 /* Chat styling start */
@@ -201,3 +209,8 @@ header span:hover {
 }
 /* Mobile styling end */
 /* Account slideout styling end */
+
+/* apply this class when modal is clicked */
+.blur {
+  filter: blur(5px);
+}

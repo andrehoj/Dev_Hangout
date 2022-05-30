@@ -1,11 +1,15 @@
 const router = require("express").Router();
 const { User } = require("../../models");
 
-// GET /
+//send res.session so we can tell who is the current user and if they are logged in
 router.get("/", (req, res) => {
-  // Access our User model and run .findAll() method)
-  User.findAll()
-    .then((dbUserData) => res.json(dbUserData))
+  User.findAll({
+    attributes: { exclude: ["password"] },
+  })
+    .then((dbUserData) => {
+      let payLoad = [dbUserData, req.session];
+      res.json(payLoad);
+    })
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -58,7 +62,16 @@ router.post("/signup", (req, res) => {
     username: req.body.username,
     password: req.body.password,
   })
-    .then((dbUserData) => res.json(dbUserData))
+    .then((dbUserData) => {
+      req.session.save(() => {
+        req.session.user_id = dbUserData.id;
+        req.session.username = dbUserData.username;
+        req.session.loggedIn = true;
+
+        res.json(dbUserData);
+      });
+    })
+
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
