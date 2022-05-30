@@ -14,20 +14,15 @@ router.get("/", (req, res) => {
 
 // GET /login
 router.get("/login/:username/:password", (req, res) => {
-  // Access our User model and run .findAll() method)
+  // Expects /api/users/login/username/password
   User.findOne({
+    // attributes: { exclude: ['password'] },
     where: {
       username: req.params.username,
       password: req.params.password,
     },
   })
-    .then((dbUserData) => {
-      if (!dbUserData) {
-        res
-          .status(404)
-          .json({ message: "No user found with this username and password" });
-        return;
-      }
+    .then((dbLoginData) => {
       res.json(dbUserData);
     })
     .catch((err) => {
