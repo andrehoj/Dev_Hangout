@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const session = require("express-session");
 const sequelize = require("./config/connection");
-
+const User = require("./models/User");
 //session setup
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
@@ -47,15 +47,16 @@ app.use(routes);
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
 io.on("connection", (socket) => {
-  socket.on("chat message", (msg) => {
-    console.log(`User ${socket.id} says:${msg}`);
-    // emit sends to the browser
-    io.emit("chat message", msg);
+  console.log(
+    `\n A User has signed or logged in. Their socket id is ${socket.id} \n`
+  );
+  socket.on("chat message", ({ msg, username }) => {
+    io.emit("chat message", { msg, username });
   });
 
   //disconnect fires when a user exits the localhost server
   socket.on("disconnect", (socket) => {
-    console.log("A user has disconnected.");
+    console.log("\n A user has disconnected. \n");
   });
 });
 

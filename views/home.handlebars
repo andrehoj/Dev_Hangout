@@ -1,57 +1,64 @@
 {{#if loggedIn}}
 <div class="modal-blur ">
   {{else}}
-<div class="modal-blur blur ">
-{{/if}}
-<header>
-  <div class="container">
-    <section class="row">
-      <div class="col-6">
-        <a href="/"><h1>ChatHub</h1></a>
-      </div>
-      <div class="col-6 d-flex align-items-center justify-content-end">
-        <span id="account-btn"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
-        {{#if loggedIn}}
-        <a href="#" class="log-in" id="logout-link">Logout</a>
-      
-          {{/if}}
-      </div>
-    </section>
-  </div>
-</header>
+  <div class="modal-blur blur ">
+    {{/if}}
+    <header>
+      <div class="container">
+        <section class="row">
+          <div class="col-6">
+            <a href="/">
+              <h1>ChatHub</h1>
+            </a>
+          </div>
+          <div class="col-6 d-flex align-items-center justify-content-end">
+            <span id="account-btn"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
+            {{#if loggedIn}}
+            <a href="#" class="log-in" id="logout-link">Logout</a>
 
-<div class="account-slideout">
-  <div class="slideout">
-    <div class="container">
-      <h2 id="slideout-username"></h2>
-      <h3>Users</h3>
-      <ul id="user-list" class="list-of-users"></ul>
-    </div>
-  </div>
-</div>
+            {{/if}}
+          </div>
+        </section>
+      </div>
+    </header>
 
-<main class="chat-container container">
-  <ul id="messages"></ul>
-  <section class="row justify-content-center">
-    <div class="col-md-10">
-      <form id="form">
-        <input id="input" placeholder="Send a message..."></input>
-        <button>Send <i class="fa fa-caret-right" aria-hidden="true"></i></button>
-      </form>
+    <div class="account-slideout">
+      <div class="slideout">
+        <div class="container">
+          <h2 id="slideout-username"></h2>
+          <h3>Users</h3>
+          <ul id="user-list" class="list-of-users"></ul>
+        </div>
+      </div>
     </div>
-  </section>
-</main>
-</div>
- 
- {{#unless loggedIn}}
-   {{> login-modal}}
-{{> signup-modal}}
-{{/unless}}
-<!-- script tag must be included in html to have access to the socket method -->
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/logic.js"></script>
-<script src="/js/signup.js"></script>
-<script src="/js/login.js"></script>
-{{#if loggedIn}}
-<script src="/js/logout.js"></script>
-{{/if}}
+
+    <main class="chat-container container">
+      <ul id="messages"></ul>
+      <section class="row justify-content-center">
+        <div class="col-md-10">
+          <form id="form">
+            <input id="input" placeholder="Send a message..."></input>
+            <button>Send <i class="fa fa-caret-right" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  {{#unless loggedIn}}
+  {{> login-modal}}
+  {{> signup-modal}}
+  {{/unless}}
+  <!-- script tag must be included in html to have access to the socket method -->
+  {{#if loggedIn}}
+  <script src="/socket.io/socket.io.js"></script>
+  {{/if}}
+  {{#unless loggedIn}}
+
+  <script src="/js/signup.js"></script>
+  <script src="/js/login.js"></script>
+  {{/unless}}
+  <script src="/js/logic.js"></script>
+  {{#if loggedIn}}
+  <script src="/js/logout.js"></script>
+  {{/if}}
