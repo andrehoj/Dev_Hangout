@@ -28,3 +28,8 @@ function handleSignUp(event) {
       });
   }
 }
+
+$("#login-instead-link").click(() => {
+  $("#signup-modal").hide();
+  $("#login-modal").show();
+});

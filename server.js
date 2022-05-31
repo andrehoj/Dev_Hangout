@@ -47,9 +47,6 @@ app.use(routes);
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
 io.on("connection", (socket) => {
-  console.log(`A new user has connected. Their id is ${socket.id}`);
-
-  //here we recieve the chat message from the client
   socket.on("chat message", (msg) => {
     console.log(`User ${socket.id} says:${msg}`);
     // emit sends to the browser

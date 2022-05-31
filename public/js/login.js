@@ -22,6 +22,9 @@ function handleSignUp(event) {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
+        $("#login-modal").hide();
+        $("#signup-modal").hide();
         document.location.replace("/home");
       })
       .catch((error) => {
@@ -29,3 +32,8 @@ function handleSignUp(event) {
       });
   }
 }
+
+$("#signup-instead-link").click(() => {
+  $("#login-modal").hide();
+  $("#signup-modal").show();
+});

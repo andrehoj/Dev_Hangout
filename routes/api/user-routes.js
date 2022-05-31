@@ -30,8 +30,16 @@ router.post("/login", (req, res) => {
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
-
-      res.json({ user: dbUserData, message: "You are now logged in!" });
+      User.update(
+        { is_active: true },
+        {
+          where: {
+            username: req.session.username,
+          },
+        }
+      ).then((dbUserData) => {
+        res.json({ user: dbUserData, message: "You are now logged in!" });
+      });
     });
   });
 });
@@ -98,5 +106,4 @@ router.delete("/:id", (req, res) => {
       res.status(500).json(err);
     });
 });
-
 module.exports = router;

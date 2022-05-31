@@ -1,3 +1,4 @@
+getUserData();
 //
 let currentUserName;
 //
@@ -27,28 +28,26 @@ form.addEventListener("submit", function (e) {
 //here we recieve the emit.('chat message') and append the msg
 socket.on("chat message", function (msg) {
   $("#messages").append(`<li><img class="profile-image" 
-  src="../images/gitusericon1.png"/><span>${currentUserName}: ${msg}</span></li>`);
+  src="../images/gitusericon1.png"/><span>${socket.username}: ${msg}</span></li>`);
 });
 
-function getUserData() {
-  fetch("/api/users", {
+async function getUserData() {
+  let response = await fetch("/api/users", {
     method: "get",
     "Content-type": "application/json",
-  })
-    .then((res) => {
-      res.json().then((data) => {
-        console.log(data);
-        displayCurrentUser(data);
-        listAllUsers(data);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  });
+
+  if (response.ok) {
+    let data = await response.json();
+    console.log(data);
+    displayCurrentUser(data);
+    listAllUsers(data);
+  } else console.log(response);
 }
 
 function displayCurrentUser(data) {
   if (data[1].username) {
+    socket.username = data[1].username;
     currentUserName = data[1].username;
     $("#slideout-username").text(currentUserName);
   }
@@ -72,17 +71,3 @@ function checkIfActive(loggedIn) {
     return "logged-in";
   } else return "logged-out";
 }
-
-//
-$("#login-link").on("click", () => {
-  $("#login-modal").addClass("open");
-  $(".modal-blur").addClass("blur");
-});
-
-$("#signup-link").on("click", () => {
-  $("#signup-modal").addClass("open");
-  $(".modal-blur").addClass("blur");
-});
-//
-
-getUserData();

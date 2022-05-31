@@ -1,4 +1,8 @@
-<div class="modal-blur">
+{{#if loggedIn}}
+<div class="modal-blur ">
+  {{else}}
+<div class="modal-blur blur ">
+{{/if}}
 <header>
   <div class="container">
     <section class="row">
@@ -9,9 +13,7 @@
         <span id="account-btn"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
         {{#if loggedIn}}
         <a href="#" class="log-in" id="logout-link">Logout</a>
-      {{else}}
-        <a href="#" class="log-in" id="login-link">Login</a>
-        <a href="#" class="log-in" id="signup-link">SignUp</a>
+      
           {{/if}}
       </div>
     </section>
@@ -40,8 +42,11 @@
   </section>
 </main>
 </div>
-{{> login-modal}}
-{{> signup-modal}} 
+ 
+ {{#unless loggedIn}}
+   {{> login-modal}}
+{{> signup-modal}}
+{{/unless}}
 <!-- script tag must be included in html to have access to the socket method -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/logic.js"></script>
