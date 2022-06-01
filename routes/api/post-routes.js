@@ -1,32 +1,23 @@
-const router = require('express').Router();
-const { Post, User } = require('../../models');
+const router = require("express").Router();
+const { Post, User } = require("../../models");
 
 // get all users
-router.get('/', (req, res) => {
-    Post.findAll({
-      attributes: ['id', 'message', 'created_at'],
-      include: [
-        {
-          model: User,
-          attributes: ['username']
-        }
-      ]
-    })
-    .then(dbPostData => res.json(dbPostData))
-    .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
+router.get("/", (req, res) => {
+  Post.findAll()
+    .then((dbPostData) => res.json(dbPostData))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
     });
 });
 
-router.post('/', (req, res) => {
-  // expects {message: 'Taskmaster goes public!', user_id: 1}
+router.post("/save", (req, res) => {
   Post.create({
-    message: req.body.message,
-    user_id: req.body.user_id
+    message: req.body.msg,
+    username: req.body.username,
   })
-    .then(dbPostData => res.json(dbPostData))
-    .catch(err => {
+    .then((dbPostData) => res.json(dbPostData))
+    .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });

@@ -1,8 +1,28 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const apiRoutes = require('./api');
+const apiRoutes = require("./api");
+const homeRoutes = require("./home-routes");
 
-router.use('/api', apiRoutes);
+router.use("/home", homeRoutes);
+router.use("/api", apiRoutes);
+
+router.get("/", (req, res) => {
+  console.log(
+    "\n A user has visited the page. Their session is currently: " +
+      req.session.loggedIn + "\n"
+  );
+  if (req.session.loggedIn === undefined) {
+    res.render("home", { loggedIn: false });
+  } else res.render("home", { loggedIn: true });
+});
+
+router.get("/signup", (req, res) => {
+  res.render("signup-modal");
+});
+
+router.get("/login", (req, res) => {
+  res.render("login-modal");
+});
 
 router.use((req, res) => {
   res.status(404).end();

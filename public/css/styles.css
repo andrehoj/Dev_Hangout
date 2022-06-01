@@ -1,5 +1,5 @@
 /* Fonts start */
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap");
 /* Fonts end */
 
 /* CSS Variables Start */
@@ -21,11 +21,11 @@ body {
   align-items: center; */
 }
 
-a{
+a {
   color: var(--main-text-color);
   display: inline-block;
 }
-a:hover{
+a:hover {
   color: var(--main-highlight-color);
 }
 /* Global classes styling end */
@@ -41,21 +41,29 @@ header {
   border-bottom: 1px solid var(--main-border-color);
 }
 
-header h1{
+header h1 {
   font-weight: 300;
 }
 
-header a:hover{
+header a:hover {
   text-decoration: none;
   color: var(--main-text-color);
 }
 
-header span{
+header span {
   font-size: 36px;
   cursor: pointer;
 }
-header span:hover{
+header span:hover {
   transform: scale(1.1);
+}
+
+.log-in {
+  margin-left: 12px;
+}
+
+.log-in:hover {
+  color: var(--main-highlight-color);
 }
 
 /* Header styling end */
@@ -63,19 +71,19 @@ header span:hover{
 /* Chat styling start */
 /* Scroll bar styling start */
 .chat-container ul::-webkit-scrollbar {
-	width: 12px;
+  width: 12px;
 }
-  
+
 /* Track */
 .chat-container ul::-webkit-scrollbar-track {
-  background: var(--main-bg-color);  
+  background: var(--main-bg-color);
   border-left: 1px solid var(--main-border-color);
 }
-  
+
 /* Thumb */
 .chat-container ul::-webkit-scrollbar-thumb {
   background: #21262d;
-  border-radius: 3px;    
+  border-radius: 3px;
   border-left: 1px solid var(--main-border-color);
 }
 
@@ -85,7 +93,7 @@ header span:hover{
 }
 /* Scroll bar styling end */
 
-.chat-container .profile-image{
+.chat-container .profile-image {
   width: 24px;
   border-radius: 50%;
   margin-right: 8px;
@@ -110,7 +118,7 @@ header span:hover{
 /* .chat-container li:nth-child(odd) {
   background: #161b22;
 } */
-.chat-container li:hover{
+.chat-container li:hover {
   background-color: var(--main-second-bg-color);
 }
 .chat-container form {
@@ -131,7 +139,7 @@ header span:hover{
 .chat-container input:focus {
   outline: none;
 }
-.chat-container input::placeholder{
+.chat-container input::placeholder {
   color: #8b949e;
 }
 .chat-container button {
@@ -145,7 +153,7 @@ header span:hover{
   font-size: 16px;
   font-weight: 500;
 }
-.chat-container button i{
+.chat-container button i {
   font-size: 15px;
 }
 .chat-container button:hover {
@@ -154,7 +162,7 @@ header span:hover{
 
 /* Mobile styling start */
 @media only screen and (max-width: 767px) {
-  .chat-container ul{
+  .chat-container ul {
     height: 420px;
   }
 }
@@ -172,7 +180,7 @@ header span:hover{
   overflow: hidden;
   pointer-events: none;
 }
-.account-slideout .slideout{
+.account-slideout .slideout {
   height: 100%;
   width: 100%;
   background-color: var(--main-second-bg-color);
@@ -182,13 +190,13 @@ header span:hover{
   padding-top: 6em;
   color: var(--main-text-color);
 }
-.account-slideout.active{
+.account-slideout.active {
   pointer-events: all;
 }
-.account-slideout.active .slideout{
+.account-slideout.active .slideout {
   transform: translateX(0%);
 }
-.account-slideout .slideout h2{
+.account-slideout .slideout h2 {
   text-align: center;
   font-weight: 300;
 }
@@ -202,46 +210,29 @@ header span:hover{
 /* Mobile styling end */
 /* Account slideout styling end */
 
+/* apply this class when modal is active */
+.blur {
+  filter: blur(5px);
+}
 
-/* MODEL styling start */
-.modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1.1);
-  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+/*  */
+.logged-in {
+  color: green;
 }
-.modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 1rem 1.5rem;
-  width: 24rem;
-  border-radius: 0.5rem;
+
+.logged-out {
+  color: red;
 }
-.close-button {
-  float: right;
-  width: 1.5rem;
-  line-height: 1.5rem;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 0.25rem;
-  background-color: lightgray;
+
+/* user list styles */
+.list-of-users {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
 }
-.close-button:hover {
-  background-color: darkgray;
+
+.message-date{
+  color: #919191;
+  margin-left: 10px;
+  font-size: .9rem;
 }
-.hide-modal {
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(1);
-  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-}
-/* MODEL styling end */
