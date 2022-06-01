@@ -15,6 +15,10 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/id", (req, res) => {
+  res.json(req.session);
+});
+
 router.post("/login", (req, res) => {
   User.findOne({
     where: {

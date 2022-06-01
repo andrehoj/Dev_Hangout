@@ -15,9 +15,9 @@ var form = document.getElementById("form");
 var input = document.getElementById("input");
 
 form.addEventListener("submit", function (e) {
+  getUserId();
   e.preventDefault();
   if (input.value) {
-    console.log(currentUserName);
     socket.emit("chat message", {
       msg: input.value,
       username: currentUserName,
@@ -30,6 +30,7 @@ form.addEventListener("submit", function (e) {
 socket.on("chat message", function ({ msg, username }) {
   $("#messages").append(`<li><img class="profile-image" 
   src="../images/gitusericon1.png"/><span>${username}: ${msg}</span></li>`);
+  saveMessage(username, msg);
 });
 
 async function getUserData() {
@@ -72,3 +73,43 @@ function checkIfActive(loggedIn) {
     return "logged-in";
   } else return "logged-out";
 }
+
+async function saveMessage(username, msg) {
+  let response = await fetch("/api/posts/save", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username,
+      msg,
+    }),
+  });
+  if (response.ok) {
+    console.log(`message saved! ${response}`);
+  } else console.log(`error: ${response}`);
+}
+
+async function getAllMessages() {
+  let response = await fetch("/api/posts", {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const recentMessages = await response.json();
+  appendRecentMessages(recentMessages);
+}
+
+getAllMessages();
+
+function appendRecentMessages(messages) {
+  messages.forEach((Message) => {
+    $("#messages").append(`<li><img class="profile-image" 
+    src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span></li>`);
+  });
+}
+
+//for every message appended to the dom get the message content, username
+//send to the message and userto the modal model

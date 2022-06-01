@@ -50,8 +50,8 @@ io.on("connection", (socket) => {
   console.log(
     `\n A User has signed or logged in. Their socket id is ${socket.id} \n`
   );
-  socket.on("chat message", ({ msg, username }) => {
-    io.emit("chat message", { msg, username });
+  socket.on("chat message", ({ msg, username, user_id }) => {
+    io.emit("chat message", { msg, username, user_id });
   });
 
   //disconnect fires when a user exits the localhost server
