@@ -230,3 +230,9 @@ header span:hover {
   display: flex;
   flex-direction: column;
 }
+
+.message-date{
+  color: #919191;
+  margin-left: 10px;
+  font-size: .9rem;
+}

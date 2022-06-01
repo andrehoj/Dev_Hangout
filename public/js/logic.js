@@ -1,4 +1,3 @@
-//getUserData();
 getAllMessages();
 
 //
@@ -16,15 +15,22 @@ if (window.io) {
     $("#messages").append(`<li><img class="profile-image" 
   src="../images/gitusericon1.png"/><span data-id-${userId}>${username}: ${msg}</span></li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
-    saveMessage(username, msg, userId);
+    getCurrentUsersSessionId().then((session) => {
+      if (session.user_id === userId) {
+        saveMessage(username, msg, userId);
+      }
+    });
   });
+  //will add this later
+  //<span class="message-date">${new Date().toLocaleString()}</span>
 
-  //if a user connects or disconnects update if they are online or not 
+  //if a user connects or disconnects update if they are online or not
   socket.on("user connected", () => {
     getUserData();
   });
   socket.on("user disconnect", () => {
     getUserData();
+    getAllMessages()
   });
 }
 
@@ -125,7 +131,22 @@ async function getAllMessages() {
 function appendRecentMessages(messages) {
   messages.forEach((Message) => {
     $("#messages").append(`<li><img class="profile-image" 
-    src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span></li>`);
+    src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span>
+    </li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
 }
+
+async function getCurrentUsersSessionId() {
+  let session = await fetch("/api/users/id", {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  session = await session.json();
+  return session;
+}
+
+// let s = new Date().toLocaleString();
+// console.log(s);
