@@ -1,13 +1,32 @@
-getUserData();
+//getUserData();
+getAllMessages();
+
 //
-let currentUserName;
+let currentUserName = {};
 //
 
 $("body").on("click", "#account-btn", function () {
   $(".account-slideout").toggleClass("active");
 });
-//must include the io function to communicate from the browser to the server
-var socket = io();
+
+if (window.io) {
+  var socket = io();
+
+  socket.on("chat message", function ({ msg, username, userId }) {
+    $("#messages").append(`<li><img class="profile-image" 
+  src="../images/gitusericon1.png"/><span data-id-${userId}>${username}: ${msg}</span></li>`);
+    $("#messages").scrollTop($("#messages")[0].scrollHeight);
+    saveMessage(username, msg, userId);
+  });
+
+  //if a user connects or disconnects update if they are online or not 
+  socket.on("user connected", () => {
+    getUserData();
+  });
+  socket.on("user disconnect", () => {
+    getUserData();
+  });
+}
 
 //get the ul, form and input in a variable
 // var messages = document.getElementById("messages");
@@ -15,22 +34,15 @@ var form = document.getElementById("form");
 var input = document.getElementById("input");
 
 form.addEventListener("submit", function (e) {
-  getUserId();
   e.preventDefault();
   if (input.value) {
     socket.emit("chat message", {
       msg: input.value,
-      username: currentUserName,
+      username: currentUserName.username,
+      userId: currentUserName.userId,
     });
     input.value = "";
   }
-});
-
-//here we recieve the emit.('chat message') and append the msg
-socket.on("chat message", function ({ msg, username }) {
-  $("#messages").append(`<li><img class="profile-image" 
-  src="../images/gitusericon1.png"/><span>${username}: ${msg}</span></li>`);
-  saveMessage(username, msg);
 });
 
 async function getUserData() {
@@ -50,18 +62,26 @@ async function getUserData() {
 function displayCurrentUser(data) {
   if (data[1].username) {
     socket.username = data[1].username;
-    currentUserName = data[1].username;
-    $("#slideout-username").text(currentUserName);
+    currentUserName = {
+      username: data[1].username,
+      userId: data[1].user_id,
+      loggedIn: data[1].loggedIn,
+    };
+    console.log(currentUserName);
+    $("#slideout-username").text(currentUserName.username);
   }
 }
 
 function listAllUsers(data) {
   data[0].forEach((user) => {
-    if (user.username === currentUserName) {
+    if (user.username === currentUserName.username) {
       return;
     }
+    if ($(`[data-id-${user.id}]`)) {
+      $(`[data-id-${user.id}]`).remove();
+    }
     $("#user-list").append(
-      `<li id="user${user.id}" class="user-list-item" ><span>${
+      `<li data-id-${user.id} class="user-list-item" ><span>${
         user.username
       } <span class="${checkIfActive(user.is_active)}">●</span></li>`
     );
@@ -86,7 +106,7 @@ async function saveMessage(username, msg) {
     }),
   });
   if (response.ok) {
-    console.log(`message saved! ${response}`);
+    return;
   } else console.log(`error: ${response}`);
 }
 
@@ -102,14 +122,10 @@ async function getAllMessages() {
   appendRecentMessages(recentMessages);
 }
 
-getAllMessages();
-
 function appendRecentMessages(messages) {
   messages.forEach((Message) => {
     $("#messages").append(`<li><img class="profile-image" 
     src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span></li>`);
+    $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
 }
-
-//for every message appended to the dom get the message content, username
-//send to the message and userto the modal model

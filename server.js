@@ -47,16 +47,19 @@ app.use(routes);
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
 io.on("connection", (socket) => {
+  io.emit("user connected");
   console.log(
     `\n A User has signed or logged in. Their socket id is ${socket.id} \n`
   );
-  socket.on("chat message", ({ msg, username, user_id }) => {
-    io.emit("chat message", { msg, username, user_id });
+
+  socket.on("chat message", ({ msg, username, userId }) => {
+    io.emit("chat message", { msg, username, userId });
   });
 
   //disconnect fires when a user exits the localhost server
   socket.on("disconnect", (socket) => {
     console.log("\n A user has disconnected. \n");
+    io.emit("user disconnect");
   });
 });
 
@@ -66,3 +69,9 @@ sequelize.sync({ force: false }).then(() => {
     console.log("listening on *:3001");
   });
 });
+
+//on connect we want to refresh the users that are logged
+//when a user connects emit a event
+//when we emit that event get the signed up users
+//send them to the client
+//reappend them to the document
