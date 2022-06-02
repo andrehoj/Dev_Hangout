@@ -12,7 +12,7 @@
 .modal .content{
   position: relative;
   padding: 10px;
-  height: 300px;
+  height: 335px;
   width: 400px;
   border-radius: 8px;
   border: 1px solid var(--main-border-color);
@@ -79,3 +79,9 @@
 }
 /* Mobile styling end */
 /* MODEL styling end */
+
+.main-title {
+  font-style: italic;
+  color: #98c379;
+  margin-top: 0;
+}
