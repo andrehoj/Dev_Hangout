@@ -17,16 +17,22 @@ let currentUserName = {};
 
 $("body").on("click", "#account-btn", function () {
   $(".account-slideout").toggleClass("active");
+  $('.hamburger').toggleClass('is-active');
+});
+
+$("body").on("click", ".accordion-heading", function(){
+  $('.list-container, .accordion-heading').each(function(){
+    $(this).removeClass('active');
+  });
+  $(this).addClass('active');
+  $(this).next('.list-container').addClass('active');
 });
 
 if (window.io) {
   var socket = io();
 
   socket.on("chat message", function ({ msg, username, userId }) {
-    let currentTime = new Date().toLocaleString();
-    $("#messages").append(`<li><img class="profile-image" 
-  src="../images/gitusericon1.png"/><span data-id-${userId}>${username}: ${msg}</span>
-  <span class="message-date" id="message-time">     ${currentTime}</span></li>`);
+    $("#messages").append(`<li><span data-id-${userId}><strong>${username}</strong>: ${msg}</span></li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
     getCurrentUsersSessionInfo().then((session) => {
       if (session.user_id === userId) {
@@ -153,8 +159,8 @@ async function getAllMessages() {
 
 function appendRecentMessages(messages) {
   messages.forEach((Message) => {
-    $("#messages").append(`<li><img class="profile-image" 
-    src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span><span class="message-date" id="message-time">     ${Message.timeOfMessage}</span></li>
+    $("#messages").append(`<li>
+    <span><strong>${Message.username}</strong>: ${Message.message}</span>
     </li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
@@ -173,3 +179,6 @@ async function getCurrentUsersSessionInfo() {
 
 // let s = new Date().toLocaleString();
 // console.log(s);
+
+
+//<span class="message-date" id="message-time">     ${Message.timeOfMessage}</span>
