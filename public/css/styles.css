@@ -385,6 +385,7 @@ header span:hover {
 .hamburger.is-active .bar {
   opacity: 0;
 }
+
 /* Menu hamburger styling end */
 
 .error-message {

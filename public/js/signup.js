@@ -18,14 +18,23 @@ function handleSignUp(event) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        document.location.replace("/home");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    }).then((response) => {
+      if (response.ok) {
+        response
+          .json()
+          .then((data) => {
+            document.location.replace("/home");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        $(".error-message").remove();
+        $("#signUpUserName").after(
+          `<span class="error-message">Error: This username is taken</span>`
+        );
+      }
+    });
   }
 }
 

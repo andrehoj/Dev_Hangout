@@ -58,25 +58,33 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  User.create({
-    username: req.body.username,
-    password: req.body.password,
-    is_active: true,
-  })
-    .then((dbUserData) => {
-      req.session.save(() => {
-        req.session.user_id = dbUserData.id;
-        req.session.username = dbUserData.username;
-        req.session.loggedIn = true;
+  User.findOne({
+    where: {
+      username: req.body.username,
+    },
+  }).then((dbUserData) => {
+    if (dbUserData === null) {
+      User.create({
+        username: req.body.username,
+        password: req.body.password,
+        is_active: true,
+      })
+        .then((dbUserData) => {
+          req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
 
-        let payLoad = [dbUserData, req.session];
-        res.json(payLoad);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
+            let payLoad = [dbUserData, req.session];
+            res.json(payLoad);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
+    } else res.status(400).json({ message: "That username is already taken!" });
+  });
 });
 
 router.post("/logout", (req, res) => {

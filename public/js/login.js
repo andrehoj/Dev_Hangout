@@ -26,7 +26,8 @@ function handleSignUp(event) {
             console.log(data);
             $("#login-modal").hide();
             $("#signup-modal").hide();
-            //document.location.replace("/home");
+            $(".error-message").hide();
+            document.location.replace("/home");
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -34,6 +35,8 @@ function handleSignUp(event) {
       } else {
         response.json().then((res) => {
           console.log(res);
+          $(".error-message").remove();
+          
           $("#loginUserName").after(
             `<span class="error-message">Error: password or username does not match</span>`
           );
