@@ -1,16 +1,15 @@
 <div class="modal" id="signup-modal">
-  <div class="content ">
+  <div class="container d-flex justify-content-center">
+    <div class="content">
 
-    <h2>Signup!</h2>
+      <h2>REGISTER</h2>
 
-    <form action="/public/js/logic.js" id="signup-form">
-      <label for="signup-username">Enter a username</label>
-      <input type="text" name="signup-username" id="signUpUserName" autocomplete="on"/>
-      <label for="password">Enter a password</label>
-      <input type="password" name="password" id="signUpPassword" autocomplete="on"/>
-
-      <button class="signup-btn" id="signup-button">signup</button>
-      <a href="#" id="login-instead-link"><h3>login Instead</h3></a>
-    </form>
+      <form action="/public/js/logic.js" id="signup-form" class="log-forms">
+        <input type="text" name="signup-username" id="signUpUserName" autocomplete="on" placeholder="Username"/>
+        <input type="password" name="password" id="signUpPassword" autocomplete="on" placeholder="Password"/>
+        <button class="signup-btn" id="signup-button">Submit</button>
+      </form>
+      <a href="#" id="login-instead-link"><h6>Login</h6></a>
+    </div>
   </div>
 </div>
