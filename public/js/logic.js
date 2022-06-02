@@ -1,5 +1,16 @@
 getAllMessages();
 
+//random image for users, cors issue i couldnt solve:(
+// fetch("https://avatars.dicebear.com/api/:initials?background=%230000ff", {
+//   method: "GET",
+//   mode: "no-cors",
+//   headers: { "Content-Type": "image/svg+xml" },
+// }).then((res) => {
+//   res.json().then((data) => {
+//     console.log(data);
+//   });
+// });
+
 //
 let currentUserName = {};
 //
@@ -12,17 +23,28 @@ if (window.io) {
   var socket = io();
 
   socket.on("chat message", function ({ msg, username, userId }) {
+    let currentTime = new Date().toLocaleString();
     $("#messages").append(`<li><img class="profile-image" 
-  src="../images/gitusericon1.png"/><span data-id-${userId}>${username}: ${msg}</span></li>`);
+  src="../images/gitusericon1.png"/><span data-id-${userId}>${username}: ${msg}</span>
+  <span class="message-date" id="message-time">     ${currentTime}</span></li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
-    getCurrentUsersSessionId().then((session) => {
+    getCurrentUsersSessionInfo().then((session) => {
       if (session.user_id === userId) {
-        saveMessage(username, msg, userId);
+        saveMessage(username, msg, userId, currentTime);
       }
     });
   });
-  //will add this later
-  //<span class="message-date">${new Date().toLocaleString()}</span>
+
+  //other rooms
+  // $("#second-room").on("click", () => {
+  //   console.log("click");
+  //   getCurrentUsersSessionInfo().then((sessionData) => {
+  //     socket.emit("join second room", { sessionData });
+  //     socket.on("questions", () => {
+  //       console.log("joined");
+  //     });
+  //   });
+  // });
 
   //if a user connects or disconnects update if they are online or not
   socket.on("user connected", () => {
@@ -30,7 +52,7 @@ if (window.io) {
   });
   socket.on("user disconnect", () => {
     getUserData();
-    getAllMessages()
+    getAllMessages();
   });
 }
 
@@ -100,7 +122,7 @@ function checkIfActive(loggedIn) {
   } else return "logged-out";
 }
 
-async function saveMessage(username, msg) {
+async function saveMessage(username, msg, userId, currentTime) {
   let response = await fetch("/api/posts/save", {
     method: "post",
     headers: {
@@ -109,6 +131,7 @@ async function saveMessage(username, msg) {
     body: JSON.stringify({
       username,
       msg,
+      currentTime,
     }),
   });
   if (response.ok) {
@@ -129,15 +152,16 @@ async function getAllMessages() {
 }
 
 function appendRecentMessages(messages) {
+  $("#messages").empty();
   messages.forEach((Message) => {
     $("#messages").append(`<li><img class="profile-image" 
-    src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span>
+    src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span><span class="message-date" id="message-time">     ${Message.timeOfMessage}</span></li>
     </li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
 }
 
-async function getCurrentUsersSessionId() {
+async function getCurrentUsersSessionInfo() {
   let session = await fetch("/api/users/id", {
     method: "get",
     headers: {

@@ -16,7 +16,7 @@
 body {
   margin: 0;
   background-color: var(--main-bg-color);
-  /* font-family: 'Source Code Pro', monospace; */
+  font-family: 'Source Code Pro', ;
   /* display: flex;
   align-items: center; */
 }
@@ -31,6 +31,12 @@ a:hover {
 /* Global classes styling end */
 
 /* Header styling start */
+.main-logo{
+  color: #98c379;
+}
+
+
+
 header {
   background-color: var(--main-second-bg-color);
   color: var(--main-text-color);
@@ -67,6 +73,12 @@ header span:hover {
 }
 
 /* Header styling end */
+
+.room-title{
+  font-family: monospace;
+  color: #fff;
+  margin-left: 1.8rem;
+}
 
 /* Chat styling start */
 /* Scroll bar styling start */

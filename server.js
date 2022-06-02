@@ -6,6 +6,7 @@ const sequelize = require("./config/connection");
 const User = require("./models/User");
 //session setup
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const cors = require("cors");
 
 const sess = {
   secret: "secret that no one knows",
@@ -43,6 +44,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
 
+// app.use(
+//   cors({
+//     origin: "*",
+//   })
+// );
+
 //" io.on" takes two arguments, the first is an event and second is a callback funtion
 // the "connection" event fires when a user goes to localhost3001
 //when a user visits the site a socket.id is generated maybe use to identify current users
@@ -60,6 +67,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", (socket) => {
     console.log("\n A user has disconnected. \n");
     io.emit("user disconnect");
+  });
+
+  socket.on("join second room", (sessionData) => {
+    console.log(sessionData);
   });
 });
 

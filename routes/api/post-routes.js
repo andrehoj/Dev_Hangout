@@ -15,6 +15,7 @@ router.post("/save", (req, res) => {
   Post.create({
     message: req.body.msg,
     username: req.body.username,
+    timeOfMessage: req.body.currentTime,
   })
     .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {

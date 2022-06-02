@@ -21,6 +21,10 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    timeOfMessage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
 
   {
