@@ -32,10 +32,18 @@ a:hover {
 
 /* Header styling start */
 .main-logo{
+  font-style: italic;
   color: #98c379;
 }
 
+.settings{
+margin-left: 1.5rem;
+}
 
+.settings:hover{
+  cursor: pointer;
+  
+}
 
 header {
   background-color: var(--main-second-bg-color);
