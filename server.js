@@ -7,6 +7,7 @@ const User = require("./models/User");
 //session setup
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const sess = {
   secret: "secret that no one knows",

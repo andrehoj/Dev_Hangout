@@ -20,35 +20,40 @@ router.get("/id", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  console.log(req.body.userName, req.body.passWord);
   User.findOne({
     where: {
       username: req.body.userName,
-      password: req.body.passWord,
     },
   }).then((dbUserData) => {
     if (!dbUserData) {
       res.status(400).json({ message: "No user with that email address!" });
       return;
     }
-    req.session.save(() => {
-      req.session.user_id = dbUserData.id;
-      req.session.username = dbUserData.username;
-      req.session.loggedIn = true;
-      User.update(
-        { is_active: true },
-        {
-          where: {
+
+    const validPassword = dbUserData.checkPassword(req.body.passWord);
+
+    if (validPassword) {
+      req.session.save(() => {
+        req.session.user_id = dbUserData.id;
+        req.session.username = dbUserData.username;
+        req.session.loggedIn = true;
+        User.update(
+          { is_active: true },
+          {
+            where: {
+              username: req.session.username,
+            },
+          }
+        ).then((dbUserData) => {
+          res.json({
+            user: dbUserData,
+            message: "You are now logged in!",
             username: req.session.username,
-          },
-        }
-      ).then((dbUserData) => {
-        res.json({
-          user: dbUserData,
-          message: "You are now logged in!",
-          username: req.session.username,
+          });
         });
       });
-    });
+    }
   });
 });
 

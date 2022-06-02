@@ -9,6 +9,7 @@ function handleSignUp(event) {
   let passWord = document.querySelector("#loginPassword").value.trim();
 
   if (loginUserName && loginPassword) {
+    console.log(loginUserName, loginPassword)
     //will send userName and password to endpoint /signup
     fetch(`/api/users/login`, {
       method: "post",
