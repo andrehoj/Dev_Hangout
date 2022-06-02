@@ -152,6 +152,7 @@ async function getAllMessages() {
 }
 
 function appendRecentMessages(messages) {
+  $("#messages").empty();
   messages.forEach((Message) => {
     $("#messages").append(`<li><img class="profile-image" 
     src="../images/gitusericon1.png"/><span>${Message.username}: ${Message.message}</span><span class="message-date" id="message-time">     ${Message.timeOfMessage}</span></li>
