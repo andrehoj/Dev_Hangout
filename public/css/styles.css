@@ -340,8 +340,6 @@ header span:hover {
   margin-left: 10px;
   font-size: .9rem;
 }
-<<<<<<< HEAD
-=======
 
 /* Menu hamburger styling start */
 .hamburger {
@@ -379,4 +377,3 @@ transform: rotate(-45deg) translate(-8px, 6px);
 opacity: 0;
 }
 /* Menu hamburger styling end */
->>>>>>> 08da0a14b2592c314ad73b1172210cd041467d59
