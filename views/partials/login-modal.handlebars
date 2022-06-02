@@ -1,26 +1,28 @@
 <div class="modal" id="login-modal">
-  <div class="content">
+  <div class="container d-flex justify-content-center">
+    <div class="content">
 
-    <h2>Login!</h2>
+      <h2>LOGIN</h2>
 
-    <form action="" id="login-form">
-      <label for="login-username">Enter a username</label>
-      <input
-        type="text"
-        name="login-username"
-        id="loginUserName"
-        autocomplete="on"
-      />
-      <label for="login-password">Enter a password</label>
-      <input
-        type="password"
-        name="login-password"
-        id="loginPassword"
-        autocomplete="on"
-      />
+      <form action="" id="login-form" class="log-forms">
+        <input
+          type="text"
+          name="login-username"
+          id="loginUserName"
+          autocomplete="on"
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          name="login-password"
+          id="loginPassword"
+          autocomplete="on"
+          placeholder="Password"
+        />
 
-      <button class="signup-btn" id="login-button">Login</button>
-      <a href="#" id="signup-instead-link"><h3>Signup Instead</h3></a>
-    </form>
+        <button class="signup-btn" id="login-button">Login</button>
+        <a href="#" id="signup-instead-link"><h6>Register</h6></a>
+      </form>
+    </div>
   </div>
 </div>
