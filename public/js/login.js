@@ -36,9 +36,8 @@ function handleSignUp(event) {
         response.json().then((res) => {
           console.log(res);
           $(".error-message").remove();
-          
           $("#loginUserName").after(
-            `<span class="error-message">Error: password or username does not match</span>`
+            `<span class="error-message">${res.message}</span>`
           );
         });
       }

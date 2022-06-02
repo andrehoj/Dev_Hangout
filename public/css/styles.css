@@ -394,3 +394,7 @@ header span:hover {
   margin: 10px 0;
   text-align: center;
 }
+
+.active-room{
+  color: #238636;
+}

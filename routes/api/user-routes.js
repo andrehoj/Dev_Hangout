@@ -26,9 +26,19 @@ router.post("/login", (req, res) => {
       username: req.body.userName,
     },
   }).then((dbUserData) => {
+    console.log(dbUserData);
+
     if (!dbUserData) {
       res.status(400).json({ message: "Error: No user with that username" });
       return;
+    }
+
+    if (dbUserData.dataValues.is_active === true) {
+      console.log("error this");
+      res
+        .status(400)
+        .json({ message: "Error this account is currently active" });
+        return;
     }
 
     const validPassword = dbUserData.checkPassword(req.body.passWord);
