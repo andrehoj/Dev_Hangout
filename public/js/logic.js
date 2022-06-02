@@ -17,24 +17,29 @@ let currentUserName = {};
 
 $("body").on("click", "#account-btn", function () {
   $(".account-slideout").toggleClass("active");
-  $('.hamburger').toggleClass('is-active');
+  $(".hamburger").toggleClass("is-active");
 });
 
-$("body").on("click", ".accordion-heading", function(){
-  $('.list-container, .accordion-heading').each(function(){
-    $(this).removeClass('active');
+$("body").on("click", ".accordion-heading", function () {
+  $(".list-container, .accordion-heading").each(function () {
+    $(this).removeClass("active");
   });
-  $(this).addClass('active');
-  $(this).next('.list-container').addClass('active');
+  $(this).addClass("active");
+  $(this).next(".list-container").addClass("active");
 });
 
 if (window.io) {
   var socket = io();
 
   socket.on("chat message", function ({ msg, username, userId }) {
-    $("#messages").append(`<li><span data-id-${userId}><strong>${username}</strong>: ${msg}</span></li>`);
+    let currentTime = new Date().toLocaleString();
+    $("#messages").append(
+      `<li><span data-id-${userId}><strong>${username}</strong>: ${msg}</span>
+      <span class="message-date" id="message-time">     ${currentTime}</span></li>`
+    );
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
     getCurrentUsersSessionInfo().then((session) => {
+      console.log(msg, username, userId, session.user_id);
       if (session.user_id === userId) {
         saveMessage(username, msg, userId, currentTime);
       }
@@ -162,6 +167,7 @@ function appendRecentMessages(messages) {
   messages.forEach((Message) => {
     $("#messages").append(`<li>
     <span><strong>${Message.username}</strong>: ${Message.message}</span>
+    <span class="message-date" id="message-time">     ${Message.timeOfMessage}</span>
     </li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
@@ -181,5 +187,4 @@ async function getCurrentUsersSessionInfo() {
 // let s = new Date().toLocaleString();
 // console.log(s);
 
-
-//<span class="message-date" id="message-time">     ${Message.timeOfMessage}</span>
+//
