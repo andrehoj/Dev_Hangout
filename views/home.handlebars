@@ -6,17 +6,16 @@
     <header>
       <div class="container">
         <section class="row">
-          <div class="col-6">
+          <div class="col-md-6 col-9 d-flex align-items-center">
             <a href="/">
               <h1 class="main-logo">"Dev HangOut"</h1>
             </a>
           </div>
-          <div class="col-6 d-flex align-items-center justify-content-end">
-            <span id="account-btn"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
-            {{#if loggedIn}}
-            <a href="#" class="log-in" id="logout-link">Logout</a>
-
-            {{/if}}
+          <div class="col-md-6 col-3 d-flex align-items-center justify-content-end">
+            <h4 class="mb-0 me-2 d-md-block d-none fw-light">EXPLORE</h4>
+            <button id="account-btn" class="hamburger">
+                <div class="bar"></div>
+            </button>          
           </div>
         </section>
       </div>
@@ -24,10 +23,27 @@
 
     <div class="account-slideout">
       <div class="slideout">
-        <div class="container">
-          <h2 id="slideout-username"></h2>
-          <h3>Users</h3>
-          <ul id="user-list" class="list-of-users"></ul>
+        <div class="container h-100">
+          <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
+            <h2 id="slideout-username"></h2>
+            {{#if loggedIn}}
+              <a href="#" class="log-in" id="logout-link">Logout</a>
+            {{/if}}
+          </div>
+          <h3 class="accordion-heading">Users</h3>
+          <div class="list-container">
+            <ul id="user-list" class="items-list text-right"></ul>
+          </div>
+          <h3 class="accordion-heading">Rooms</h3>
+          <div class="list-container">
+            <ul id="room-list" class="items-list">
+              <li>Front-End Frat Party</li>
+              <li>Back-End Boyz</li>
+              <li>JS Jugglers</li>                
+              <li>Dev Advice</li>
+              <li>Coding Companion</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

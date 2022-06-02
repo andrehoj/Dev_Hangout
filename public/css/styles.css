@@ -51,8 +51,11 @@ header h1 {
   font-weight: 300;
 }
 
-header a:hover {
+header a{
   text-decoration: none;
+}
+
+header a:hover {
   color: var(--main-text-color);
 }
 
@@ -72,6 +75,13 @@ header span:hover {
   color: var(--main-highlight-color);
 }
 
+/* Mobile styling start */
+@media only screen and (max-width: 600px) {
+  header h1 {
+    font-size: 32px;
+  }
+}
+/* Mobile styling end */
 /* Header styling end */
 
 .room-title{
@@ -199,7 +209,7 @@ header span:hover {
   border-left: 1px solid var(--main-border-color);
   transition: transform 0.5s ease-in-out;
   transform: translateX(100%);
-  padding-top: 6em;
+  padding-top: 5.3em;
   color: var(--main-text-color);
 }
 .account-slideout.active {
@@ -211,12 +221,40 @@ header span:hover {
 .account-slideout .slideout h2 {
   text-align: center;
   font-weight: 300;
+  font-size: 30px;
+  margin-bottom: 9px;
+}
+.account-slideout .slideout h3 {
+  text-align: center;
+  background-color: #c9d1d9;
+  color: #161b22;
+  padding: 7px 0px 10px;
+  margin-bottom: 0px;
+  border-top: 1px solid var(--main-second-bg-color);
+  position: relative;
+  cursor: pointer;
+}
+.account-slideout .slideout h3::after{
+  content: "\f078";
+  font-family: FontAwesome;
+  position: absolute;
+  right: 13px;
+  top: 7px;
+  font-size: 30px;
+  color: var(--main-second-bg-color);
+  transition: all 0.2s;
+}
+.account-slideout .slideout h3.active::after{
+  transform: rotate(180deg);
 }
 /* Mobile styling start */
 @media only screen and (max-width: 767px) {
   .account-slideout {
     width: 100vw;
+  }
+  .account-slideout .slideout{
     border-left: none;
+    padding-top: 4.3em;
   }
 }
 /* Mobile styling end */
@@ -224,7 +262,7 @@ header span:hover {
 
 /* apply this class when modal is active */
 .blur {
-  filter: blur(5px);
+  filter: blur(100px);
 }
 
 /*  */
@@ -236,15 +274,106 @@ header span:hover {
   color: red;
 }
 
-/* user list styles */
-.list-of-users {
-  list-style: none;
+/* List styling starts */
+.list-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  border: 1px solid var(--main-text-color);
+  max-height: 0%;
+  padding: 0px;
+  transition: all 0.5s;
 }
+
+.list-container.active{
+  max-height: 50%;
+  padding: 5px 0px;
+}
+
+/* Scroll bar styling start */
+.list-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+.list-container::-webkit-scrollbar-track {
+  background: var(--main-bg-color);
+  border-left: 1px solid var(--main-border-color);
+}
+
+/* Thumb */
+.list-container::-webkit-scrollbar-thumb {
+  background: #21262d;
+  border-radius: 3px;
+  border-left: 1px solid var(--main-border-color);
+}
+
+/* Handle on hover */
+.list-container::-webkit-scrollbar-thumb:hover {
+  background: var(--main-highlight-color);
+}
+/* Scroll bar styling end */
+
+.items-list{
+  list-style: none;
+  padding: 0px;
+  margin-right: 5px;
+  margin-bottom: 0px;
+}
+
+.items-list li{
+  cursor: pointer;
+}
+
+.items-list li:hover{
+  color: #1f6feb;
+}
+/* Mobile styling starts */
+/* @media only screen and (max-width: 767px) {
+  
+} */
+/* Mobile styling ends */
+/* List styling ends */
 
 .message-date{
   color: #919191;
   margin-left: 10px;
   font-size: .9rem;
 }
+
+/* Menu hamburger styling start */
+.hamburger {
+  position: relative;
+  display: block !important;
+  width: 42px;
+  cursor: pointer;
+  appearance: none;
+  background: none;
+  outline: none !important;
+  border: none;
+}
+
+.hamburger .bar, .hamburger:after, .hamburger:before {
+  content: '';
+  display: block;
+  width: 100%;
+  min-width: 23px;
+  height: 4px;
+  background-color: var(--main-text-color);
+  margin: 6px 0px;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.hamburger.is-active:before {
+transform: rotate(-45deg) translate(-8px, 6px);
+}
+
+.hamburger.is-active:after {
+  transform: rotate(45deg) translate(-8px, -6px);
+}
+
+.hamburger.is-active .bar {
+opacity: 0;
+}
+/* Menu hamburger styling end */
