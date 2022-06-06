@@ -51,3 +51,7 @@ An application where users can talk to each other live.
         - References User
         - Contains Message
         - Contains Creation date
+
+# Deployed App :rocket:
+
+[https://tech-news-123.herokuapp.com/](https://tech-news-123.herokuapp.com/)
