@@ -16,8 +16,15 @@ let currentUserName = {};
 //
 
 $("body").on("click", "#account-btn", function () {
-  $(".account-slideout").toggleClass("active");
+  $('#settings-slide').removeClass("active");
+  $("#explore-slide").toggleClass("active");
   $(".hamburger").toggleClass("is-active");
+});
+
+$("body").on("click", "#settings-link", function () {
+  $("#explore-slide").removeClass("active");
+  $(".hamburger").removeClass("is-active");
+  $('#settings-slide').toggleClass("active");
 });
 
 $("body").on("click", ".accordion-heading", function () {
