@@ -20,58 +20,79 @@ router.get("/id", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  console.log(req.body.userName, req.body.passWord);
   User.findOne({
     where: {
       username: req.body.userName,
-      password: req.body.passWord,
     },
   }).then((dbUserData) => {
     if (!dbUserData) {
-      res.status(400).json({ message: "No user with that email address!" });
+      res.status(400).json({ message: "Error: No user with that username" });
       return;
     }
-    req.session.save(() => {
-      req.session.user_id = dbUserData.id;
-      req.session.username = dbUserData.username;
-      req.session.loggedIn = true;
-      User.update(
-        { is_active: true },
-        {
-          where: {
-            username: req.session.username,
-          },
-        }
-      ).then((dbUserData) => {
-        res.json({
-          user: dbUserData,
-          message: "You are now logged in!",
-          username: req.session.username,
-        });
-      });
-    });
-  });
-});
 
-router.post("/signup", (req, res) => {
-  User.create({
-    username: req.body.username,
-    password: req.body.password,
-    is_active: true,
-  })
-    .then((dbUserData) => {
+    if (dbUserData.dataValues.is_active === true) {
+      console.log("error this");
+      res
+        .status(400)
+        .json({ message: "Error this account is currently active" });
+      return;
+    }
+
+    const validPassword = dbUserData.checkPassword(req.body.passWord);
+
+    if (validPassword) {
       req.session.save(() => {
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
         req.session.loggedIn = true;
-
-        let payLoad = [dbUserData, req.session];
-        res.json(payLoad);
+        User.update(
+          { is_active: true },
+          {
+            where: {
+              username: req.session.username,
+            },
+          }
+        ).then((dbUserData) => {
+          res.json({
+            user: dbUserData,
+            message: "You are now logged in!",
+            username: req.session.username,
+          });
+        });
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
+    }
+  });
+});
+
+router.post("/signup", (req, res) => {
+  User.findOne({
+    where: {
+      username: req.body.username,
+    },
+  }).then((dbUserData) => {
+    if (dbUserData === null) {
+      User.create({
+        username: req.body.username,
+        password: req.body.password,
+        is_active: true,
+      })
+        .then((dbUserData) => {
+          req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            let payLoad = [dbUserData, req.session];
+            res.json(payLoad);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
+    } else res.status(400).json({ message: "That username is already taken!" });
+  });
 });
 
 router.post("/logout", (req, res) => {

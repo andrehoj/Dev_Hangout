@@ -7,6 +7,8 @@ const User = require("./models/User");
 //session setup
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+const PORT = process.env.PORT || 3001;
 
 const sess = {
   secret: "secret that no one knows",
@@ -76,7 +78,7 @@ io.on("connection", (socket) => {
 
 // turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
-  server.listen(3001, () => {
+  server.listen(PORT, () => {
     console.log("listening on *:3001");
   });
 });

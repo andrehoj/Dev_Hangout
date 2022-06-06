@@ -9,7 +9,6 @@ function handleSignUp(event) {
   let passWord = document.querySelector("#loginPassword").value.trim();
 
   if (loginUserName && loginPassword) {
-    //will send userName and password to endpoint /signup
     fetch(`/api/users/login`, {
       method: "post",
       headers: {
@@ -19,17 +18,30 @@ function handleSignUp(event) {
         userName,
         passWord,
       }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        $("#login-modal").hide();
-        $("#signup-modal").hide();
-        document.location.replace("/home");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    }).then((response) => {
+      if (response.ok) {
+        response
+          .json()
+          .then((data) => {
+            console.log(data);
+            $("#login-modal").hide();
+            $("#signup-modal").hide();
+            $(".error-message").hide();
+            document.location.replace("/home");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        response.json().then((res) => {
+          console.log(res);
+          $(".error-message").remove();
+          $("#loginUserName").after(
+            `<span class="error-message">${res.message}</span>`
+          );
+        });
+      }
+    });
   }
 }
 
