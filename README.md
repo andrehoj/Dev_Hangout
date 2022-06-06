@@ -1,4 +1,4 @@
-# Chatting-App
+# Chatting-App :raising_hand:
 An application where users can talk to each other live.
 
 # User Story
