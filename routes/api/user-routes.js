@@ -3,11 +3,10 @@ const { User } = require("../../models");
 
 router.get("/", (req, res) => {
   User.findAll({
-    // attributes: { exclude: ["password"] },
+    attributes: { exclude: ["password"] },
   })
     .then((dbUserData) => {
-      let payLoad = [dbUserData, req.session];
-      res.json(payLoad);
+      res.json(dbUserData);
     })
     .catch((err) => {
       console.log(err);

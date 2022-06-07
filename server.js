@@ -39,23 +39,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
 
 io.on("connection", (socket) => {
-  io.emit("user connected");
-  console.log(
-    `\n A User has signed or logged in. Their socket id is ${socket.id} \n`
-  );
-
   socket.on("chat message", ({ msg, username, userId }) => {
     io.emit("chat message", { msg, username, userId });
   });
 
-  //disconnect fires when a user exits the localhost server
   socket.on("disconnect", (socket) => {
-    console.log("\n A user has disconnected. \n");
     io.emit("user disconnect");
-  });
-
-  socket.on("join second room", (sessionData) => {
-    console.log(sessionData);
   });
 });
 
