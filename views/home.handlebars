@@ -14,9 +14,9 @@
           <div class="col-md-6 col-3 d-flex align-items-center justify-content-end">
             <h4 class="mb-0 me-2 d-md-block d-none fw-light">Explore</h4>
             <button id="account-btn" class="hamburger">
-                <div class="bar"></div>
-            </button>   
-            <img src="images/icons8-settings-64.png" alt="settings" class="settings" id="settings-link" height="46">       
+              <div class="bar"></div>
+            </button>
+            <img src="images/icons8-settings-64.png" alt="settings" class="settings" id="settings-link" height="46">
           </div>
         </section>
       </div>
@@ -28,7 +28,7 @@
           <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
             <h2 id="slideout-username"></h2>
             {{#if loggedIn}}
-              <a href="#" class="log-in" id="logout-link">Logout</a>
+            <a href="#" class="log-in" id="logout-link">Logout</a>
             {{/if}}
           </div>
           <h3 class="accordion-heading">Users</h3>
@@ -41,7 +41,7 @@
               <li class="active-room">General</li>
               <li>Front-End Frat Party</li>
               <li>Back-End Buddy's</li>
-              <li>JS Jugglers</li>                
+              <li>JS Jugglers</li>
               <li>Dev Advice</li>
               <li>Coding Companion</li>
             </ul>
@@ -53,12 +53,12 @@
     <div class="account-slideout" id="settings-slide">
       <div class="slideout">
         <div class="container h-100">
-          <h3 class="hover-btn" id="remove-account">Remove Account</h3>         
+          <h3 class="hover-btn" id="remove-account">Remove Account</h3>
         </div>
       </div>
     </div>
 
-    
+
     <main class="chat-container container " id="main-chat">
       <h2 class="room-title" id="room-name"> <span style="color: #949494;"># </span>General</h2>
       <ul id="messages"></ul>
@@ -76,17 +76,14 @@
   {{#unless loggedIn}}
   {{> login-modal}}
   {{> signup-modal}}
-  {{/unless}}
-  <!-- script tag must be included in html to have access to the socket method -->
-  {{#if loggedIn}}
-  <script src="/socket.io/socket.io.js"></script>
-  {{/if}}
-  {{#unless loggedIn}}
 
   <script src="/js/signup.js"></script>
   <script src="/js/login.js"></script>
   {{/unless}}
-  <script src="/js/logic.js"></script>
+
   {{#if loggedIn}}
+  <!-- script tag must be included in html to have access to the socket method -->
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/js/logout.js"></script>
   {{/if}}
+  <script src="/js/logic.js"></script>

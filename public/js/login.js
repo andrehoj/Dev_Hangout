@@ -1,15 +1,13 @@
-document.querySelector("#login-form").addEventListener("submit", handleSignUp);
+$("#login-form").submit(handleSignUp);
 
-const loginModal = document.querySelector("#login-modal");
-
-function handleSignUp(event) {
+async function handleSignUp(event) {
   event.preventDefault();
 
-  let userName = document.querySelector("#loginUserName").value.trim();
-  let passWord = document.querySelector("#loginPassword").value.trim();
+  let userName = $("#loginUserName").val().trim();
+  let passWord = $("#loginPassword").val().trim();
 
-  if (loginUserName && loginPassword) {
-    fetch(`/api/users/login`, {
+  if (userName && passWord) {
+    let response = await fetch(`/api/users/login`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -18,31 +16,29 @@ function handleSignUp(event) {
         userName,
         passWord,
       }),
-    }).then((response) => {
-      if (response.ok) {
-        response
-          .json()
-          .then((data) => {
-            console.log(data);
-            $("#login-modal").hide();
-            $("#signup-modal").hide();
-            $(".error-message").hide();
-            document.location.replace("/home");
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      } else {
-        response.json().then((res) => {
-          console.log(res);
-          $(".error-message").remove();
-          $("#loginUserName").after(
-            `<span class="error-message">${res.message}</span>`
-          );
-        });
-      }
     });
+
+    if (response.ok) {
+      hideAllModals();
+      document.location.replace("/home");
+    } else {
+      let resErrorMessage = await response.json();
+      appendErrorMessage(resErrorMessage);
+    }
   }
+}
+
+function hideAllModals() {
+  $("#login-modal").hide();
+  $("#signup-modal").hide();
+  $(".error-message").hide();
+}
+
+function appendErrorMessage(errorObject) {
+  $(".error-message").remove();
+  $("#loginUserName").after(
+    `<span class="error-message">${errorObject.message}</span>`
+  );
 }
 
 $("#signup-instead-link").click(() => {

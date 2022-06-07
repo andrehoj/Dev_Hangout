@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
 }
-.modal .content{
+.modal .content {
   position: relative;
   padding: 10px;
   height: 335px;
@@ -25,21 +25,29 @@
   transition: all 0.5s;
 }
 
-.modal .content:hover{
+.modal .content:hover {
   box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
   transform: scale(1.1);
   background-color: var(--main-second-bg-color);
 }
 
-.log-forms{
+.main-title {
+  font-style: italic;
+  color: var(--main-title-color);
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.log-forms {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.log-forms input, .log-forms button{
+.log-forms input,
+.log-forms button {
   margin: 2px 0px;
 }
-.log-forms input{
+.log-forms input {
   border: none;
   padding: 4px 10px;
   border-radius: 6px;
@@ -64,24 +72,20 @@
   background: #2ea043;
 }
 
-.modal .content h2{
+.modal .content h2 {
   margin-bottom: 15px;
 }
-.modal .content h6{
+.modal .content h6 {
   margin-top: 1em;
 }
 
 /* Mobile styling start */
 @media only screen and (max-width: 767px) {
-  .modal .content{
+  .modal .content {
     width: 280px;
   }
 }
 /* Mobile styling end */
 /* MODEL styling end */
 
-.main-title {
-  font-style: italic;
-  color: #98c379;
-  margin-top: 0;
-}
+

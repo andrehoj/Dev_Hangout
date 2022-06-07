@@ -9,6 +9,7 @@
   --main-text-color: #c9d1d9;
   --main-highlight-color: #1f6feb;
   --main-border-color: #30363d;
+  --main-title-color: #98c379;
 }
 /* CSS Variables End */
 
@@ -243,7 +244,7 @@ header span:hover {
   transition: all 0.2s;
 }
 
-.account-slideout .slideout h3.hover-btn:hover{
+.account-slideout .slideout h3.hover-btn:hover {
   background-color: var(--main-second-bg-color);
   color: var(--main-text-color);
   border: 2px solid var(--main-text-color);
@@ -403,6 +404,6 @@ header span:hover {
   text-align: center;
 }
 
-.active-room{
+.active-room {
   color: #238636;
 }

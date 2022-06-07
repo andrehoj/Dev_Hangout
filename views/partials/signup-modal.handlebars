@@ -1,12 +1,24 @@
 <div class="modal" id="signup-modal">
   <div class="container d-flex justify-content-center">
     <div class="content">
-<h1 class="main-title">"Dev hangout"</h1>
+      {{> form-title}}
       <h2>REGISTER</h2>
 
       <form action="/public/js/logic.js" id="signup-form" class="log-forms">
-        <input type="text" name="signup-username" id="signUpUserName" autocomplete="on" placeholder="Username"/>
-        <input type="password" name="password" id="signUpPassword" autocomplete="on" placeholder="Password"/>
+        <input
+          type="text"
+          name="signup-username"
+          id="signUpUserName"
+          autocomplete="on"
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          name="password"
+          id="signUpPassword"
+          autocomplete="on"
+          placeholder="Password"
+        />
         <button class="signup-btn" id="signup-button">Submit</button>
       </form>
       <a href="#" id="login-instead-link"><h6>Login</h6></a>

@@ -20,7 +20,6 @@ router.get("/id", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  console.log(req.body.userName, req.body.passWord);
   User.findOne({
     where: {
       username: req.body.userName,
@@ -32,7 +31,6 @@ router.post("/login", (req, res) => {
     }
 
     if (dbUserData.dataValues.is_active === true) {
-      console.log("error this");
       res
         .status(400)
         .json({ message: "Error this account is currently active" });
@@ -41,27 +39,30 @@ router.post("/login", (req, res) => {
 
     const validPassword = dbUserData.checkPassword(req.body.passWord);
 
-    if (validPassword) {
-      req.session.save(() => {
-        req.session.user_id = dbUserData.id;
-        req.session.username = dbUserData.username;
-        req.session.loggedIn = true;
-        User.update(
-          { is_active: true },
-          {
-            where: {
-              username: req.session.username,
-            },
-          }
-        ).then((dbUserData) => {
-          res.json({
-            user: dbUserData,
-            message: "You are now logged in!",
+    if (!validPassword) {
+      res.status(400).json({ message: "Error incorrect password" });
+      return;
+    }
+
+    req.session.save(() => {
+      req.session.user_id = dbUserData.id;
+      req.session.username = dbUserData.username;
+      req.session.loggedIn = true;
+      User.update(
+        { is_active: true },
+        {
+          where: {
             username: req.session.username,
-          });
+          },
+        }
+      ).then((dbUserData) => {
+        res.json({
+          user: dbUserData,
+          message: "You are now logged in!",
+          username: req.session.username,
         });
       });
-    }
+    });
   });
 });
 

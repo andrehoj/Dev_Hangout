@@ -6,11 +6,8 @@ const homeRoutes = require("./home-routes");
 router.use("/home", homeRoutes);
 router.use("/api", apiRoutes);
 
+//entry point to app. checks if the user is loggedin or not
 router.get("/", (req, res) => {
-  console.log(
-    "\n A user has visited the page. Their session is currently: " +
-      req.session.loggedIn + "\n"
-  );
   if (req.session.loggedIn === undefined) {
     res.render("home", { loggedIn: false });
   } else res.render("home", { loggedIn: true });
