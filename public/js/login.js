@@ -20,25 +20,26 @@ async function handleSignUp(event) {
 
     if (response.ok) {
       hideAllModals();
+      //NoteToSelf, document.location.replace will send a GET request to the specifed endpoint. This will render home with the req.session.loggedin passed to handlebars.
       document.location.replace("/home");
     } else {
       let resErrorMessage = await response.json();
-      appendErrorMessage(resErrorMessage);
+      appendLoginErrorMessage(resErrorMessage);
     }
   }
+}
+
+function appendLoginErrorMessage(errorObject) {
+  $(".error-message").remove();
+  $("#loginUserName").after(
+    `<span class="error-message">${errorObject.message}</span>`
+  );
 }
 
 function hideAllModals() {
   $("#login-modal").hide();
   $("#signup-modal").hide();
   $(".error-message").hide();
-}
-
-function appendErrorMessage(errorObject) {
-  $(".error-message").remove();
-  $("#loginUserName").after(
-    `<span class="error-message">${errorObject.message}</span>`
-  );
 }
 
 $("#signup-instead-link").click(() => {

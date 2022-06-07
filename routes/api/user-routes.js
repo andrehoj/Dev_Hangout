@@ -69,13 +69,13 @@ router.post("/login", (req, res) => {
 router.post("/signup", (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username,
+      username: req.body.userName,
     },
   }).then((dbUserData) => {
     if (dbUserData === null) {
       User.create({
-        username: req.body.username,
-        password: req.body.password,
+        username: req.body.userName,
+        password: req.body.passWord,
         is_active: true,
       })
         .then((dbUserData) => {
@@ -89,8 +89,9 @@ router.post("/signup", (req, res) => {
           });
         })
         .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
+          res
+            .status(400)
+            .json({ message: "Error password must be at lease 4 characters" });
         });
     } else res.status(400).json({ message: "That username is already taken!" });
   });
