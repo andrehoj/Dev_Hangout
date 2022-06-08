@@ -1,13 +1,23 @@
-const User = require("./User");
-const Post = require("./Post");
+const User = require("./user");
+const Message = require("./message");
+const Room = require("./room");
 
-// // create associations
-// User.hasMany(Post, {
-//     foreignKey: 'user_id'
-// });
+Message.belongsTo(Room, {
+  foreignKey: "roomId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
 
-// Post.belongsTo(User, {
-//     foreignKey: 'user_id',
-// });
+Message.belongsTo(User, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
 
-module.exports = { User, Post };
+User.belongsTo(Room, {
+  foreignKey: "currentRoom",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+
+module.exports = { User, Message, Room };

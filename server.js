@@ -39,12 +39,17 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
 
 io.on("connection", (socket) => {
-  socket.on("chat message", ({ msg, username, userId }) => {
-    io.emit("chat message", { msg, username, userId });
-  });
+  socket.on("joinRoom", ({ username, room }) => {
+    socket.join(room);
 
-  socket.on("disconnect", (socket) => {
-    io.emit("user disconnect");
+    socket.on("chat message", ({ msg, username, userId }) => {
+      console.log("\nthis is the room:" + room);
+      io.to(room).emit("chat message", { msg, username, userId });
+    });
+
+    socket.on("disconnect", (socket) => {
+      io.emit("user disconnect");
+    });
   });
 });
 

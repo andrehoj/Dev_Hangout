@@ -2,6 +2,27 @@ getAllMessages().then((recentMessagesData) => {
   appendMessages(recentMessagesData);
 });
 
+//handles room changes
+$("#room-list").click(function (event) {
+  $("#room-list")
+    .children()
+    .each(function () {
+      $(this).removeClass("active-room");
+    });
+
+  $(event.target).addClass("active-room");
+
+  let room = $(event.target).text();
+  loadRoom(room);
+  getCurrentSession().then((session) => {
+    socket.emit("joinRoom", { username: session.username, room });
+  });
+});
+
+function loadRoom(room) {
+  document.location.replace(`/${room.toLowerCase()}`);
+}
+
 if (window.io) {
   var socket = io();
 
@@ -11,6 +32,10 @@ if (window.io) {
 
   getCurrentSession().then((session) => {
     displayCurrentUser(session);
+  });
+
+  getCurrentSession().then((session) => {
+    socket.emit("joinRoom", { room: "general", username: session.username });
   });
 
   socket.on("chat message", function ({ msg, username, userId }) {
