@@ -1,10 +1,28 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models");
+const { Message, User, Room } = require("../../models");
+const { filterMsgData } = require("../../utils/helpers");
 
-// get all users
-router.get("/", (req, res) => {
-  Post.findAll()
-    .then((dbPostData) => res.json(dbPostData))
+router.get("/:room", (req, res) => {
+  console.log(req.params.room);
+  Message.findAll({
+    include: [
+      {
+        model: Room,
+        as: "room",
+        where: { roomName: req.params.room },
+      },
+      {
+        model: User,
+        as: "user",
+      },
+    ],
+    require: true,
+  })
+    .then((dbMessageData) => {
+      const messages = filterMsgData(JSON.stringify(dbMessageData, null, 2));
+
+      res.json(messages);
+    })
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -12,12 +30,12 @@ router.get("/", (req, res) => {
 });
 
 router.post("/save", (req, res) => {
-  Post.create({
+  Message.create({
     message: req.body.msg,
     username: req.body.username,
     timeOfMessage: req.body.currentTime,
   })
-    .then((dbPostData) => res.json(dbPostData))
+    .then((dbMessageData) => res.json(dbMessageData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);

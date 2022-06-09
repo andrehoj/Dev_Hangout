@@ -1,11 +1,15 @@
 const express = require("express");
 const app = express();
+
 const path = require("path");
+
 const session = require("express-session");
+
 const sequelize = require("./config/connection");
-const User = require("./models/User");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 const bcrypt = require("bcrypt");
+
 const PORT = process.env.PORT || 3001;
 
 const sess = {

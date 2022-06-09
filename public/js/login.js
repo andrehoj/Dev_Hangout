@@ -21,7 +21,7 @@ async function handleSignUp(event) {
     if (response.ok) {
       hideAllModals();
       //NoteToSelf, document.location.replace will send a GET request to the specifed endpoint. This will render home with the req.session.loggedin passed to handlebars.
-      document.location.replace("/home");
+      document.location.replace("/general");
     } else {
       let resErrorMessage = await response.json();
       appendLoginErrorMessage(resErrorMessage);

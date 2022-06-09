@@ -1,29 +1,10 @@
-getAllMessages().then((recentMessagesData) => {
-  appendMessages(recentMessagesData);
-});
-
-//handles room changes
-$("#room-list").click(function (event) {
-  $("#room-list")
-    .children()
-    .each(function () {
-      $(this).removeClass("active-room");
-    });
-
-  $(event.target).addClass("active-room");
-
-  let room = $(event.target).text();
-  loadRoom(room);
-  getCurrentSession().then((session) => {
-    socket.emit("joinRoom", { username: session.username, room });
-  });
-});
-
-function loadRoom(room) {
-  document.location.replace(`/${room.toLowerCase()}`);
-}
+console.log("Script is reloaded");
 
 if (window.io) {
+  console.log("io now exists");
+
+  let room = document.location.pathname.replace("/", "");
+
   var socket = io();
 
   getAllUsersData().then((userData) => {
@@ -34,8 +15,15 @@ if (window.io) {
     displayCurrentUser(session);
   });
 
+  getAllMessages(room).then((messages) => {
+    appendMessages(messages);
+  });
+
   getCurrentSession().then((session) => {
-    socket.emit("joinRoom", { room: "general", username: session.username });
+    socket.emit("joinRoom", {
+      room: room,
+      username: session.username,
+    });
   });
 
   socket.on("chat message", function ({ msg, username, userId }) {
@@ -58,6 +46,30 @@ if (window.io) {
   });
 }
 
+//handles room changes
+$("#room-list").click(function (event) {
+  $("#room-list")
+    .children()
+    .each(function () {
+      $(this).removeClass("active-room");
+    });
+
+  $(event.target).addClass("active-room");
+
+  let room = $(event.target).text().toLowerCase();
+
+  loadRoom(room);
+
+  getAllMessages(room).then((message) => {
+    console.log(message);
+  });
+
+  getCurrentSession().then((session) => {
+    socket.emit("joinRoom", { username: session.username, room });
+  });
+});
+
+//handles chat message saving
 $("#chat-form").submit(function (event) {
   event.preventDefault();
   getCurrentSession().then((session) => {
@@ -132,8 +144,8 @@ async function saveMessage(username, msg, userId, currentTime) {
   } else console.log(`error: ${response}`);
 }
 
-async function getAllMessages() {
-  let response = await fetch("/api/posts", {
+async function getAllMessages(room) {
+  const response = await fetch(`/api/posts/${room}`, {
     method: "get",
     headers: {
       "Content-Type": "application/json",
@@ -141,6 +153,7 @@ async function getAllMessages() {
   });
 
   const recentMessagesData = await response.json();
+
   return recentMessagesData;
 }
 
@@ -148,8 +161,8 @@ function appendMessages(messages) {
   $("#messages").empty();
   messages.forEach((Message) => {
     $("#messages").append(`<li>
-    <span><strong>${Message.username}</strong>: ${Message.message}</span>
-    <span class="message-date" id="message-time">     ${Message.timeOfMessage}</span>
+    <span><strong>${Message.userName}</strong>: ${Message.message}</span>
+    <span class="message-date" id="message-time">     ${Message.timeOfMsg}</span>
     </li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
@@ -175,6 +188,10 @@ function appendCurrentMessage(msg, username, userId, currentTime) {
     `<li><span data-id-${userId}><strong>${username}</strong>: ${msg}</span>
     <span class="message-date" id="message-time">     ${currentTime}</span></li>`
   );
+}
+
+function loadRoom(room) {
+  document.location.href = `/${room}`;
 }
 
 $("body").on("click", "#account-btn", function () {
