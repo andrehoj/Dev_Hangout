@@ -9,6 +9,7 @@ function filterMsgData(msgData) {
     msgObj.userId = msg.userId;
     msgObj.room = msg.room;
     msgObj.userName = msg.user.username;
+    msgObj.pfp = msg.user.pfp;
 
     msgObjAry.push(msgObj);
   });

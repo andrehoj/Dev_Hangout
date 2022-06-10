@@ -112,7 +112,9 @@ function listAllUsers(usersData) {
       }
 
       $("#user-list").append(
-        `<li data-id-${user.id} class="user-list-item" ><span>${
+        `<li data-id-${user.id} class="user-list-item" >
+        <img class='active-list-pfp' src='${user.pfp}'></img>
+        <span>${
           user.username
         } <span class="${checkIfActive(user.isActive)}">●</span></li>`
       );
@@ -162,6 +164,7 @@ function appendMessages(messages) {
   $("#messages").empty();
   messages.forEach((Message) => {
     $("#messages").append(`<li>
+    <img src='${Message.pfp}' class='profile-image'></img>
     <span><strong>${Message.userName}</strong>: ${Message.message}</span>
     <span class="message-date" id="message-time">     ${Message.timeOfMsg}</span>
     </li>`);

@@ -145,9 +145,7 @@ header span:hover {
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--main-border-color);
 }
-/* .chat-container li:nth-child(odd) {
-  background: #161b22;
-} */
+
 .chat-container li:hover {
   background-color: var(--main-second-bg-color);
 }
@@ -214,10 +212,16 @@ header span:hover {
 .account-pfp{
   height: 50px;
   width: 50px;
+  border-radius: 50%
 }
 
 .slideout-current-username{
   margin: 0 !important;
+}
+
+.active-list-pfp{
+  height: 20px;
+  width: 20px;
 }
 
 .account-slideout .slideout {
