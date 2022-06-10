@@ -19,7 +19,7 @@ async function handleSignUp(event) {
     });
 
     if (response.ok) {
-      hideAllModals();
+      await hideAllModals();
       document.location.replace("/general");
     } else {
       let resErrorMessage = await response.json();
