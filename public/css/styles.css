@@ -210,6 +210,16 @@ header span:hover {
   overflow: hidden;
   pointer-events: none;
 }
+
+.account-pfp{
+  height: 50px;
+  width: 50px;
+}
+
+.slideout-current-username{
+  margin: 0 !important;
+}
+
 .account-slideout .slideout {
   height: 100%;
   width: 100%;
@@ -230,7 +240,6 @@ header span:hover {
   text-align: center;
   font-weight: 300;
   font-size: 30px;
-  margin-bottom: 9px;
 }
 .account-slideout .slideout h3 {
   text-align: center;

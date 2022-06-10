@@ -20,6 +20,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    pfp: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
     password: {
       type: DataTypes.STRING,
@@ -34,6 +38,7 @@ User.init(
     },
     currentRoom: {
       type: DataTypes.INTEGER,
+      defaultValue: null,
       references: {
         model: "room",
         key: "id",

@@ -20,6 +20,7 @@ if (window.io) {
   });
 
   getCurrentSession().then((session) => {
+    console.log(`${session.username} is joining room ${room}`);
     socket.emit("joinRoom", {
       room: room,
       username: session.username,
@@ -34,7 +35,7 @@ if (window.io) {
 
     getCurrentSession().then((session) => {
       if (session.user_id === userId) {
-        saveMessage(username, msg, userId, currentTime);
+        saveMessage(username, msg, userId, currentTime, room);
       }
     });
   });
@@ -60,12 +61,8 @@ $("#room-list").click(function (event) {
 
   loadRoom(room);
 
-  getAllMessages(room).then((message) => {
-    console.log(message);
-  });
-
   getCurrentSession().then((session) => {
-    socket.emit("joinRoom", { username: session.username, room });
+    socket.emit("joinRoom", { username: session.username, room: room });
   });
 });
 
@@ -79,6 +76,7 @@ $("#chat-form").submit(function (event) {
         msg: message,
         username: session.username,
         userId: session.user_id,
+        room: document.location.pathname.replace("/", ""),
       });
       $("#chat-input").val("");
     }
@@ -98,6 +96,7 @@ async function getAllUsersData() {
 }
 
 function displayCurrentUser(session) {
+  $("#current-user-pfp").attr("src", `${session.pfp}`)
   $("#slideout-username").text(session.username);
 }
 
@@ -115,28 +114,30 @@ function listAllUsers(usersData) {
       $("#user-list").append(
         `<li data-id-${user.id} class="user-list-item" ><span>${
           user.username
-        } <span class="${checkIfActive(user.is_active)}">●</span></li>`
+        } <span class="${checkIfActive(user.isActive)}">●</span></li>`
       );
     });
   });
 }
 
-function checkIfActive(is_active) {
-  if (is_active) {
+function checkIfActive(isActive) {
+  if (isActive) {
     return "logged-in";
   } else return "logged-out";
 }
 
-async function saveMessage(username, msg, userId, currentTime) {
-  let response = await fetch("/api/posts/save", {
+async function saveMessage(username, msg, userId, currentTime, room) {
+  let response = await fetch("/api/messages/save", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      userId,
       username,
       msg,
       currentTime,
+      room,
     }),
   });
   if (response.ok) {
@@ -145,7 +146,7 @@ async function saveMessage(username, msg, userId, currentTime) {
 }
 
 async function getAllMessages(room) {
-  const response = await fetch(`/api/posts/${room}`, {
+  const response = await fetch(`/api/messages/${room}`, {
     method: "get",
     headers: {
       "Content-Type": "application/json",

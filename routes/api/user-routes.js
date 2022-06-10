@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User } = require("../../models");
+const fetch = require("node-fetch");
 
 router.get("/", (req, res) => {
   User.findAll({
@@ -47,8 +48,10 @@ router.post("/login", (req, res) => {
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
+      req.session.pfp = dbUserData.pfp;
+
       User.update(
-        { is_active: true },
+        { isActive: true },
         {
           where: {
             username: req.session.username,
@@ -72,35 +75,38 @@ router.post("/signup", (req, res) => {
     },
   }).then((dbUserData) => {
     if (dbUserData === null) {
-      User.create({
-        username: req.body.userName,
-        password: req.body.passWord,
-        is_active: true,
-      })
-        .then((dbUserData) => {
-          req.session.save(() => {
-            req.session.user_id = dbUserData.id;
-            req.session.username = dbUserData.username;
-            req.session.loggedIn = true;
-
-            let payLoad = [dbUserData, req.session];
-            res.json(payLoad);
-          });
+      fetch(`https://robohash.org/${req.body.userName}`).then((response) => {
+        User.create({
+          username: req.body.userName,
+          password: req.body.passWord,
+          isActive: true,
+          pfp: response.url,
         })
-        .catch((err) => {
-          res
-            .status(400)
-            .json({ message: "Error password must be at lease 4 characters" });
-        });
+          .then((dbUserData) => {
+            req.session.save(() => {
+              req.session.user_id = dbUserData.id;
+              req.session.username = dbUserData.username;
+              req.session.loggedIn = true;
+              req.session.pfp = dbUserData.pfp;
+
+              let payLoad = [dbUserData, req.session];
+              res.json(payLoad);
+            });
+          })
+          .catch((err) => {
+            res.status(400).json({
+              message: "Error password must be at lease 4 characters",
+            });
+          });
+      });
     } else res.status(400).json({ message: "That username is already taken!" });
   });
 });
 
 router.post("/logout", (req, res) => {
-  console.log(req.session.username);
   if (req.session.loggedIn) {
     User.update(
-      { is_active: false },
+      { isActive: false },
       {
         where: {
           username: req.session.username,

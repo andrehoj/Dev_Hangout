@@ -3,7 +3,6 @@ const { Message, User, Room } = require("../../models");
 const { filterMsgData } = require("../../utils/helpers");
 
 router.get("/:room", (req, res) => {
-  console.log(req.params.room);
   Message.findAll({
     include: [
       {
@@ -30,16 +29,27 @@ router.get("/:room", (req, res) => {
 });
 
 router.post("/save", (req, res) => {
-  Message.create({
-    message: req.body.msg,
-    username: req.body.username,
-    timeOfMessage: req.body.currentTime,
-  })
-    .then((dbMessageData) => res.json(dbMessageData))
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
+  Room.findOne({
+    where: {
+      roomName: req.body.room,
+    },
+    attributes: ["id"],
+    raw: true,
+  }).then((roomId) => {
+    Message.create({
+      message: req.body.msg,
+      timeOfMessage: req.body.currentTime,
+      userId: req.body.userId,
+      roomId: roomId.id,
+    })
+      .then((dbMessageData) => {
+        res.json(dbMessageData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
 });
 
 module.exports = router;

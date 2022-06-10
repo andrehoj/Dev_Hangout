@@ -1,4 +1,4 @@
-USE chat_app_db;
+USE dev_hangout_db;
 
 SELECT
     *

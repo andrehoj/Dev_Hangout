@@ -1,5 +1,5 @@
 USE tech_news_db;
 
-DROP DATABASE IF EXISTS chat_app_db;
+DROP DATABASE IF EXISTS dev_hangout_db;
 
-CREATE DATABASE chat_app_db;
+CREATE DATABASE dev_hangout_db;
