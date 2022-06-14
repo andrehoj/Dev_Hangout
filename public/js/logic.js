@@ -96,7 +96,7 @@ async function getAllUsersData() {
 }
 
 function displayCurrentUser(session) {
-  $("#current-user-pfp").attr("src", `${session.pfp}`)
+  $("#current-user-pfp").attr("src", `${session.pfp}`);
   $("#slideout-username").text(session.username);
 }
 
@@ -112,11 +112,11 @@ function listAllUsers(usersData) {
       }
 
       $("#user-list").append(
-        `<li data-id-${user.id} class="user-list-item" >
+        `<li data-user-id-${user.id} class="user-list-item" >
         <img class='active-list-pfp' src='${user.pfp}'></img>
-        <span>${
-          user.username
-        } <span class="${checkIfActive(user.isActive)}">●</span></li>`
+        <span>${user.username} <span class="${checkIfActive(
+          user.isActive
+        )}">●</span></li>`
       );
     });
   });
@@ -197,6 +197,20 @@ function appendCurrentMessage(msg, username, userId, currentTime) {
 function loadRoom(room) {
   document.location.href = `/${room}`;
 }
+
+async function handleRemoveAccount() {
+  let response = await fetch("/api/users/delete-account", {
+    method: "delete",
+  });
+
+  response = await response.json();
+
+  if (response) {
+    document.location.replace("/");
+  } else console.log(response);
+}
+
+$("#remove-account").click(handleRemoveAccount);
 
 $("body").on("click", "#account-btn", function () {
   $("#settings-slide").removeClass("active");

@@ -10,14 +10,14 @@ Message.belongsTo(Room, {
 
 Message.belongsTo(User, {
   foreignKey: "userId",
-  onDelete: "SET NULL",
-  onUpdate: "SET NULL",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 
 User.belongsTo(Room, {
   foreignKey: "currentRoom",
-  onDelete: "SET NULL",
-  onUpdate: "SET NULL",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 
 module.exports = { User, Message, Room };

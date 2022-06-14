@@ -123,4 +123,20 @@ router.post("/logout", (req, res) => {
   }
 });
 
+router.delete("/delete-account", (req, res) => {
+  console.log(req.session);
+  User.destroy({
+    where: {
+      id: req.session.user_id,
+    },
+  })
+    .then((dbUserData) => {
+      req.session.destroy();
+      res.json(dbUserData);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;

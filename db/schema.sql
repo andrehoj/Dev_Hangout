@@ -1,4 +1,4 @@
-USE tech_news_db;
+USE dev_hangout_db;
 
 DROP DATABASE IF EXISTS dev_hangout_db;
 
