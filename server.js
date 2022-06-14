@@ -43,6 +43,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
 
 io.on("connection", (socket) => {
+  socket.broadcast.emit("user connected");
+
   socket.on("joinRoom", ({ username, room }) => {
     socket.join(room);
 

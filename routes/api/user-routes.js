@@ -114,7 +114,6 @@ router.post("/logout", (req, res) => {
       }
     ).then((dbUserData) => {
       req.session.destroy(() => {
-        console.log(dbUserData);
         res.status(204).end();
       });
     });

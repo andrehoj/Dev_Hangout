@@ -27,6 +27,13 @@ if (window.io) {
     });
   });
 
+  socket.on("user connected", function () {
+    console.log("a user connected")
+    getAllUsersData().then((userData) => {
+      listAllUsers(userData);
+    });
+  });
+
   socket.on("chat message", function ({ msg, username, userId, pfp }) {
     let currentTime = getCurrentTime();
     appendCurrentMessage(msg, username, userId, currentTime, pfp);
@@ -102,14 +109,12 @@ function displayCurrentUser(session) {
 }
 
 function listAllUsers(usersData) {
+  $("#user-list").children().remove();
+
   getCurrentSession().then((session) => {
     usersData.forEach((user) => {
       if (user.username === session.username) {
         return;
-      }
-
-      if ($(`[data-id-${user.id}]`)) {
-        $(`[data-id-${user.id}]`).remove();
       }
 
       $("#user-list").append(
