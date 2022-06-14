@@ -46,9 +46,9 @@ io.on("connection", (socket) => {
   socket.on("joinRoom", ({ username, room }) => {
     socket.join(room);
 
-    socket.on("chat message", ({ msg, username, userId }) => {
+    socket.on("chat message", ({ msg, username, userId, pfp }) => {
       console.log("\nMessage was sent in: " + room + "\n");
-      io.to(room).emit("chat message", { msg, username, userId });
+      io.to(room).emit("chat message", { msg, username, userId, pfp });
     });
 
     socket.on("disconnect", (socket) => {

@@ -27,9 +27,9 @@ if (window.io) {
     });
   });
 
-  socket.on("chat message", function ({ msg, username, userId }) {
+  socket.on("chat message", function ({ msg, username, userId, pfp }) {
     let currentTime = getCurrentTime();
-    appendCurrentMessage(msg, username, userId, currentTime);
+    appendCurrentMessage(msg, username, userId, currentTime, pfp);
 
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
 
@@ -76,6 +76,7 @@ $("#chat-form").submit(function (event) {
         msg: message,
         username: session.username,
         userId: session.user_id,
+        pfp: session.pfp,
         room: document.location.pathname.replace("/", ""),
       });
       $("#chat-input").val("");
@@ -187,9 +188,11 @@ function getCurrentTime() {
   return new Date().toLocaleString();
 }
 
-function appendCurrentMessage(msg, username, userId, currentTime) {
+function appendCurrentMessage(msg, username, userId, currentTime, pfp) {
   $("#messages").append(
-    `<li><span data-id-${userId}><strong>${username}</strong>: ${msg}</span>
+    `<li>
+    <img src='${pfp}' class='profile-image'></img>
+    <span data-id-${userId}><strong>${username}</strong>: ${msg}</span>
     <span class="message-date" id="message-time">     ${currentTime}</span></li>`
   );
 }
