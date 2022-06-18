@@ -28,7 +28,7 @@ if (window.io) {
   });
 
   socket.on("user connected", function () {
-    console.log("a user connected")
+    console.log("a user connected");
     getAllUsersData().then((userData) => {
       listAllUsers(userData);
     });
@@ -221,15 +221,10 @@ async function handleRemoveAccount() {
 $("#remove-account").click(handleRemoveAccount);
 
 $("body").on("click", "#account-btn", function () {
+  console.log($(this))
   $("#settings-slide").removeClass("active");
   $("#explore-slide").toggleClass("active");
   $(".hamburger").toggleClass("is-active");
-});
-
-$("body").on("click", "#settings-link", function () {
-  $("#explore-slide").removeClass("active");
-  $(".hamburger").removeClass("is-active");
-  $("#settings-slide").toggleClass("active");
 });
 
 $("body").on("click", ".accordion-heading", function () {

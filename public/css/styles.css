@@ -37,10 +37,6 @@ a:hover {
   color: #98c379;
 }
 
-.settings {
-  margin-left: 1.5rem;
-}
-
 .settings:hover {
   cursor: pointer;
 }
@@ -90,6 +86,45 @@ header span:hover {
   }
 }
 /* Mobile styling end */
+
+/* settings dropdown start */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--main-border-color);
+  color: var(--main-text-color);
+  min-width: 120px;
+  border: var(--main-title-color) 1px solid;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--main-title-color);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+/* settings dropdown end */
+
 /* Header styling end */
 
 .room-title {
@@ -209,17 +244,17 @@ header span:hover {
   pointer-events: none;
 }
 
-.account-pfp{
+.account-pfp {
   height: 50px;
   width: 50px;
-  border-radius: 50%
+  border-radius: 50%;
 }
 
-.slideout-current-username{
+.slideout-current-username {
   margin: 0 !important;
 }
 
-.active-list-pfp{
+.active-list-pfp {
   height: 20px;
   width: 20px;
 }
