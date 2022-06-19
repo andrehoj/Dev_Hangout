@@ -221,7 +221,7 @@ async function handleRemoveAccount() {
 $("#remove-account").click(handleRemoveAccount);
 
 $("body").on("click", "#account-btn", function () {
-  console.log($(this))
+  console.log($(this));
   $("#settings-slide").removeClass("active");
   $("#explore-slide").toggleClass("active");
   $(".hamburger").toggleClass("is-active");
@@ -234,3 +234,8 @@ $("body").on("click", ".accordion-heading", function () {
   $(this).addClass("active");
   $(this).next(".list-container").addClass("active");
 });
+
+$("#settings-link").click(function () {
+  document.location.replace("/settings");
+});
+

@@ -13,6 +13,9 @@ router.get("/", (req, res) => {
   } else res.render("general", { loggedIn: true });
 });
 
+router.get("/settings", (req, res) => {
+  res.render("settings", { loggedIn: true });
+});
 
 router.get("/signup", (req, res) => {
   res.render("signup-modal");
