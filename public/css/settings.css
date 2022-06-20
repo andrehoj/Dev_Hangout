@@ -4,20 +4,57 @@
   border-radius: 5px;
 }
 
-.back-arrow{
-    position: relative;
-    left: 25px
+.settings-title {
+  color: #c678dd;
+}
+
+.back-arrow {
+  position: relative;
+  left: 25px;
 }
 
 .back-arrow:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.settings-option{
-    font-size: 1.4rem;
+.settings-option {
+  font-size: 1.4rem;
 }
 
-.settings-section{
-    width: 85%;
-    margin: auto;
+.settings-section {
+  width: 85%;
+  margin: auto;
+}
+
+.edit-account-img {
+  display: block;
+  border: #98c379 solid 1px;
+  border-radius: 50%;
+  height: 90px;
+  margin-top: 5px;
+}
+
+.edit-profile-picture {
+  font-size: 0.8rem;
+  position: relative;
+  display: inline;
+  background-color: #0d1117;
+  color: white;
+  top: -30px;
+  left: 50px;
+  z-index: 1;
+}
+
+.bracket{
+    color: #c678dd;
+    font-size: 2rem;
+    margin-left: 4rem;
+}
+
+.bg-string{
+    background-color: #98c379;
+}
+
+.bg-string:hover{
+    background-color: greenyellow;
 }

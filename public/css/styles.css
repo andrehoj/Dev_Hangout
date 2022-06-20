@@ -95,7 +95,9 @@ header span:hover {
 }
 
 .dropdown-content {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  top: 30;
   position: absolute;
   background-color: var(--main-border-color);
   color: var(--main-text-color);
@@ -103,6 +105,7 @@ header span:hover {
   border: var(--main-title-color) 1px solid;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  transition: all 0.3s ease-in-out;
 }
 
 .dropdown-content a {
@@ -116,7 +119,9 @@ header span:hover {
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+  visibility: visible;
+  opacity: 1;
+  top: 50px;
 }
 
 .dropdown:hover .dropbtn {

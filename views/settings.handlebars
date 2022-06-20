@@ -4,61 +4,147 @@
 
       <i class="fas fa-lg fa-arrow-left back-arrow" id="settings-go-back"></i>
 
-      <h2 class="flex-grow-1 text-center">Settings</h2>
+      <h2 class="flex-grow-1 text-center settings-title">Settings() {</h2>
 
     </div>
     <div class="container justify-content-center align-items-center">
+
+      {{!  }}
+
       <div
-        class="d-flex align-items-center justify-content-between settings-section mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        data-bs-toggle="collapse"
+        href="#collapseAccount"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseExample"
       >
-        <div class="d-flex align-items-center">
+        <div class="col-10 d-flex align-items-center me-2">
           <i class="fa fa-user"></i>
           <p class="m-0 settings-option ms-3">Account</p></div>
 
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
+        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="collapse row mt-3" id="collapseAccount">
+          <div class="">
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">UserName</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder=""
+                />
+
+              </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputPassword1">Bio</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  placeholder=""
+                />
+              </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputPassword1">Profile picture</label>
+                <img
+                  src="https://robohash.org/andrew"
+                  class="edit-account-img"
+                />
+                <div
+                  class="edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border"
+                >
+                  Edit
+                </div>
+              </div>
+              <button type="submit" class="btn bg-string">Save Info</button>
+            </form>
+          </div>
+        </div>
       </div>
+
       <div
-        class="d-flex align-items-center justify-content-between settings-section mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        data-bs-toggle="collapse"
+        href="#collapseNotifications"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapse"
       >
-        <div class="d-flex align-items-center">
-          <i class="fas fa-bell"></i>
+        <div class="col-10 d-flex align-items-center me-2">
+          <i class="fa fa-eye" aria-hidden="true"></i>
           <p class="m-0 settings-option ms-3">Notifications</p></div>
 
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-
+        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="collapse row" id="collapseNotifications">
+          <div class="text-center mt-3">
+            Coming Soon!
+          </div>
+        </div>
       </div>
       <div
-        class="d-flex align-items-center justify-content-between settings-section mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        data-bs-toggle="collapse"
+        href="#collapseAppearance"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseExample"
       >
-        <div class="d-flex align-items-center"><i
-            class="fa fa-eye"
-            aria-hidden="true"
-          ></i>
+        <div class="col-10 d-flex align-items-center me-2">
+          <i class="fa fa-eye" aria-hidden="true"></i>
           <p class="m-0 settings-option ms-3">Appearance</p></div>
 
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
+        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="collapse row" id="collapseAppearance">
+          <div class="">
 
+          </div>
+        </div>
       </div>
       <div
-        class="d-flex align-items-center justify-content-between settings-section mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        data-bs-toggle="collapse"
+        href="#collapsePrivacySecurity"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseExample"
       >
-        <div class="d-flex align-items-center"><i class="fa fa-lock"></i>
+        <div class="col-10 d-flex align-items-center me-2">
+          <i class="fa fa-lock"></i>
           <p class="m-0 settings-option ms-3">Privacy & Security</p></div>
 
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-
+        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="collapse row" id="collapsePrivacySecurity">
+          <div class="text-center mt-3">
+            Coming Soon!
+          </div>
+        </div>
       </div>
-
       <div
-        class="d-flex align-items-center justify-content-between settings-section mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        data-bs-toggle="collapse"
+        href="#collapseAbout"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseExample"
       >
-        <div class="d-flex align-items-center"><i class="fa fa-question"></i>
+        <div class="col-10 d-flex align-items-center me-2">
+          <i class="fa fa-question"></i>
           <p class="m-0 settings-option ms-3">About</p></div>
 
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-
+        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="collapse row" id="collapseAbout">
+          <div class="text-center mt-3">
+            Coming Soon!
+          </div>
+        </div>
       </div>
     </div>
+      <div class="bracket">}</div>
   </div>
+
 </div>
+
 <script src="js/settings.js"></script>
