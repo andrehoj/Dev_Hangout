@@ -135,6 +135,7 @@ function checkIfActive(isActive) {
 }
 
 async function saveMessage(username, msg, userId, currentTime, room) {
+  console.log(arguments)
   let response = await fetch("/api/messages/save", {
     method: "post",
     headers: {

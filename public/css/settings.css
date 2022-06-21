@@ -45,16 +45,38 @@
   z-index: 1;
 }
 
-.bracket{
-    color: #c678dd;
-    font-size: 2rem;
-    margin-left: 4rem;
+.bracket {
+  color: #c678dd;
+  font-size: 2rem;
+  margin-left: 4rem;
 }
 
-.bg-string{
-    background-color: #98c379;
+.bg-string {
+  background-color: #98c379;
 }
 
-.bg-string:hover{
-    background-color: greenyellow;
+.bg-string:hover {
+  background-color: greenyellow;
+}
+
+.settings-bg {
+  background-color: #22272e;
+  color: #819d9f;
+}
+
+.active-theme {
+  color: #1f6feb;
+}
+
+.arrow::after {
+  content: "\21AA";
+  font-family: FontAwesome;
+  position: relative;
+  font-size: 30px;
+  transition: all 0.2s;
+}
+
+.settings-variable {
+  display: inline-block;
+  color: #e06c75;
 }

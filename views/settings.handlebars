@@ -1,10 +1,12 @@
 <div class="d-flex h-100 w-100 justify-content-center align-items-center">
-  <div class="settings-container bg-white">
+  <div class="settings-container settings-bg">
     <div class="d-flex align-items-center mt-3 mb-3">
 
       <i class="fas fa-lg fa-arrow-left back-arrow" id="settings-go-back"></i>
 
-      <h2 class="flex-grow-1 text-center settings-title">Settings() {</h2>
+      <h2 class="flex-grow-1 text-center settings-title">Settings(
+        <p class="settings-variable">myInfo</p>
+        ) {</h2>
 
     </div>
     <div class="container justify-content-center align-items-center">
@@ -23,7 +25,7 @@
           <i class="fa fa-user"></i>
           <p class="m-0 settings-option ms-3">Account</p></div>
 
-        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="col arrow"></div>
         <div class="collapse row mt-3" id="collapseAccount">
           <div class="">
             <form>
@@ -68,25 +70,6 @@
       <div
         class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
         data-bs-toggle="collapse"
-        href="#collapseNotifications"
-        role="button"
-        aria-expanded="false"
-        aria-controls="collapse"
-      >
-        <div class="col-10 d-flex align-items-center me-2">
-          <i class="fa fa-eye" aria-hidden="true"></i>
-          <p class="m-0 settings-option ms-3">Notifications</p></div>
-
-        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
-        <div class="collapse row" id="collapseNotifications">
-          <div class="text-center mt-3">
-            Coming Soon!
-          </div>
-        </div>
-      </div>
-      <div
-        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
-        data-bs-toggle="collapse"
         href="#collapseAppearance"
         role="button"
         aria-expanded="false"
@@ -96,13 +79,42 @@
           <i class="fa fa-eye" aria-hidden="true"></i>
           <p class="m-0 settings-option ms-3">Appearance</p></div>
 
-        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="col arrow"></div>
         <div class="collapse row" id="collapseAppearance">
-          <div class="">
+          <div class="row text-center mt-3">
+            <div class="col">
+              <i class="fa fa-2xl fa-sun d-block mb-1"></i>
+              lightTheme
+            </div>
+            <div class="col active-theme">
+              <i class="fa-xl fa fa-moon d-block mb-1"></i>
+              nightTheme
+            </div>
 
           </div>
         </div>
       </div>
+
+      <div
+        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        data-bs-toggle="collapse"
+        href="#collapseNotifications"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapse"
+      >
+        <div class="col-10 d-flex align-items-center me-2">
+          <i class="fa fa-comments" aria-hidden="true"></i>
+          <p class="m-0 settings-option ms-3">Notifications</p></div>
+
+        <div class="col arrow"></div>
+        <div class="collapse row" id="collapseNotifications">
+          <div class="text-center mt-3">
+            Coming Soon!
+          </div>
+        </div>
+      </div>
+
       <div
         class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
         data-bs-toggle="collapse"
@@ -115,7 +127,7 @@
           <i class="fa fa-lock"></i>
           <p class="m-0 settings-option ms-3">Privacy & Security</p></div>
 
-        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="col arrow"></div>
         <div class="collapse row" id="collapsePrivacySecurity">
           <div class="text-center mt-3">
             Coming Soon!
@@ -134,7 +146,7 @@
           <i class="fa fa-question"></i>
           <p class="m-0 settings-option ms-3">About</p></div>
 
-        <i class="col fa fa-lg fa-angle-right" aria-hidden="true"></i>
+        <div class="col arrow"></div>
         <div class="collapse row" id="collapseAbout">
           <div class="text-center mt-3">
             Coming Soon!
@@ -142,7 +154,7 @@
         </div>
       </div>
     </div>
-      <div class="bracket">}</div>
+    <div class="bracket mb-2">}</div>
   </div>
 
 </div>
