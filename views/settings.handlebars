@@ -9,12 +9,15 @@
         ) {</h2>
 
     </div>
-    <div class="container justify-content-center align-items-center">
+    <div
+      class="container justify-content-center align-items-center"
+      id="accordion"
+    >
 
       {{!  }}
 
       <div
-        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center pb-2"
         data-bs-toggle="collapse"
         href="#collapseAccount"
         role="button"
@@ -26,49 +29,52 @@
           <p class="m-0 settings-option ms-3">Account</p></div>
 
         <div class="col arrow"></div>
-        <div class="collapse row mt-3" id="collapseAccount">
-          <div class="">
-            <form>
-              <div class="form-group">
-                <label for="exampleInputEmail1">UserName</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  placeholder=""
-                />
 
+      </div>
+      {{!  }}
+      <div
+        class="collapse row align-items-center settings-section mb-2"
+        id="collapseAccount"
+        data-parent="#accordion"
+      >
+        <div class="d-flex">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">UserName</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder=""
+              />
+
+            </div>
+            <div class="form-group mb-2">
+              <label for="exampleInputPassword1">Bio</label>
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder=""
+              />
+            </div>
+            <div class="form-group mb-2">
+              <label for="exampleInputPassword1">Profile picture</label>
+              <img src="https://robohash.org/andrew" class="edit-account-img" />
+              <div
+                class="edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border"
+              >
+                Edit
               </div>
-              <div class="form-group mb-2">
-                <label for="exampleInputPassword1">Bio</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder=""
-                />
-              </div>
-              <div class="form-group mb-2">
-                <label for="exampleInputPassword1">Profile picture</label>
-                <img
-                  src="https://robohash.org/andrew"
-                  class="edit-account-img"
-                />
-                <div
-                  class="edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border"
-                >
-                  Edit
-                </div>
-              </div>
-              <button type="submit" class="btn bg-string">Save Info</button>
-            </form>
-          </div>
+            </div>
+            <button type="submit" class="btn bg-string">Save Info</button>
+          </form>
         </div>
       </div>
-
+      {{!  }}
       <div
-        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center border-top border-light pb-2 pt-2"
         data-bs-toggle="collapse"
         href="#collapseAppearance"
         role="button"
@@ -80,23 +86,31 @@
           <p class="m-0 settings-option ms-3">Appearance</p></div>
 
         <div class="col arrow"></div>
-        <div class="collapse row" id="collapseAppearance">
-          <div class="row text-center mt-3">
-            <div class="col">
-              <i class="fa fa-2xl fa-sun d-block mb-1"></i>
-              lightTheme
-            </div>
-            <div class="col active-theme">
-              <i class="fa-xl fa fa-moon d-block mb-1"></i>
-              nightTheme
-            </div>
 
-          </div>
-        </div>
       </div>
 
+      {{!  }}
       <div
-        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        class="collapse row align-items-center settings-section mb-2"
+        id="collapseAppearance"
+        data-parent="#accordion"
+      >
+        <div class="row text-center mt-3">
+          <div class="col">
+            <i class="fa fa-2xl fa-sun d-block mb-1"></i>
+            lightTheme
+          </div>
+          <div class="col active-theme">
+            <i class="fa-xl fa fa-moon d-block mb-1"></i>
+            nightTheme
+          </div>
+
+        </div>
+      </div>
+      {{!  }}
+
+      <div
+        class="row settings-section align-items-center border-top border-light pb-2 pt-2"
         data-bs-toggle="collapse"
         href="#collapseNotifications"
         role="button"
@@ -108,7 +122,11 @@
           <p class="m-0 settings-option ms-3">Notifications</p></div>
 
         <div class="col arrow"></div>
-        <div class="collapse row" id="collapseNotifications">
+        <div
+          class="collapse row"
+          id="collapseNotifications"
+          data-parent="#accordion"
+        >
           <div class="text-center mt-3">
             Coming Soon!
           </div>
@@ -116,7 +134,7 @@
       </div>
 
       <div
-        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center border-top border-light pb-2 pt-2"
         data-bs-toggle="collapse"
         href="#collapsePrivacySecurity"
         role="button"
@@ -128,14 +146,18 @@
           <p class="m-0 settings-option ms-3">Privacy & Security</p></div>
 
         <div class="col arrow"></div>
-        <div class="collapse row" id="collapsePrivacySecurity">
+        <div
+          class="collapse row"
+          id="collapsePrivacySecurity"
+          data-parent="#accordion"
+        >
           <div class="text-center mt-3">
             Coming Soon!
           </div>
         </div>
       </div>
       <div
-        class="row settings-section align-items-center mb-3 pb-3 border-bottom border-light"
+        class="row settings-section align-items-center border-bottom border-top border-light pb-2 pt-2"
         data-bs-toggle="collapse"
         href="#collapseAbout"
         role="button"
@@ -147,7 +169,7 @@
           <p class="m-0 settings-option ms-3">About</p></div>
 
         <div class="col arrow"></div>
-        <div class="collapse row" id="collapseAbout">
+        <div class="collapse row" id="collapseAbout" data-parent="#accordion">
           <div class="text-center mt-3">
             Coming Soon!
           </div>
