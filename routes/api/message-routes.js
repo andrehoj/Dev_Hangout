@@ -29,7 +29,6 @@ router.get("/:room", (req, res) => {
 });
 
 router.post("/save", (req, res) => {
-  console.log(req.body)
   Room.findOne({
     where: {
       roomName: req.body.room,
@@ -37,7 +36,6 @@ router.post("/save", (req, res) => {
     attributes: ["id"],
     raw: true,
   }).then((roomId) => {
-    console.log(roomId)
     Message.create({
       message: req.body.msg,
       timeOfMessage: req.body.currentTime,

@@ -45,6 +45,11 @@
   z-index: 1;
 }
 
+.edit-profile-picture:hover {
+  cursor: pointer;
+  background-color: #98c379;
+}
+
 .bracket {
   color: #c678dd;
   font-size: 2rem;
@@ -79,4 +84,51 @@
 .settings-variable {
   display: inline-block;
   color: #e06c75;
+}
+
+.custom {
+  height: 500px;
+  width: 500px;
+}
+
+.edit-pfp-modal-content {
+  width: 20rem;
+  height: 20rem;
+}
+
+/*  */
+.t:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 4em;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px 40px #98c379;
+}
+
+.t:active:after {
+  box-shadow: 0 0 0 0 #98c379;
+  border-radius: 4em;
+  opacity: 1;
+  transition: 0s;
+}
+
+.fav-tech-btn {
+  background-color: #22272e;
+  color: #819d9f;
+  border: #819d9f 1px solid;
+}
+
+.fav-tech-btn:hover {
+  color: #98c379;
+}
+
+.icon-choose:hover {
+  cursor: pointer;
+  transform: scale(1);
 }

@@ -3,14 +3,14 @@ const { User } = require("../models");
 const userdata = [
   {
     username: "Andrew",
-    password: "secretpass",
+    password: "pass",
     pfp: "https://robohash.org/Andrew",
     isActive: false,
     currentRoom: 1,
   },
   {
     username: "David",
-    password: "mydogsname",
+    password: "pass",
     pfp: "https://robohash.org/David",
     isActive: false,
     currentRoom: 1,

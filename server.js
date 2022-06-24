@@ -1,4 +1,5 @@
 const express = require("express");
+
 const app = express();
 
 const path = require("path");
@@ -25,6 +26,7 @@ const sess = {
 app.use(session(sess));
 
 const routes = require("./routes");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -49,7 +51,7 @@ io.on("connection", (socket) => {
     socket.join(room);
 
     socket.on("chat message", ({ msg, username, userId, pfp }) => {
-      console.log("\nMessage was sent in: " + room + "\n");
+    
       io.to(room).emit("chat message", { msg, username, userId, pfp });
     });
 
@@ -59,7 +61,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
   server.listen(PORT, () => {
     console.log("listening on *:3001");

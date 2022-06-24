@@ -103,6 +103,28 @@ router.post("/signup", (req, res) => {
   });
 });
 
+router.post("/edit", (req, res) => {
+  console.log(req.body);
+  User.update(req.body, {
+    where: {
+      id: req.body.id,
+    },
+  })
+    .then((dbUserData) => {
+      if (!dbUserData) {
+        res.status(404).json({ message: "No user found with this id" });
+        return;
+      }
+      req.session.username = req.body.username;
+      req.session.pfp = req.body.pfp;
+      res.json(dbUserData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
 router.post("/logout", (req, res) => {
   if (req.session.loggedIn) {
     User.update(
@@ -123,7 +145,6 @@ router.post("/logout", (req, res) => {
 });
 
 router.delete("/delete-account", (req, res) => {
-  console.log(req.session);
   User.destroy({
     where: {
       id: req.session.user_id,

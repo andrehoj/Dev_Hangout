@@ -20,7 +20,7 @@ async function handleSignUp(event) {
 
     if (response.ok) {
       await hideAllModals();
-      document.location.replace("/general");
+      document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
       appendSignupErrorMessage(resErrorMessage);

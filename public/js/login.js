@@ -17,11 +17,10 @@ async function handleSignUp(event) {
         passWord,
       }),
     });
-
+    
     if (response.ok) {
       hideAllModals();
-      //NoteToSelf, document.location.replace will send a GET request to the specifed endpoint. This will render home with the req.session.loggedin passed to handlebars.
-      document.location.replace("/general");
+      document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
       appendLoginErrorMessage(resErrorMessage);
@@ -46,3 +45,5 @@ $("#signup-instead-link").click(() => {
   $("#login-modal").hide();
   $("#signup-modal").show();
 });
+
+ //NoteToSelf, document.location.replace will send a GET request to the specifed endpoint. This will render home with the req.session.loggedin passed to handlebars.

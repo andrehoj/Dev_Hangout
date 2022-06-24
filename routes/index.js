@@ -1,28 +1,24 @@
 const router = require("express").Router();
 
 const apiRoutes = require("./api");
-const roomRoutes = require("./room-routes");
 
-router.use(roomRoutes);
 router.use("/api", apiRoutes);
 
-//entry point to app. checks if the user is loggedin or not
 router.get("/", (req, res) => {
-  if (req.session.loggedIn === undefined) {
-    res.render("general", { loggedIn: false });
-  } else res.render("general", { loggedIn: true });
+  if (!req.session.loggedIn) {
+    res.render("room", { loggedIn: false });
+  } else res.render("room", { loggedIn: true });
+});
+
+router.get("/room/:roomName", (req, res) => {
+  res.render("room", {
+    loggedIn: req.session.loggedIn,
+    roomName: req.params.roomName,
+  });
 });
 
 router.get("/settings", (req, res) => {
-  res.render("settings", { loggedIn: true });
-});
-
-router.get("/signup", (req, res) => {
-  res.render("signup-modal");
-});
-
-router.get("/login", (req, res) => {
-  res.render("login-modal");
+  res.render("settings");
 });
 
 router.use((req, res) => {

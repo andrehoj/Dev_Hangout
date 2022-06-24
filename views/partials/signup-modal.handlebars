@@ -1,7 +1,8 @@
+<link rel="stylesheet" href="/css/modal.css" />
 <div class="modal" id="signup-modal">
   <div class="container d-flex justify-content-center">
     <div class="content">
-      {{> form-title}}
+      <h1 class="main-title">"Dev hangOut"</h1>
       <h2>REGISTER</h2>
 
       <form action="/public/js/logic.js" id="signup-form" class="log-forms">
@@ -25,3 +26,41 @@
     </div>
   </div>
 </div>
+{{! 
+ <form action="/public/js/logic.js" id="signup-form" class="log-forms">
+        <label
+          for="signUpUserName"
+          class="align-self-start mb-1"
+        >userName</label>
+        <input
+          type="text"
+          name="signup-username"
+          id="signUpUserName"
+          autocomplete="on"
+          placeholder="Username"
+        />
+        <label
+          for="signUpUserName"
+          class="align-self-start mt-2 mb-1"
+        >passWord</label>
+
+        <input
+          type="password"
+          name="password"
+          id="signUpPassword"
+          autocomplete="on"
+          placeholder="Password"
+        />
+
+        <label for="github-username" class="align-self-start mb-1 mt-2">GitHub
+          UserName <span class="optional">- optional</span> </label>
+        <input
+          type="text"
+          name="Github-username"
+          id="github-username"
+          autocomplete="on"
+          placeholder="github"
+        />
+        <div class="favorite-lang">Choose Favorite language</div>
+        <button class="signup-btn" id="signup-button">Submit</button>
+      </form> }}

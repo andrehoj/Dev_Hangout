@@ -1,5 +1,4 @@
 function filterMsgData(msgData) {
-  console.log(msgData)
   let msgObjAry = [];
 
   JSON.parse(msgData).forEach((msg) => {

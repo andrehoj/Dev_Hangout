@@ -3,21 +3,23 @@ console.log("Script is reloaded");
 if (window.io) {
   console.log("io now exists");
 
-  let room = document.location.pathname.replace("/", "");
+  let room = document.location.pathname.replace("/room/", "");
+  
+  if (room === "/") room = "general";
 
   var socket = io();
 
+  // getting all the neccessary data for current room
   getAllUsersData().then((userData) => {
     listAllUsers(userData);
   });
-
   getCurrentSession().then((session) => {
     displayCurrentUser(session);
   });
-
   getAllMessages(room).then((messages) => {
     appendMessages(messages);
   });
+  addActiveRoom();
 
   getCurrentSession().then((session) => {
     console.log(`${session.username} is joining room ${room}`);
@@ -54,16 +56,8 @@ if (window.io) {
   });
 }
 
-//handles room changes
+//handles room change
 $("#room-list").click(function (event) {
-  $("#room-list")
-    .children()
-    .each(function () {
-      $(this).removeClass("active-room");
-    });
-
-  $(event.target).addClass("active-room");
-
   let room = $(event.target).text().toLowerCase();
 
   loadRoom(room);
@@ -75,6 +69,7 @@ $("#room-list").click(function (event) {
 
 //handles chat message saving
 $("#chat-form").submit(function (event) {
+  let roomName = document.location.pathname.replace("/room/", "");
   event.preventDefault();
   getCurrentSession().then((session) => {
     const message = $("#chat-input").val().trim();
@@ -84,7 +79,7 @@ $("#chat-form").submit(function (event) {
         username: session.username,
         userId: session.user_id,
         pfp: session.pfp,
-        room: document.location.pathname.replace("/", ""),
+        room: roomName,
       });
       $("#chat-input").val("");
     }
@@ -135,7 +130,6 @@ function checkIfActive(isActive) {
 }
 
 async function saveMessage(username, msg, userId, currentTime, room) {
-  console.log(arguments)
   let response = await fetch("/api/messages/save", {
     method: "post",
     headers: {
@@ -155,6 +149,7 @@ async function saveMessage(username, msg, userId, currentTime, room) {
 }
 
 async function getAllMessages(room) {
+  console.log(room);
   const response = await fetch(`/api/messages/${room}`, {
     method: "get",
     headers: {
@@ -204,7 +199,7 @@ function appendCurrentMessage(msg, username, userId, currentTime, pfp) {
 }
 
 function loadRoom(room) {
-  document.location.href = `/${room}`;
+  document.location.href = `/room/${room}`;
 }
 
 async function handleRemoveAccount() {
@@ -219,10 +214,21 @@ async function handleRemoveAccount() {
   } else console.log(response);
 }
 
+function addActiveRoom() {
+  let currentRoom = $(".room-title").text().replace("#", "").trim();
+
+  $("#room-list")
+    .children()
+    .each(function () {
+      if ($(this).text().toLowerCase() === currentRoom) {
+        $(this).addClass("active-room");
+      } else $(this).removeClass("active-room");
+    });
+}
+
 $("#remove-account").click(handleRemoveAccount);
 
 $("body").on("click", "#account-btn", function () {
-  console.log($(this));
   $("#settings-slide").removeClass("active");
   $("#explore-slide").toggleClass("active");
   $(".hamburger").toggleClass("is-active");
@@ -236,7 +242,5 @@ $("body").on("click", ".accordion-heading", function () {
   $(this).next(".list-container").addClass("active");
 });
 
-$("#settings-link").click(function () {
-  document.location.replace("/settings");
-});
-
+//to do:
+//make a user constructor

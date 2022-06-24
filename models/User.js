@@ -25,11 +25,21 @@ User.init(
       allowNull: false,
     },
 
+    gitHub: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    language: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4],
+        len: [5],
       },
     },
     isActive: {
