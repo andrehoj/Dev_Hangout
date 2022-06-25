@@ -460,3 +460,14 @@ header span:hover {
 .active-room {
   color: #238636;
 }
+
+.fav-tech-btn {
+  background-color: #22272e;
+  color: #819d9f;
+  border: #819d9f 1px solid;
+}
+
+.fav-tech-btn:hover {
+  color: #98c379;
+}
+

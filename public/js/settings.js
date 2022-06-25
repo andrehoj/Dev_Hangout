@@ -1,5 +1,5 @@
 $("#settings-go-back").click(function () {
-  document.location.replace("/room/general")
+  document.location.replace("/room/general");
 });
 
 getCurrentSession().then((session) => {
@@ -22,13 +22,15 @@ function appendUsersData(session) {
   $("#settings-user-name").val(session.username);
   $("#settings-pfp").attr("src", `${session.pfp}`);
   $("#edit-settings-pfp").attr("src", `${session.pfp}`);
+  $("#github-account").val(session.gitHub);
 }
 
 $("#edit-user-info").submit((e) => {
   e.preventDefault();
   let username = $("#settings-user-name").val();
-  //let bio = $("#settings-bio").val();
+  let gitHub = $("#github-account").val();
   let pfp = $("#settings-pfp").attr("src");
+
   getCurrentSession().then((session) => {
     fetch("/api/users/edit", {
       method: "post",
@@ -39,6 +41,7 @@ $("#edit-user-info").submit((e) => {
         username,
         id: session.user_id,
         pfp,
+        gitHub,
       }),
     }).then((res) => {
       if (res.ok) {
@@ -77,3 +80,17 @@ function getRandomString(length) {
 
   return result;
 }
+$("#remove-account").click(handleRemoveAccount);
+
+async function handleRemoveAccount() {
+  let response = await fetch("/api/users/delete-account", {
+    method: "delete",
+  });
+
+  response = await response.json();
+
+  if (response) {
+    document.location.replace("/");
+  } else console.log(response);
+}
+

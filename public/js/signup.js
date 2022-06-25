@@ -5,7 +5,11 @@ async function handleSignUp(event) {
 
   let userName = $("#signUpUserName").val().trim();
   let passWord = $("#signUpPassword").val().trim();
+  let gitHubUserName = $("#gitHubUserName").val().trim();
 
+  if (!gitHubUserName) gitHubUserName = null;
+
+  console.log(gitHubUserName);
   if (userName && passWord) {
     let response = await fetch("/api/users/signup", {
       method: "POST",
@@ -15,6 +19,7 @@ async function handleSignUp(event) {
       body: JSON.stringify({
         userName,
         passWord,
+        gitHubUserName,
       }),
     });
 

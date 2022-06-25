@@ -49,6 +49,7 @@ router.post("/login", (req, res) => {
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
       req.session.pfp = dbUserData.pfp;
+      req.session.gitHub = dbUserData.gitHub;
 
       User.update(
         { isActive: true },
@@ -79,6 +80,7 @@ router.post("/signup", (req, res) => {
         User.create({
           username: req.body.userName,
           password: req.body.passWord,
+          gitHub: req.body.gitHubUserName,
           isActive: true,
           pfp: response.url,
         })
@@ -88,6 +90,7 @@ router.post("/signup", (req, res) => {
               req.session.username = dbUserData.username;
               req.session.loggedIn = true;
               req.session.pfp = dbUserData.pfp;
+              req.session.gitHub = dbUserData.gitHub;
 
               let payLoad = [dbUserData, req.session];
               res.json(payLoad);
@@ -95,7 +98,7 @@ router.post("/signup", (req, res) => {
           })
           .catch((err) => {
             res.status(400).json({
-              message: "Error password must be at lease 4 characters",
+              message: "Error password must be at lease 5 characters",
             });
           });
       });
@@ -117,6 +120,7 @@ router.post("/edit", (req, res) => {
       }
       req.session.username = req.body.username;
       req.session.pfp = req.body.pfp;
+      req.session.gitHub = req.body.gitHub;
       res.json(dbUserData);
     })
     .catch((err) => {

@@ -2,7 +2,6 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
 />
-class="col icon-choose "
 
 <div class="d-flex h-100 w-100 justify-content-center align-items-center">
   <div class="settings-container settings-bg">
@@ -201,9 +200,14 @@ class="col icon-choose "
               </div>
             </div>
             <button type="submit" class="btn bg-string">Save Info</button>
-            <button class="btn btn-danger">Delete account</button>
-          </form>
 
+          </form>
+          <button
+            class="btn btn-danger"
+            id="remove-account"
+            data-toggle="modal"
+            data-target="#removeAccountModal"
+          >Delete account</button>
         </div>
 
       </div>

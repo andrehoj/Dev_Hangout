@@ -182,6 +182,7 @@ async function getCurrentSession() {
     },
   });
   session = await session.json();
+  console.log(session)
   return session;
 }
 
@@ -202,18 +203,6 @@ function loadRoom(room) {
   document.location.href = `/room/${room}`;
 }
 
-async function handleRemoveAccount() {
-  let response = await fetch("/api/users/delete-account", {
-    method: "delete",
-  });
-
-  response = await response.json();
-
-  if (response) {
-    document.location.replace("/");
-  } else console.log(response);
-}
-
 function addActiveRoom() {
   let currentRoom = $(".room-title").text().replace("#", "").trim();
 
@@ -226,7 +215,7 @@ function addActiveRoom() {
     });
 }
 
-$("#remove-account").click(handleRemoveAccount);
+// 
 
 $("body").on("click", "#account-btn", function () {
   $("#settings-slide").removeClass("active");
