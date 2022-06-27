@@ -110,7 +110,7 @@ const userController = {
         });
       }
     } catch (error) {
-      res.status(400).json({ message: error });
+      res.status(400).json({ message: "password is not strong enough" });
     }
   },
 

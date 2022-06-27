@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { User } = require("../../models");
 
 const {
   getAllUsers,
@@ -12,9 +11,9 @@ const {
   deleteAccount,
 } = require("../../controllers/user-controllers");
 
-router.get("/session", getUsersSession);
-
 router.get("/", getAllUsers);
+
+router.get("/session", getUsersSession);
 
 router.get("/:id", getUserById);
 

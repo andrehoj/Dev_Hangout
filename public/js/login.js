@@ -17,14 +17,12 @@ async function handleSignUp(event) {
         passWord,
       }),
     });
-    console.log("called")
-    console.log(response);
+
     if (response.ok) {
       hideAllModals();
       document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
-      console.log(resErrorMessage);
       appendLoginErrorMessage(resErrorMessage);
     }
   }
@@ -38,9 +36,9 @@ function appendLoginErrorMessage(errorObject) {
 }
 
 function hideAllModals() {
-  $("#login-modal").hide();
-  $("#signup-modal").hide();
-  $(".error-message").hide();
+  $("#login-modal, #signup-modal, .error-message").each(function () {
+    $(this).hide();
+  });
 }
 
 $("#signup-instead-link").click(() => {

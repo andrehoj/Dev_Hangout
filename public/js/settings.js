@@ -16,15 +16,11 @@ async function getCurrentSession() {
       },
     });
     session = await session.json();
-    console.log(session);
     return session;
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) {}
 }
 
 function appendUsersData(session) {
-  console.log(session);
   $("#settings-user-name").val(session.username);
   $("#settings-pfp").attr("src", `${session.pfp}`);
   $("#edit-settings-pfp").attr("src", `${session.pfp}`);
@@ -33,6 +29,7 @@ function appendUsersData(session) {
 
 $("#edit-user-info").submit((e) => {
   e.preventDefault();
+
   let username = $("#settings-user-name").val();
   let gitHub = $("#github-account").val();
   let pfp = $("#settings-pfp").attr("src");
@@ -59,7 +56,6 @@ $("#edit-user-info").submit((e) => {
 
 $("#generate-pfp").click(function () {
   generateNewPfp().then((pfp) => {
-    console.log(pfp);
     $("#settings-pfp").attr("src", `${pfp}`);
   });
 });
@@ -86,6 +82,7 @@ function getRandomString(length) {
 
   return result;
 }
+
 $("#remove-account").click(handleRemoveAccount);
 
 async function handleRemoveAccount() {

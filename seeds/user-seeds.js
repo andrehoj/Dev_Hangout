@@ -2,7 +2,7 @@ const { User } = require("../models");
 
 const userdata = [
   {
-    username: "Andrew",
+    username: "andrew",
     password: "password",
     pfp: "https://robohash.org/Andrew",
     gitHub: "agenta12",
@@ -10,7 +10,7 @@ const userdata = [
     currentRoom: 1,
   },
   {
-    username: "David",
+    username: "david",
     password: "password",
     gitHub: "dav",
     pfp: "https://robohash.org/David",

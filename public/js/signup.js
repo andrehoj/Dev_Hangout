@@ -9,7 +9,6 @@ async function handleSignUp(event) {
 
   if (!gitHubUserName) gitHubUserName = null;
 
-  console.log(gitHubUserName);
   if (userName && passWord) {
     let response = await fetch("/api/users/signup", {
       method: "POST",
@@ -24,16 +23,21 @@ async function handleSignUp(event) {
     });
 
     if (response.ok) {
-      await hideAllModals();
+      hideAllModals();
       document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
       appendSignupErrorMessage(resErrorMessage);
     }
+  } else {
+    appendSignupErrorMessage({
+      message: "You must enter a username and password",
+    });
   }
 }
 
 function appendSignupErrorMessage(errorObject) {
+  console.log(errorObject);
   $(".error-message").remove();
   $("#signUpUserName").after(
     `<span class="error-message">${errorObject.message}</span>`
