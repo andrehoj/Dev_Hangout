@@ -25,6 +25,7 @@ function appendUsersData(session) {
   $("#settings-pfp").attr("src", `${session.pfp}`);
   $("#edit-settings-pfp").attr("src", `${session.pfp}`);
   $("#github-account").val(session.gitHub);
+  $("#currentFavTech").attr("src", session.favTech);
 }
 
 $("#edit-user-info").submit((e) => {
@@ -33,7 +34,8 @@ $("#edit-user-info").submit((e) => {
   let username = $("#settings-user-name").val();
   let gitHub = $("#github-account").val();
   let pfp = $("#settings-pfp").attr("src");
-
+  let favTech = $("#currentFavTech").attr("src");
+  
   getCurrentSession().then((session) => {
     fetch("/api/users/edit", {
       method: "post",
@@ -41,10 +43,11 @@ $("#edit-user-info").submit((e) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
         id: session.user_id,
+        username,
         pfp,
         gitHub,
+        favTech,
       }),
     }).then((res) => {
       if (res.ok) {
@@ -96,3 +99,9 @@ async function handleRemoveAccount() {
     document.location.replace("/");
   } else console.log(response);
 }
+
+//changes favorite tech
+$(".icon-choices").click(function () {
+  let currentIcon = $(this).attr("src");
+  $("#currentFavTech").attr("src", currentIcon);
+});

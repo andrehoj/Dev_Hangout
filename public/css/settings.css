@@ -128,7 +128,16 @@
   color: #98c379;
 }
 
-.icon-choose:hover {
+.fav-tech-dropdown {
+  width: 15rem;
+  height: 15rem;
+}
+
+.icon-choices {
+  padding: 0 !important;
+}
+
+.icon-choices:hover {
   cursor: pointer;
-  transform: scale(1);
+  filter: brightness(60%);
 }

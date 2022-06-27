@@ -30,7 +30,7 @@ User.init(
       allowNull: true,
     },
 
-    language: {
+    favTech: {
       type: DataTypes.STRING,
       allowNull: true,
     },

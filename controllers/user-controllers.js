@@ -53,11 +53,12 @@ const userController = {
       let plainUserData = dbUserData.get({ plain: true });
 
       await session.save(() => {
+        session.loggedIn = true;
         session.user_id = plainUserData.id;
         session.username = plainUserData.username;
-        session.loggedIn = true;
         session.pfp = plainUserData.pfp;
         session.gitHub = dbUserData.gitHub;
+        session.favTech = dbUserData.favTech;
 
         User.update(
           { isActive: true },
@@ -131,6 +132,7 @@ const userController = {
       session.username = body.username;
       session.pfp = body.pfp;
       session.gitHub = body.gitHub;
+      session.favTech = body.favTech;
 
       res.json(dbUserData);
     } catch (error) {
