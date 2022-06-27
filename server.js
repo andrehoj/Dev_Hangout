@@ -63,6 +63,6 @@ io.on("connection", (socket) => {
 
 sequelize.sync({ force: false }).then(() => {
   server.listen(PORT, () => {
-    console.log("listening on *:3001");
+    console.log("🚀 live on localhost:3001");
   });
 });

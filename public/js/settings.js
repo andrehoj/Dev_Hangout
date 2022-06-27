@@ -6,15 +6,21 @@ getCurrentSession().then((session) => {
   appendUsersData(session);
 });
 
+//session not calling
 async function getCurrentSession() {
-  let session = await fetch("/api/users/id", {
-    method: "get",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  session = await session.json();
-  return session;
+  try {
+    let session = await fetch("/api/users/session", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    session = await session.json();
+    console.log(session);
+    return session;
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function appendUsersData(session) {
@@ -93,4 +99,3 @@ async function handleRemoveAccount() {
     document.location.replace("/");
   } else console.log(response);
 }
-

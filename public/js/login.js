@@ -17,12 +17,14 @@ async function handleSignUp(event) {
         passWord,
       }),
     });
-    
+    console.log("called")
+    console.log(response);
     if (response.ok) {
       hideAllModals();
       document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
+      console.log(resErrorMessage);
       appendLoginErrorMessage(resErrorMessage);
     }
   }
@@ -45,5 +47,3 @@ $("#signup-instead-link").click(() => {
   $("#login-modal").hide();
   $("#signup-modal").show();
 });
-
- //NoteToSelf, document.location.replace will send a GET request to the specifed endpoint. This will render home with the req.session.loggedin passed to handlebars.

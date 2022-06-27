@@ -4,7 +4,7 @@ if (window.io) {
   console.log("io now exists");
 
   let room = document.location.pathname.replace("/room/", "");
-  
+
   if (room === "/") room = "general";
 
   var socket = io();
@@ -149,7 +149,6 @@ async function saveMessage(username, msg, userId, currentTime, room) {
 }
 
 async function getAllMessages(room) {
-  console.log(room);
   const response = await fetch(`/api/messages/${room}`, {
     method: "get",
     headers: {
@@ -158,31 +157,31 @@ async function getAllMessages(room) {
   });
 
   const recentMessagesData = await response.json();
-
+  console.log(recentMessagesData);
   return recentMessagesData;
 }
 
 function appendMessages(messages) {
   $("#messages").empty();
-  messages.forEach((Message) => {
+  messages.forEach((message) => {
     $("#messages").append(`<li>
-    <img src='${Message.pfp}' class='profile-image'></img>
-    <span><strong>${Message.userName}</strong>: ${Message.message}</span>
-    <span class="message-date" id="message-time">     ${Message.timeOfMsg}</span>
+    <img src='${message.user.pfp}' class='profile-image'></img>
+    <span><strong>${message.user.username}</strong>: ${message.message}</span>
+    <span class="message-date" id="message-time">     ${message.timeOfMessage}</span>
     </li>`);
     $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
 }
 
 async function getCurrentSession() {
-  let session = await fetch("/api/users/id", {
+  let session = await fetch("/api/users/session", {
     method: "get",
     headers: {
       "Content-Type": "application/json",
     },
   });
   session = await session.json();
-  console.log(session)
+
   return session;
 }
 
@@ -215,7 +214,7 @@ function addActiveRoom() {
     });
 }
 
-// 
+//
 
 $("body").on("click", "#account-btn", function () {
   $("#settings-slide").removeClass("active");

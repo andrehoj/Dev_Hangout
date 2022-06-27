@@ -1,19 +1,12 @@
-function filterMsgData(msgData) {
-  let msgObjAry = [];
+const fetch = require("node-fetch");
 
-  JSON.parse(msgData).forEach((msg) => {
-    let msgObj = {};
-
-    msgObj.message = msg.message;
-    msgObj.timeOfMsg = msg.timeOfMessage;
-    msgObj.userId = msg.userId;
-    msgObj.room = msg.room;
-    msgObj.userName = msg.user.username;
-    msgObj.pfp = msg.user.pfp;
-
-    msgObjAry.push(msgObj);
-  });
-  return msgObjAry;
+async function getRandomPfp(username) {
+  try {
+    let response = await fetch(`https://robohash.org/${username}`);
+    return response.url;
+  } catch (error) {
+    return error;
+  }
 }
 
-module.exports = { filterMsgData };
+module.exports = { getRandomPfp };
