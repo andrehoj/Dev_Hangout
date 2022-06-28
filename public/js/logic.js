@@ -113,7 +113,7 @@ function listAllUsers(usersData) {
       }
 
       $("#user-list").append(
-        `<li data-user-id-${user.id} class="user-list-item" >
+        `<li data-user-id="${user.id}" class="user-list-item" >
         <img class='active-list-pfp' src='${user.pfp}'></img>
         <span>${user.username} <span class="${checkIfActive(
           user.isActive
@@ -213,8 +213,6 @@ function addActiveRoom() {
       } else $(this).removeClass("active-room");
     });
 }
-
-//
 
 $("body").on("click", "#account-btn", function () {
   $("#settings-slide").removeClass("active");

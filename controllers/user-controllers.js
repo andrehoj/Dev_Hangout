@@ -29,6 +29,21 @@ const userController = {
     }
   },
 
+  //single user query
+  async getUserById({ params }, res) {
+    try {
+      let userData = await User.findByPk(params.id, {
+        attributes: { exclude: ["password"] },
+      });
+
+      userData.get({ plain: true });
+
+      res.json(userData);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  },
+
   //log's a user in
   async logUserIn({ body, session }, res) {
     try {
@@ -87,29 +102,31 @@ const userController = {
         },
       });
 
-      if (dbUserData === null) {
-        let pfp = await getRandomPfp(body.userName);
-
-        let newUser = await User.create({
-          username: body.userName,
-          password: body.passWord,
-          gitHub: body.gitHubUserName,
-          isActive: true,
-          pfp: pfp,
-        });
-
-        session.save(() => {
-          session.user_id = newUser.id;
-          session.username = newUser.username;
-          session.loggedIn = true;
-          session.pfp = newUser.pfp;
-          session.gitHub = newUser.gitHub;
-
-          let payLoad = [dbUserData, session];
-
-          res.json(payLoad);
-        });
+      if (dbUserData) {
+        res.json({ message: "Username is taken" });
       }
+
+      let pfp = await getRandomPfp(body.userName);
+
+      let newUser = await User.create({
+        username: body.userName,
+        password: body.passWord,
+        gitHub: body.gitHubUserName,
+        isActive: true,
+        pfp: pfp,
+      });
+
+      session.save(() => {
+        session.user_id = newUser.id;
+        session.username = newUser.username;
+        session.loggedIn = true;
+        session.pfp = newUser.pfp;
+        session.gitHub = newUser.gitHub;
+
+        let payLoad = [dbUserData, session];
+
+        res.json(payLoad);
+      });
     } catch (error) {
       res.status(400).json({ message: "password is not strong enough" });
     }

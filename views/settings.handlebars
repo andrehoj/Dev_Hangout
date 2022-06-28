@@ -43,16 +43,15 @@
             <div class="form-group mb-2">
               <label for="settings-pfp">Profile picture</label>
               <img src="" class="edit-account-img" id="settings-pfp" />
-              <div class="edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border" id="generate-pfp">
+              <div class="t edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border"
+                id="generate-pfp">
                 GenerateNewPfp
               </div>
             </div>
             <div class="btn-group mt-2 mb-2 d-block">
               <button type="button" class="btn fav-tech-btn dropdown-toggle d-block" data-bs-toggle="dropdown"
                 aria-expanded="false">
-
                 <img height="25px" id="currentFavTech" />
-
                 FavoriteTech
               </button>
               <ul class="dropdown-menu fav-tech-dropdown">
@@ -100,7 +99,17 @@
                     class="col-3 icon-choices" height="25px" alt="" />
 
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg"
-                    /class="col-3 icon-choices" height="25px" alt="">
+                    class="col-3 icon-choices" height="25px" alt="" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
+                    class="col-4 icon-choices" height="25px" alt="" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg"
+                    class="col-4 icon-choices" height="25px" alt="" />
+
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
+                    class="col-4 icon-choices" height="25px" alt="" />
 
                 </div>
               </ul>
@@ -110,11 +119,8 @@
             <label for="remove-account">DELETE ACCOUNT</label>
             <button class="btn btn-danger d-block mt-2" id="remove-account" data-toggle="modal"
               data-target="#removeAccountModal">Remove account</button>
-
         </div>
         </form>
-
-
       </div>
       {{! }}
       <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"

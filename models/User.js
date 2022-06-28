@@ -17,7 +17,7 @@ User.init(
     },
 
     username: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(15),
       allowNull: false,
     },
     pfp: {
@@ -42,10 +42,12 @@ User.init(
         len: [5],
       },
     },
+
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    
     currentRoom: {
       type: DataTypes.INTEGER,
       defaultValue: null,

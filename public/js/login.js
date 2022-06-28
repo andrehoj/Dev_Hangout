@@ -17,7 +17,7 @@ async function handleSignUp(event) {
         passWord,
       }),
     });
-
+    console.log(response);
     if (response.ok) {
       hideAllModals();
       document.location.replace("/room/general");

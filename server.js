@@ -51,7 +51,6 @@ io.on("connection", (socket) => {
     socket.join(room);
 
     socket.on("chat message", ({ msg, username, userId, pfp }) => {
-    
       io.to(room).emit("chat message", { msg, username, userId, pfp });
     });
 
@@ -59,6 +58,11 @@ io.on("connection", (socket) => {
       io.emit("user disconnect");
     });
   });
+
+
+  //socket.to(socketId).emit()
+
+
 });
 
 sequelize.sync({ force: false }).then(() => {

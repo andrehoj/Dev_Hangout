@@ -47,7 +47,7 @@ header {
   padding: 7px 0px;
   margin-bottom: 30px;
   position: relative;
-  z-index: 99;
+  z-index: 2;
   border-bottom: 1px solid var(--main-border-color);
 }
 
@@ -244,7 +244,7 @@ header span:hover {
   position: absolute;
   right: 0px;
   top: 0px;
-  z-index: 9;
+  z-index: 1;
   overflow: hidden;
   pointer-events: none;
 }
