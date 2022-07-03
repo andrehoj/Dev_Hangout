@@ -10,6 +10,7 @@
   --main-highlight-color: #1f6feb;
   --main-border-color: #30363d;
   --main-title-color: #98c379;
+  --null-color: #d19a66;
 }
 /* CSS Variables End */
 
@@ -471,3 +472,7 @@ header span:hover {
   color: #98c379;
 }
 
+.dm-list {
+  margin: 0;
+  padding: 0;
+}

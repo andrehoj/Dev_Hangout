@@ -104,7 +104,7 @@ function displayCurrentUser(session) {
 }
 
 function listAllUsers(usersData) {
-  $("#user-list").children().remove();
+  $("#user-list").empty();
 
   getCurrentSession().then((session) => {
     usersData.forEach((user) => {
@@ -121,6 +121,15 @@ function listAllUsers(usersData) {
       );
     });
   });
+
+  console.log($("#user-list").length < 1);
+
+  if ($("#user-list").length < 1) {
+    let noUsers = $(
+      "<p class='m-0 text-center'>Your the only one! So lonely...</p>"
+    );
+    $("#user-list").append(noUsers);
+  }
 }
 
 function checkIfActive(isActive) {
