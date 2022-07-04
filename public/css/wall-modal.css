@@ -1,0 +1,78 @@
+/* modal container start */
+.modal-container {
+  display: flex;
+}
+
+.wall-modal {
+  height: fit-content;
+  max-width: calc(25rem + 1vw);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--main-border-color);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  transition: all 0.5s;
+}
+
+.wall-modal:hover {
+  box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
+  transform: scale(1.1);
+  background-color: var(--main-second-bg-color);
+}
+
+/* modal container end */
+
+/* modal content start */
+.main-title {
+  color: var(--main-title-color);
+  white-space: nowrap;
+}
+
+.form-styles input {
+  background-color: var(--main-bg-color);
+  border: 1px var(--main-text-color) solid;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  outline: none;
+  color: var(--main-text-color);
+  transition: all 0.5s;
+}
+
+.form-styles input:focus {
+  border: 1px solid var(--bs-link-color);
+}
+
+.wall-modal:hover input {
+  background-color: var(--main-second-bg-color);
+}
+
+.wall-modal-btn {
+  color: var(--main-text-color);
+  width: 81px;
+  border: var(--main-text-color) 1px solid;
+  transition: all 0.3s ease-in-out;
+}
+
+.wall-modal-btn:hover {
+  color: var(--bs-link-color);
+  border: var(--bs-link-color) 1px solid;
+  transform: translateY(1px);
+}
+
+@media only screen and (max-width: 420px) {
+  .wall-modal:hover {
+    transform: none !important;
+  }
+}
+
+.modal-switch {
+  color: var(--main-text-color);
+  display: inline-block;
+}
+.modal-switch:hover {
+  color: var(--main-highlight-color);
+  text-decoration: underline;
+}
+
+/* modal content end */

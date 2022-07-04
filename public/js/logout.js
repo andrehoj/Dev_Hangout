@@ -12,3 +12,4 @@ async function logout() {
 }
 
 $("#logout-link").click(logout);
+$("#logout-link-mobile").click(logout);

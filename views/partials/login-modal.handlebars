@@ -1,28 +1,18 @@
-<link rel="stylesheet" href="/css/modal.css" />
-<div class="modal" id="login-modal">
-  <div class="container d-flex justify-content-center">
-    <div class="content">
-      <h1 class="main-title">"Dev hangOut"</h1>
-      <h2>LOGIN</h2>
+<div id="login-modal"
+  class="position-fixed top-0 left-0 w-100 h-100 modal-container justify-content-center align-items-center">
+  <div class="container">
+    <div class="wall-modal d-flex flex-column justify-content-start align-items-center m-auto">
+      <h1 class="main-title fst-italic">"Dev hangOut"</h1>
+      <h4>LOGIN</h4>
 
-      <form action="" id="login-form" class="log-forms">
-        <input
-          type="text"
-          name="login-username"
-          id="loginUserName"
-          autocomplete="on"
-          placeholder="Username"
-        />
-        <input
-          type="password"
-          name="login-password"
-          id="loginPassword"
-          autocomplete="on"
-          placeholder="Password"
-        />
+      <form action="" id="login-form" class="form-styles d-flex flex-column align-items-center gap-3">
+        <input type="text" name="login-username" id="loginUserName" autocomplete="on" placeholder="userName" />
+        <input type="password" name="login-password" id="loginPassword" autocomplete="on" placeholder="passWord" />
 
-        <button class="signup-btn" id="login-button">Login</button>
-        <a href="#" id="signup-instead-link"><h6>Register</h6></a>
+        <button class="btn wall-modal-btn" id="login-button">Login</button>
+        <a href="#" id="register-instead-link">
+          <h6 class="modal-switch">Register</h6>
+        </a>
       </form>
     </div>
   </div>

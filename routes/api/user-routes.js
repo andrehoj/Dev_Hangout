@@ -19,7 +19,7 @@ router.get("/:id", getUserById);
 
 router.post("/login", logUserIn);
 
-router.post("/signup", registerUser);
+router.post("/register", registerUser);
 
 router.post("/edit", editUser);
 

@@ -1,6 +1,6 @@
-$("#login-form").submit(handleSignUp);
+$("#login-form").submit(handleRegister);
 
-async function handleSignUp(event) {
+async function handleRegister(event) {
   event.preventDefault();
 
   let userName = $("#loginUserName").val().trim();
@@ -25,23 +25,25 @@ async function handleSignUp(event) {
       let resErrorMessage = await response.json();
       appendLoginErrorMessage(resErrorMessage);
     }
-  }
+  } else appendLoginErrorMessage({
+    message: "You must enter your username and password",
+  });
 }
 
 function appendLoginErrorMessage(errorObject) {
   $(".error-message").remove();
-  $("#loginUserName").after(
+  $("#loginPassword").after(
     `<span class="error-message">${errorObject.message}</span>`
   );
 }
 
 function hideAllModals() {
-  $("#login-modal, #signup-modal, .error-message").each(function () {
+  $("#login-modal, #register-modal, .error-message").each(function () {
     $(this).hide();
   });
 }
 
-$("#signup-instead-link").click(() => {
+$("#register-instead-link").click(function ()  {
   $("#login-modal").hide();
-  $("#signup-modal").show();
+  $("#register-modal").show();
 });

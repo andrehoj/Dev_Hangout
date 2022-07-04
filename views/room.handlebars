@@ -1,38 +1,94 @@
+{{!--  NOT LOGGED IN BLUR THE BODY AND SHOW MODALS --}}
 {{#if loggedIn}}
   <div class="modal-blur ">
 {{else}}
   <div class="modal-blur blur ">
 {{/if}}
-<header>
+
+{{!-- HEADER --}}
+<header class="main-header">
   <div class="container">
     <section class="row">
-      <div class="col-md-6 col-9 d-flex align-items-center">
+      <div class="col-md-6 col-9 d-flex ">
 
         <h1 class="main-logo">"Dev HangOut"</h1>
 
       </div>
-      <div class="col-md-6 col-3 d-flex align-items-center justify-content-end gap-4">
+      <nav class=" col-md-6 col-3 d-flex align-items-center justify-content-end gap-5 ">
 
-        <button id="account-btn" class="hamburger">
+        <button id="account-btn" class="hamburger-menu" aria-label="menu">
           <div class="bar"></div>
         </button>
-        <div class="dropdown">
-          <img src="/images/icons8-settings-64.png" alt="settings" class="settings" height="46">
-          <div class="dropdown-content">
-            <a href="/settings" id="settings-link">Settings</a>
 
-            <a href="#" id="logout-link">Logout</a>
+        <div class="dropdown-center">
+          <ul class="dropdown-menu p-0" aria-labelledby="dropdownCenterBtn">
+            <a class="dropdown-item p-2" href="/settings" id="settings-link">Settings</a>
+            <a class="dropdown-item p-2" id="logout-link">Log out</a>
 
+          </ul>
+          <div class=" dropdown-toggle settings" type="button" id="dropdownCenterBtn" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fa fa-lg fa-gears" aria-label="Settings"></i>
           </div>
-        </div>
 
-      </div>
+        </div>
+      </nav>
     </section>
   </div>
 </header>
+{{!-- HEADER END --}}
+
+{{!-- CHAT  --}}
+<main class="chat-container container " id="main-chat">
+  <h2 class="room-title " id="room-name"># {{roomName}}</h2>
+  <ul class="chat-list-container" id="messages"></ul>
+  <section class="row justify-content-center">
+    <div class="col-md-10">
+      <form id="chat-form" class="chat-form">
+        <input id="chat-input" class="chat-form-input" placeholder="Send a message..."></input>
+        <button class="chat-form-btn">Send <i class="fa fa-caret-right " aria-hidden="true"></i></button>
+      </form>
+    </div>
+  </section>
+</main>
+{{!-- CHAT END --}}
+
+{{!-- ACCOUNT MENU  --}}
+<aside class="account-slideout" id="explore-slide">
+  <div class="slideout">
+    <div class="container h-100">
+      <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
+        <img src='' class='account-pfp' id="current-user-pfp"><img />
+        <h2 id="slideout-username" class="slideout-current-username"></h2>
+        <div class="mobile-settings d-flex flex-column align-items-center ms-3">
+          <a href="/settings">Settings</a>
+          <a href="#" id="logout-link-mobile">Logout</a>
+        </div>
+      </div>
+      <h3 class="accordion-heading">Users</h3>
+      <div class="list-container">
+        <ul id="user-list" class="items-list text-right"></ul>
+      </div>
+      <h3 class="accordion-heading">Rooms</h3>
+      <div class="list-container">
+        <ul id="room-list" class="items-list">
+          <li>General</li>
+          <li>Front-End</li>
+          <li>Back-End</li>
+          <li>Dev-Advice</li>
+        </ul>
+      </div>
+      <h3 class="accordion-heading">DM's</h3>
+      <div class="list-container">
+        <ul class="dm-list" id="direct-msg-list"> </ul>
+      </div>
+    </div>
+  </div>
+</aside>
+{{!-- ACCOUNT MENU END --}}
 
 
-<!-- Modal content -->
+{{!--  USER INFO MODAL --}}
 <div class="modal-content" id="userInfoModal">
   <div class="container">
     <div class="row">
@@ -57,73 +113,28 @@
 
         </div>
       </div>
-
       <div class="co12 mt-3">
         <input type="text" id="message-user-input" class="dm-input" placeholder="message @Andrew Howran">
       </div>
     </div>
   </div>
 </div>
+{{!--  USER INFO MODAL END  --}}
 
-
-
-<div class="account-slideout" id="explore-slide">
-
-  <div class="slideout">
-
-    <div class="container h-100">
-      <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
-        <img src='' class='account-pfp' id="current-user-pfp"><img />
-        <h2 id="slideout-username" class="slideout-current-username"></h2>
-
-      </div>
-
-      <h3 class="accordion-heading">Users</h3>
-      <div class="list-container">
-        <ul id="user-list" class="items-list text-right"></ul>
-      </div>
-      <h3 class="accordion-heading">Rooms</h3>
-      <div class="list-container">
-        <ul id="room-list" class="items-list">
-          <li>General</li>
-          <li>Front-End</li>
-          <li>Back-End</li>
-          <li>Dev-Advice</li>
-        </ul>
-      </div>
-      <h3 class="accordion-heading">DirectMessages</h3>
-      <div class="list-container">
-        <ul class="dm-list" id="direct-msg-list">
-
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-<main class="chat-container container " id="main-chat">
-  <h2 class="room-title" id="room-name"> <span style="color: #949494;"># </span>{{roomName}}</h2>
-  <ul id="messages"></ul>
-  <section class="row justify-content-center">
-    <div class="col-md-10">
-      <form id="chat-form">
-        <input id="chat-input" placeholder="Send a message..."></input>
-        <button>Send <i class="fa fa-caret-right" aria-hidden="true"></i></button>
-      </form>
-    </div>
-  </section>
-</main>
+{{!-- BLUR MODAL END --}}
 </div>
 
+{{!--  NOT LOGGED IN SHOW THE LOGIN/REGISTER MODALS --}}
 {{#unless loggedIn}}
   {{> login-modal}}
-  {{> signup-modal}}
+  {{> register-modal}}
 
-  <script src="/js/signup.js"></script>
+  <script src="/js/register.js"></script>
   <script src="/js/login.js"></script>
 {{/unless}}
 
 {{#if loggedIn}}
-  <!-- script tag must be included in html to have access to the socket method -->
+  {{!-- script tag must be included in html to have access to the socket method --}}
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/logout.js"></script>
   <script src="/js/user-info-modal.js"></script>

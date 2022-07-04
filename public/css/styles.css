@@ -1,8 +1,5 @@
-/* Fonts start */
 @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap");
-/* Fonts end */
 
-/* CSS Variables Start */
 :root {
   --main-bg-color: #0d1117;
   --main-second-bg-color: #161b22;
@@ -11,38 +8,31 @@
   --main-border-color: #30363d;
   --main-title-color: #98c379;
   --null-color: #d19a66;
+  --font-stack: "Source Code Pro", "Helvetica";
 }
-/* CSS Variables End */
 
-/* Global classes styling start */
-body {
+/* nts: does bootstrap reset? */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* fixes padding issues with header on mobile devices */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
   background-color: var(--main-bg-color);
-  font-family: "Source Code Pro";
-  /* display: flex;
-  align-items: center; */
+  font-family: var(--font-stack);
 }
 
-a {
-  color: var(--main-text-color);
-  display: inline-block;
-}
-a:hover {
-  color: var(--main-highlight-color);
-}
-/* Global classes styling end */
-
-/* Header styling start */
-.main-logo {
-  font-style: italic;
-  color: #98c379;
-}
-
-.settings:hover {
-  cursor: pointer;
-}
-
-header {
+/* HEADER STYLES */
+.main-header {
   background-color: var(--main-second-bg-color);
   color: var(--main-text-color);
   padding: 7px 0px;
@@ -52,95 +42,131 @@ header {
   border-bottom: 1px solid var(--main-border-color);
 }
 
-header h1 {
-  font-weight: 300;
+.main-logo {
+  color: #98c379;
+  white-space: nowrap;
 }
 
-header a {
-  text-decoration: none;
+.settings {
+  transition: all 0.3s;
 }
 
-header a:hover {
-  color: var(--main-text-color);
-}
-
-header span {
-  font-size: 36px;
+.settings:hover {
+  color: var(--main-highlight-color);
   cursor: pointer;
 }
-header span:hover {
-  transform: scale(1.1);
+
+.dropdown-menu {
+  background-color: var(--main-border-color);
 }
 
-.log-in {
-  margin-left: 12px;
-}
-
-.log-in:hover {
+/* on hover of the drop down, keep the settings highlighted */
+.dropdown-menu:hover + .settings {
   color: var(--main-highlight-color);
 }
 
-/* Mobile styling start */
-@media only screen and (max-width: 600px) {
-  header h1 {
-    font-size: 24px;
+.dropdown-item {
+  color: var(--main-text-color);
+  border-radius: 5px;
+}
+
+.dropdown-item:hover {
+  cursor: pointer;
+  background-color: var(--main-title-color);
+  color: var(--main-text-color);
+}
+
+@media only screen and (min-width: 401px) {
+  .mobile-settings a {
+    display: none;
   }
 }
-/* Mobile styling end */
 
-/* settings dropdown start */
-
-.dropdown {
-  position: relative;
-  display: inline-block;
+@media only screen and (max-width: 400px) {
+  .dropdown-center {
+    display: none;
+  }
 }
 
-.dropdown-content {
-  visibility: hidden;
-  opacity: 0;
-  top: 30;
-  position: absolute;
-  background-color: var(--main-border-color);
-  color: var(--main-text-color);
-  min-width: 120px;
-  border: var(--main-title-color) 1px solid;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  transition: all 0.3s ease-in-out;
-}
+/* HEADER STYLES END */
 
-.dropdown-content a {
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: var(--main-title-color);
-}
-
-.dropdown:hover .dropdown-content {
-  visibility: visible;
-  opacity: 1;
-  top: 50px;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: #3e8e41;
-}
-
-/* settings dropdown end */
-
-/* Header styling end */
-
+/* CHAT STYLES */
 .room-title {
   font-family: monospace;
-  color: #fff;
+  color: var(--null-color);
   margin-left: 1.8rem;
 }
 
-/* Chat styling start */
-/* Scroll bar styling start */
+.chat-container .profile-image {
+  width: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.chat-list-container {
+  height: 500px;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  overflow-y: auto;
+  border-radius: 6px;
+  color: var(--main-text-color);
+  border: 1px solid var(--main-border-color);
+  background-color: var(--main-bg-color);
+}
+
+.chat-list-container li {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.chat-form {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+}
+.chat-form-input {
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  width: 70%;
+  background: #fff;
+  font-size: 16px;
+}
+.chat-form-input:focus {
+  outline: none;
+}
+.chat-form-input::placeholder {
+  color: #8b949e;
+}
+
+.chat-form-btn {
+  white-space: nowrap;
+  background: #238636;
+  border: none;
+  margin-left: 7px;
+  border-radius: 6px;
+  outline: none;
+  color: #fff;
+  padding: 5px 16px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.chat-form-btn:hover {
+  filter: brightness(80%);
+}
+
+@media only screen and (max-width: 767px) {
+  .chat-container ul {
+    height: 420px;
+  }
+}
+
+/* Scroll bar styling */
 .chat-container ul::-webkit-scrollbar {
   width: 12px;
 }
@@ -162,83 +188,9 @@ header span:hover {
 .chat-container ul::-webkit-scrollbar-thumb:hover {
   background: var(--main-highlight-color);
 }
-/* Scroll bar styling end */
+/* Chat styles end */
 
-.chat-container .profile-image {
-  width: 24px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.chat-container ul {
-  background-color: var(--main-bg-color);
-  height: 500px;
-  width: 100%;
-  border-radius: 6px;
-  overflow-y: auto;
-  list-style-type: none;
-  margin: 0px;
-  color: var(--main-text-color);
-  padding: 0px;
-  border: 1px solid var(--main-border-color);
-}
-.chat-container li {
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid var(--main-border-color);
-}
-
-.chat-container li:hover {
-  background-color: var(--main-second-bg-color);
-}
-.chat-container form {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1em;
-}
-.chat-container input {
-  border: none;
-  padding: 4px 10px;
-  border-radius: 6px;
-  width: 70%;
-  background: #fff;
-  font-size: 16px;
-}
-.chat-container input:focus {
-  outline: none;
-}
-.chat-container input::placeholder {
-  color: #8b949e;
-}
-.chat-container button {
-  background: #238636;
-  border: none;
-  margin-left: 7px;
-  border-radius: 6px;
-  outline: none;
-  color: #fff;
-  padding: 5px 16px;
-  font-size: 16px;
-  font-weight: 500;
-}
-.chat-container button i {
-  font-size: 15px;
-}
-.chat-container button:hover {
-  background: #2ea043;
-}
-
-/* Mobile styling start */
-@media only screen and (max-width: 767px) {
-  .chat-container ul {
-    height: 420px;
-  }
-}
-/* Mobile styling end */
-/* Chat styling end */
-
-/* Account slideout styling start */
+/* Account slideout styles */
 .account-slideout {
   height: 100vh;
   width: 400px;
@@ -411,11 +363,11 @@ header span:hover {
   font-size: 0.9rem;
 }
 
-/* Menu hamburger styling start */
-.hamburger {
+/* Menu hamburger-menu styling start */
+.hamburger-menu {
   position: relative;
   display: block !important;
-  width: 42px;
+  min-width: 35px;
   cursor: pointer;
   appearance: none;
   background: none;
@@ -423,9 +375,9 @@ header span:hover {
   border: none;
 }
 
-.hamburger .bar,
-.hamburger:after,
-.hamburger:before {
+.hamburger-menu .bar,
+.hamburger-menu:after,
+.hamburger-menu:before {
   content: "";
   display: block;
   width: 100%;
@@ -437,19 +389,19 @@ header span:hover {
   border-radius: 20px;
 }
 
-.hamburger.is-active:before {
+.hamburger-menu.is-active:before {
   transform: rotate(-45deg) translate(-8px, 6px);
 }
 
-.hamburger.is-active:after {
+.hamburger-menu.is-active:after {
   transform: rotate(45deg) translate(-8px, -6px);
 }
 
-.hamburger.is-active .bar {
+.hamburger-menu.is-active .bar {
   opacity: 0;
 }
 
-/* Menu hamburger styling end */
+/* Menu hamburger-menu styling end */
 
 .error-message {
   color: red;

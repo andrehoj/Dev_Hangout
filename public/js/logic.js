@@ -226,7 +226,7 @@ function addActiveRoom() {
 $("body").on("click", "#account-btn", function () {
   $("#settings-slide").removeClass("active");
   $("#explore-slide").toggleClass("active");
-  $(".hamburger").toggleClass("is-active");
+  $(".hamburger-menu").toggleClass("is-active");
 });
 
 $("body").on("click", ".accordion-heading", function () {

@@ -1,16 +1,16 @@
-$("#signup-form").submit(handleSignUp);
+$("#register-form").submit(handleregister);
 
-async function handleSignUp(event) {
+async function handleregister(event) {
   event.preventDefault();
 
-  let userName = $("#signUpUserName").val().trim();
-  let passWord = $("#signUpPassword").val().trim();
+  let userName = $("#registerUserName").val().trim();
+  let passWord = $("#registerPassword").val().trim();
   let gitHubUserName = $("#gitHubUserName").val().trim();
 
   if (!gitHubUserName) gitHubUserName = null;
 
   if (userName && passWord) {
-    let response = await fetch("/api/users/signup", {
+    let response = await fetch("/api/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,24 +27,29 @@ async function handleSignUp(event) {
       document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
-      appendSignupErrorMessage(resErrorMessage);
+      appendregisterErrorMessage(resErrorMessage);
     }
   } else {
-    appendSignupErrorMessage({
+    appendregisterErrorMessage({
       message: "You must enter a username and password",
     });
   }
 }
 
-function appendSignupErrorMessage(errorObject) {
+function appendregisterErrorMessage(errorObject) {
   console.log(errorObject);
   $(".error-message").remove();
-  $("#signUpUserName").after(
+  $("#gitHubUserName").after(
     `<span class="error-message">${errorObject.message}</span>`
   );
 }
 
-$("#login-instead-link").click(() => {
-  $("#signup-modal").hide();
+$("#registerPassword").focus(function () {
+  $(this).val("");
+});
+
+$("#login-instead-link").click(function () {
+  console.log("Clicked");
+  $("#register-modal").hide();
   $("#login-modal").show();
 });
