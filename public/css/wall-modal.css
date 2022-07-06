@@ -60,12 +60,6 @@
   transform: translateY(1px);
 }
 
-@media only screen and (max-width: 420px) {
-  .wall-modal:hover {
-    transform: none !important;
-  }
-}
-
 .modal-switch {
   color: var(--main-text-color);
   display: inline-block;
@@ -73,6 +67,19 @@
 .modal-switch:hover {
   color: var(--main-highlight-color);
   text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  border-top: solid 1px red;
+  margin: 10px 0;
+  text-align: center;
+}
+
+@media only screen and (max-width: 420px) {
+  .wall-modal:hover {
+    transform: none !important;
+  }
 }
 
 /* modal content end */

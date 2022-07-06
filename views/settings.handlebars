@@ -1,203 +1,206 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
 
-<div class="d-flex h-100 w-100 justify-content-center align-items-center">
-  <div class="settings-container settings-bg">
-    <div class="d-flex justify-content-center mt-3 mb-3">
 
-      <i class="fas fa-lg fa-arrow-left back-arrow align-self-center" id="settings-go-back"></i>
+<div class="settings-container settings-bg">
+  <div class="d-flex justify-content-center mt-3 mb-3">
 
-      <h2 class="flex-grow-1 text-center settings-title">Settings(
-        <p class="settings-variable">myInfo</p>
-        ){
-      </h2>
+    <i class="fas fa-lg fa-arrow-left back-arrow align-self-center" id="settings-go-back"></i>
 
-    </div>
-    <div class="container justify-content-center align-items-center" id="accordion">
+    <h2 class="flex-grow-1 text-center settings-title">Settings(
+      <p class="settings-variable">myInfo</p>
+      ){
+    </h2>
 
-      {{! }}
-
-      <div class="row settings-section align-items-center pb-2" data-bs-toggle="collapse" href="#collapseAccount"
-        role="button" aria-expanded="false" aria-controls="collapseExample">
-        <div class="col-10 d-flex align-items-center me-2">
-          <i class="fa fa-user"></i>
-          <p class="m-0 settings-option ms-3">Account</p>
-        </div>
-
-        <div class="col arrow"></div>
-
-      </div>
-      {{! }}
-      <div class="collapse row align-items-center settings-section mb-2" id="collapseAccount" data-parent="#accordion">
-        <div class="d-flex">
-          <form id="edit-user-info">
-            <div class="form-group">
-              <label for="settings-user-name">UserName</label>
-              <input type="text" class="form-control mt-2" id="settings-user-name" aria-describedby="username"
-                autocomplete="" />
-            </div>
-
-            <label for="github-account" class="d-block mb-2 mt-2">Github Username</label>
-            <input type="text" class="form-control mb-2" id="github-account" aria-describedby="username"
-              autocomplete="" />
-
-            <div class="form-group mb-2">
-              <label for="settings-pfp">Profile picture</label>
-              <img src="" class="edit-account-img" id="settings-pfp" />
-              <div class="t edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border"
-                id="generate-pfp">
-                GenerateNewPfp
-              </div>
-            </div>
-            <div class="btn-group mt-2 mb-2 d-block">
-              <button type="button" class="btn fav-tech-btn dropdown-toggle d-block" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <img height="25px" id="currentFavTech" />
-                FavoriteTech
-              </button>
-              <ul class="dropdown-menu fav-tech-dropdown">
-                <div class="row h-100 m-2">
-                  <img class="col-3 icon-choices"
-                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" height="25px"
-                    alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" /><img
-                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" /><img
-                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sequelize/sequelize-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg"
-                    class="col-3 icon-choices" height="25px" alt="" />
-
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
-                    class="col-4 icon-choices" height="25px" alt="" />
-
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg"
-                    class="col-4 icon-choices" height="25px" alt="" />
-
-
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
-                    class="col-4 icon-choices" height="25px" alt="" />
-
-                </div>
-              </ul>
-            </div>
-            <button type="submit" class="btn bg-string mt-3">Save Info</button>
-            <hr>
-            <label for="remove-account">DELETE ACCOUNT</label>
-            <button class="btn btn-danger d-block mt-2" id="remove-account" data-toggle="modal"
-              data-target="#removeAccountModal">Remove account</button>
-        </div>
-        </form>
-      </div>
-      {{! }}
-      <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
-        href="#collapseAppearance" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <div class="col-10 d-flex align-items-center me-2">
-          <i class="fa fa-eye" aria-hidden="true"></i>
-          <p class="m-0 settings-option ms-3">Appearance</p>
-        </div>
-
-        <div class="col arrow"></div>
-
-      </div>
-
-      {{! }}
-      <div class="collapse row align-items-center settings-section mb-2" id="collapseAppearance"
-        data-parent="#accordion">
-        <div class="row text-center mt-3">
-          <div class="col">
-            <i class="fa fa-2xl fa-sun d-block mb-1"></i>
-            lightTheme
-          </div>
-          <div class="col active-theme">
-            <i class="fa-xl fa fa-moon d-block mb-1"></i>
-            nightTheme
-          </div>
-
-        </div>
-      </div>
-      {{! }}
-
-      <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
-        href="#collapseNotifications" role="button" aria-expanded="false" aria-controls="collapse">
-        <div class="col-10 d-flex align-items-center me-2">
-          <i class="fa fa-comments" aria-hidden="true"></i>
-          <p class="m-0 settings-option ms-3">Notifications</p>
-        </div>
-
-        <div class="col arrow"></div>
-        <div class="collapse row" id="collapseNotifications" data-parent="#accordion">
-          <div class="text-center mt-3">
-            Coming Soon!
-          </div>
-        </div>
-      </div>
-
-      <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
-        href="#collapsePrivacySecurity" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <div class="col-10 d-flex align-items-center me-2">
-          <i class="fa fa-lock"></i>
-          <p class="m-0 settings-option ms-3">Privacy & Security</p>
-        </div>
-
-        <div class="col arrow"></div>
-        <div class="collapse row" id="collapsePrivacySecurity" data-parent="#accordion">
-          <div class="text-center mt-3">
-            Coming Soon!
-          </div>
-        </div>
-      </div>
-      <div class="row settings-section align-items-center border-bottom border-top border-light pb-2 pt-2"
-        data-bs-toggle="collapse" href="#collapseAbout" role="button" aria-expanded="false"
-        aria-controls="collapseExample">
-        <div class="col-10 d-flex align-items-center me-2">
-          <i class="fa fa-question"></i>
-          <p class="m-0 settings-option ms-3">About</p>
-        </div>
-
-        <div class="col arrow"></div>
-        <div class="collapse row" id="collapseAbout" data-parent="#accordion">
-          <div class="text-center mt-3">
-            Coming Soon!
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bracket mb-2">}</div>
   </div>
+  <div class="container justify-content-center align-items-center" id="accordion">
+
+
+
+    <div class="row settings-section align-items-center pb-2" data-bs-toggle="collapse" href="#collapseAccount"
+      role="button" aria-expanded="false" aria-controls="collapseExample">
+      <div class="col-10 d-flex align-items-center me-2">
+        <i class="fa fa-user"></i>
+        <p class="m-0 settings-option ms-3">Account</p>
+      </div>
+
+      <div class="col arrow"></div>
+
+    </div>
+
+    <div class="collapse row align-items-center settings-section mb-2" id="collapseAccount" data-parent="#accordion">
+      <div class="d-flex">
+        <form id="edit-user-info">
+          <div class="form-group">
+            <label for="settings-user-name">UserName</label>
+            <input type="text" class="form-control mt-2" id="settings-user-name" aria-describedby="username"
+              autocomplete="" />
+          </div>
+
+          <label for="github-account" class="d-block mb-2 mt-2">Github Username</label>
+          <input type="text" class="form-control mb-2" id="github-account" aria-describedby="username"
+            autocomplete="" />
+
+          <div class="form-group mb-2">
+            <label for="settings-pfp">Profile picture</label>
+            <img src="" class="edit-account-img" id="settings-pfp" />
+            <div class="t edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border" id="generate-pfp">
+              GenerateNewPfp
+            </div>
+          </div>
+          <div class="btn-group mt-2 mb-2 d-block">
+            <button type="button" class="btn fav-tech-btn dropdown-toggle d-block" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <img height="25px" id="currentFavTech" />
+              FavoriteLangauge
+            </button>
+            <ul class="dropdown-menu fav-tech-dropdown">
+              <div class="row h-100 m-2">
+
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                  class="col-3 icon-choices" />
+
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                  class="col-3 icon-choices" />
+
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                  class="col-3 icon-choices" />
+
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/objectivec/objectivec-plain.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg"
+                  class="col-3 icon-choices" />
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg"
+                  class="col-3 icon-choices" />
+
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scala/scala-original.svg"
+                  class="col-3 icon-choices" />
+
+
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg"
+                  class="col-3 icon-choices" />
+
+
+              </div>
+            </ul>
+          </div>
+          <button type="submit" class="btn bg-string mt-3">Save Info</button>
+          <hr>
+          <label for="remove-account">DELETE ACCOUNT</label>
+          <button class="btn btn-danger d-block mt-2" id="remove-account" data-toggle="modal"
+            data-target="#removeAccountModal">Remove account</button>
+      </div>
+      </form>
+    </div>
+    {{! }}
+    <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
+      href="#collapseAppearance" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <div class="col-10 d-flex align-items-center me-2">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+        <p class="m-0 settings-option ms-3">Appearance</p>
+      </div>
+
+      <div class="col arrow"></div>
+
+    </div>
+
+    {{! }}
+    <div class="collapse row align-items-center settings-section mb-2" id="collapseAppearance" data-parent="#accordion">
+      <div class="row text-center mt-3">
+        <div class="col">
+          <i class="fa fa-2xl fa-sun d-block mb-1"></i>
+          lightTheme
+        </div>
+        <div class="col active-theme">
+          <i class="fa-xl fa fa-moon d-block mb-1"></i>
+          nightTheme
+        </div>
+
+      </div>
+    </div>
+    {{! }}
+
+    <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
+      href="#collapseNotifications" role="button" aria-expanded="false" aria-controls="collapse">
+      <div class="col-10 d-flex align-items-center me-2">
+        <i class="fa fa-comments" aria-hidden="true"></i>
+        <p class="m-0 settings-option ms-3">Notifications</p>
+      </div>
+
+      <div class="col arrow"></div>
+      <div class="collapse row" id="collapseNotifications" data-parent="#accordion">
+        <div class="text-center mt-3">
+          Coming Soon!
+        </div>
+      </div>
+    </div>
+
+    <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
+      href="#collapsePrivacySecurity" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <div class="col-10 d-flex align-items-center me-2">
+        <i class="fa fa-lock"></i>
+        <p class="m-0 settings-option ms-3">Privacy & Security</p>
+      </div>
+
+      <div class="col arrow"></div>
+      <div class="collapse row" id="collapsePrivacySecurity" data-parent="#accordion">
+        <div class="text-center mt-3">
+          Coming Soon!
+        </div>
+      </div>
+    </div>
+
+    <div class="row settings-section align-items-center border-bottom border-top border-light pb-2 pt-2"
+      data-bs-toggle="collapse" href="#collapseAbout" role="button" aria-expanded="false"
+      aria-controls="collapseExample">
+      <div class="col-10 d-flex align-items-center me-2">
+        <i class="fa fa-question"></i>
+        <p class="m-0 settings-option ms-3">About</p>
+      </div>
+
+      <div class="col arrow"></div>
+      <div class="collapse row" id="collapseAbout" data-parent="#accordion">
+        <div class="text-center mt-3">
+          Coming Soon!
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bracket mb-2">}</div>
 </div>
+
 
 <script src="js/settings.js"></script>

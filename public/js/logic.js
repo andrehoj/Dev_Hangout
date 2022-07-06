@@ -224,7 +224,6 @@ function addActiveRoom() {
 }
 
 $("body").on("click", "#account-btn", function () {
-  $("#settings-slide").removeClass("active");
   $("#explore-slide").toggleClass("active");
   $(".hamburger-menu").toggleClass("is-active");
 });
@@ -236,6 +235,3 @@ $("body").on("click", ".accordion-heading", function () {
   $(this).addClass("active");
   $(this).next(".list-container").addClass("active");
 });
-
-//to do:
-//make a user constructor
