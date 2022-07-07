@@ -19,6 +19,13 @@ if (window.io) {
   getAllMessages(room).then((messages) => {
     appendMessages(messages);
   });
+
+  getCurrentSession().then((session) => {
+    getAllDms(session).then((dms) => {
+      appendDms(dms);
+    });
+  });
+
   addActiveRoom();
 
   getCurrentSession().then((session) => {
@@ -190,6 +197,7 @@ async function getCurrentSession() {
     },
   });
   session = await session.json();
+  console.log(session);
 
   return session;
 }
@@ -235,3 +243,42 @@ $("body").on("click", ".accordion-heading", function () {
   $(this).addClass("active");
   $(this).next(".list-container").addClass("active");
 });
+
+// Direct messages
+$("#direct-msg-form").submit(async function (e) {
+  e.preventDefault();
+
+  let directMsg = $("#direct-msg-input").val().trim();
+  let reciever = $("#modal-username").text().trim();
+
+  if (directMsg && reciever) {
+    let session = await getCurrentSession();
+    let recieverData = await getRecieverId(reciever);
+    let res = await saveDm(directMsg, recieverData, session);
+    if (res.ok) {
+      console.log(res);
+      $("#userInfoModal").hide();
+    }
+  } else {
+    //error message if something goes wrong
+  }
+});
+
+async function saveDm(...args) {
+  let response = await fetch("/api/dm/save-dm-message", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(args),
+  });
+  return response;
+}
+
+async function getRecieverId(username) {
+  let res = await fetch(`/api/users/user-id/${username}`, {
+    method: "get",
+  });
+  res = await res.json();
+  return res;
+}

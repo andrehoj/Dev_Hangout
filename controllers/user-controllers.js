@@ -7,6 +7,17 @@ const userController = {
     res.json(session);
   },
 
+  async getUserId({ params }, res) {
+    try {
+      let dbUserData = await User.findOne({
+        where: { username: params.username },
+      });
+      res.json(dbUserData);
+    } catch (error) {
+      res.json(error);
+    }
+  },
+
   //get all users
   async getAllUsers({ params, body, session }, res) {
     try {

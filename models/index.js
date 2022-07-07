@@ -1,6 +1,7 @@
 const User = require("./user");
 const Message = require("./message");
 const Room = require("./room");
+const Dm = require("./dm");
 
 Message.belongsTo(Room, {
   foreignKey: "roomId",
@@ -20,4 +21,10 @@ User.belongsTo(Room, {
   onUpdate: "CASCADE",
 });
 
-module.exports = { User, Message, Room };
+Dm.belongsTo(User, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+})
+
+module.exports = { User, Message, Room, Dm };

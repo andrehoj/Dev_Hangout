@@ -14,3 +14,8 @@ SELECT
     *
 FROM
     user;
+
+SELECT
+    *
+FROM
+    dm;
