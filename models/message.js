@@ -33,7 +33,6 @@ Message.init(
       },
     },
   },
-
   {
     sequelize,
     freezeTableName: true,
@@ -41,5 +40,5 @@ Message.init(
     modelName: "message",
   }
 );
-
+ 
 module.exports = Message;

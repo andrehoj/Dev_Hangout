@@ -12,7 +12,9 @@ const seedAll = async () => {
   await seedUsers();
 
   await seedDms();
+
   console.log("all data seeded!");
+  
   process.exit(0);
 };
 

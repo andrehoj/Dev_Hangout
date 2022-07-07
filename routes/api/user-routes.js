@@ -20,7 +20,6 @@ router.get("/session", getUsersSession);
 
 router.get("/:id", getUserById);
 
-
 router.post("/login", logUserIn);
 
 router.post("/register", registerUser);

@@ -1,28 +1,27 @@
-console.log("Script is reloaded");
-
 if (window.io) {
-  console.log("io now exists");
-
   let room = document.location.pathname.replace("/room/", "");
 
   if (room === "/") room = "general";
 
   var socket = io();
 
-  // getting all the neccessary data for current room
+  // getting all the neccessary data for current room/user
   getAllUsersData().then((userData) => {
     listAllUsers(userData);
   });
+
   getCurrentSession().then((session) => {
     displayCurrentUser(session);
   });
+
   getAllMessages(room).then((messages) => {
     appendMessages(messages);
   });
 
   getCurrentSession().then((session) => {
-    getAllDms(session).then((dms) => {
-      appendDms(dms);
+    getAllDms(session).then(async (dms) => {
+      let userDmList = await activeDms(dms);
+      appendDmUsers(userDmList);
     });
   });
 
@@ -111,6 +110,7 @@ function displayCurrentUser(session) {
 }
 
 function listAllUsers(usersData) {
+  console.log(usersData);
   $("#user-list").empty();
 
   getCurrentSession().then((session) => {
@@ -128,8 +128,6 @@ function listAllUsers(usersData) {
       );
     });
   });
-
-  console.log($("#user-list").length < 1);
 
   if ($("#user-list").length < 1) {
     let noUsers = $(
@@ -173,7 +171,6 @@ async function getAllMessages(room) {
   });
 
   const recentMessagesData = await response.json();
-  console.log(recentMessagesData);
   return recentMessagesData;
 }
 
@@ -197,8 +194,6 @@ async function getCurrentSession() {
     },
   });
   session = await session.json();
-  console.log(session);
-
   return session;
 }
 
@@ -256,7 +251,6 @@ $("#direct-msg-form").submit(async function (e) {
     let recieverData = await getRecieverId(reciever);
     let res = await saveDm(directMsg, recieverData, session);
     if (res.ok) {
-      console.log(res);
       $("#userInfoModal").hide();
     }
   } else {
@@ -281,4 +275,59 @@ async function getRecieverId(username) {
   });
   res = await res.json();
   return res;
+}
+
+async function getAllDms({ user_id }) {
+  try {
+    let response = await fetch(`/api/dm/get-all-dms/${user_id}`, {
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    let dms = await response.json();
+    return dms;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function activeDms(dms) {
+  let usersWithDms = dms.map((dm, i) => {
+    let dmObj = {};
+
+    dmObj.id = i;
+    dmObj.reciever = dm.receiver.username;
+    dmObj.pfp = dm.receiver.pfp;
+    dmObj.isActive = dm.receiver.isActive;
+
+    return dmObj;
+  });
+
+  const uniqueUsers = [];
+
+  const filteredUsers = usersWithDms.filter((user) => {
+    const isDuplicate = uniqueUsers.includes(user.reciever);
+
+    if (!isDuplicate) {
+      uniqueUsers.push(user.reciever);
+
+      return true;
+    }
+
+    return false;
+  });
+
+  return filteredUsers;
+}
+
+function appendDmUsers(users) {
+  users.forEach((user) => {
+    $("#direct-msg-list").append(
+      `<li data-dm-user-id="${user.id}" class="user-list-item" >
+    <img class='active-list-pfp' src='${user.pfp}'></img>
+    <span>${user.reciever} <span class="${checkIfActive(
+        user.isActive
+      )}">●</span></li>`
+    );
+  });
 }

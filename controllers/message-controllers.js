@@ -22,7 +22,7 @@ const messageController = {
       let messages = dbMessageData.map((message) =>
         message.get({ plain: true })
       );
-
+      console.log(messages);
       res.json(messages);
     } catch (error) {
       res.status(500).json({ Error: error });

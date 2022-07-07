@@ -11,14 +11,16 @@ Dm.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    to: {
+
+    senderId: {
       type: DataTypes.INTEGER,
       references: {
         model: "user",
         key: "id",
       },
     },
-    from: {
+
+    receiverId: {
       type: DataTypes.INTEGER,
       references: {
         model: "user",
@@ -27,6 +29,10 @@ Dm.init(
     },
     message: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },

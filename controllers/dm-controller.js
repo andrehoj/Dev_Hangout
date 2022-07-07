@@ -1,12 +1,12 @@
-const { Message, Room, User, Dm } = require("../models/index");
+const { User, Dm } = require("../models/index");
 
 const dmController = {
   async saveDmMsg({ body }, res) {
     try {
       let newDm = await Dm.create(
         {
-          to: body[1].id,
-          from: body[2].user_id,
+          receiverId: body[1].id,
+          senderId: body[2].user_id,
           message: body[0],
         },
         { new: true }
@@ -15,6 +15,28 @@ const dmController = {
         res.json(newDm);
       }
     } catch (error) {
+      res.json(error);
+    }
+  },
+
+  async getAllDms({ params }, res) {
+    try {
+      let dmData = await Dm.findAll({
+        where: { senderId: params.user_id },
+        include: [
+          { model: User, as: "sender", attributes: { exclude: "password" } },
+          {
+            model: User,
+            as: "receiver",
+            attributes: { exclude: "password" },
+          },
+        ],
+      });
+      let dms = dmData.map((dm) => dm.get({ plain: true }));
+      console.log(dms);
+      res.json(dms);
+    } catch (error) {
+      console.log(error);
       res.json(error);
     }
   },
