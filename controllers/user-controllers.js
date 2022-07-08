@@ -58,33 +58,36 @@ const userController = {
   //log's a user in
   async logUserIn({ body, session }, res) {
     try {
+      if (!body.userName || !body.passWord)
+        res.status(400).json({ message: "An error has occured" });
+
       let dbUserData = await User.findOne({
         where: {
           username: body.userName,
         },
       });
-
+      console.log(dbUserData);
       if (!dbUserData) {
-        res.status(400).json({ message: "No user with that username" });
+        res.status(400).json({ message: "Username or password is incorrect" });
         return;
       }
 
       const validPassword = dbUserData.checkPassword(body.passWord);
 
       if (!validPassword) {
-        res.status(400).json({ message: "Incorrect password" });
+        res.status(400).json({ message: "Username or password is incorrect" });
         return;
       }
 
-      let plainUserData = dbUserData.get({ plain: true });
+      const plainUserData = dbUserData.get({ plain: true });
 
       await session.save(() => {
         session.loggedIn = true;
         session.user_id = plainUserData.id;
         session.username = plainUserData.username;
         session.pfp = plainUserData.pfp;
-        session.gitHub = dbUserData.gitHub;
-        session.favTech = dbUserData.favTech;
+        session.gitHub = plainUserData.gitHub;
+        session.favTech = plainUserData.favTech;
 
         User.update(
           { isActive: true },
@@ -93,15 +96,14 @@ const userController = {
               username: session.username,
             },
           }
-        ).then(() => {
-          res.json({
-            user: dbUserData,
-            message: "You are now logged in!",
-            username: session.username,
-          });
-        });
+        );
+
+        res.json({ message: "you are now logged in!" });
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
   },
 
   //register user
@@ -114,7 +116,8 @@ const userController = {
       });
 
       if (dbUserData) {
-        res.json({ message: "Username is taken" });
+        res.status(400).json({ message: "Username is taken" });
+        return;
       }
 
       let pfp = await getRandomPfp(body.userName);
@@ -139,6 +142,7 @@ const userController = {
         res.json(payLoad);
       });
     } catch (error) {
+      // const errorMessage = error.errors[0].message;
       res.status(400).json({ message: "password is not strong enough" });
     }
   },

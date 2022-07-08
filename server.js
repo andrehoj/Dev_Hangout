@@ -1,21 +1,20 @@
 const express = require("express");
-
 const app = express();
-
 const path = require("path");
-
 const session = require("express-session");
-
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-
 const bcrypt = require("bcrypt");
+const routes = require("./routes");
 
 const PORT = process.env.PORT || 3001;
 
 const sess = {
-  secret: "secret that no one knows",
-  cookie: {},
+  secret: process.env.SECRET,
+  name: "__sessIden",
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+  },
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
@@ -24,9 +23,6 @@ const sess = {
 };
 
 app.use(session(sess));
-
-const routes = require("./routes");
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -36,12 +32,10 @@ app.set("view engine", "handlebars");
 app.set("views", "./views");
 
 const server = require("http").createServer(app);
-
 const { Server } = require("socket.io");
 const io = new Server(server);
 
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(routes);
 
 io.on("connection", (socket) => {
@@ -59,10 +53,7 @@ io.on("connection", (socket) => {
     });
   });
 
-
   //socket.to(socketId).emit()
-
-
 });
 
 sequelize.sync({ force: false }).then(() => {
@@ -70,3 +61,5 @@ sequelize.sync({ force: false }).then(() => {
     console.log("🚀 live on localhost:3001");
   });
 });
+
+//res.redirect

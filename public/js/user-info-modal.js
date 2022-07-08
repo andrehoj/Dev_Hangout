@@ -3,7 +3,6 @@ var userInfoModal = $("#userInfoModal");
 
 //handles user modal, some nasty dom stuff , try to refactor/ look up solutions once app is done
 $(document).click(function (event) {
-  console.log("clicked")
   if ($("#userInfoModal").css("display") == "block") {
     if (!$(event.target).closest("#userInfoModal").length) {
       $("body").find("#userInfoModal").css("display", "none");

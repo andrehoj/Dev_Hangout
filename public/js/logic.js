@@ -11,6 +11,7 @@ if (window.io) {
   });
 
   getCurrentSession().then((session) => {
+    console.log(session);
     displayCurrentUser(session);
   });
 
@@ -110,7 +111,6 @@ function displayCurrentUser(session) {
 }
 
 function listAllUsers(usersData) {
-  console.log(usersData);
   $("#user-list").empty();
 
   getCurrentSession().then((session) => {
@@ -259,7 +259,8 @@ $("#direct-msg-form").submit(async function (e) {
 });
 
 async function saveDm(...args) {
-  let response = await fetch("/api/dm/save-dm-message", {
+  let response = await ("/api/dm/save-dm-message",
+  {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -295,7 +296,8 @@ async function activeDms(dms) {
   let usersWithDms = dms.map((dm, i) => {
     let dmObj = {};
 
-    dmObj.id = i;
+    dmObj.msgId = dm.id;
+    dmObj.recieverId = dm.receiver.id;
     dmObj.reciever = dm.receiver.username;
     dmObj.pfp = dm.receiver.pfp;
     dmObj.isActive = dm.receiver.isActive;
@@ -323,11 +325,33 @@ async function activeDms(dms) {
 function appendDmUsers(users) {
   users.forEach((user) => {
     $("#direct-msg-list").append(
-      `<li data-dm-user-id="${user.id}" class="user-list-item" >
+      `<li data-dm-user-id="${user.recieverId}" class="user-list-item" >
     <img class='active-list-pfp' src='${user.pfp}'></img>
     <span>${user.reciever} <span class="${checkIfActive(
         user.isActive
       )}">●</span></li>`
     );
   });
+}
+
+$("#direct-msg-list").on("click", "li", function () {
+  let { dmUserId } = $(this).data();
+  getCurrentSession().then((session) => {
+    fetch(`/api/dm/get-dms-by-userid/${dmUserId}/${session.user_id}`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      res.json(res).then((dms) => {
+        loadDmRoom(dms);
+      });
+    });
+  });
+});
+
+function loadDmRoom(dms) {
+  fetch("/direct-messages", {
+    method: "get",
+  }).then((res) => (document.location = res.url));
 }

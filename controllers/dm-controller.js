@@ -33,10 +33,31 @@ const dmController = {
         ],
       });
       let dms = dmData.map((dm) => dm.get({ plain: true }));
-      console.log(dms);
+
       res.json(dms);
     } catch (error) {
       console.log(error);
+      res.json(error);
+    }
+  },
+
+  async getDmsByUser({ params }, res) {
+    try {
+      let dmData = await Dm.findAll({
+        where: { receiverId: params.dmUserId, senderId: params.user_id },
+        include: [
+          { model: User, as: "sender", attributes: { exclude: "password" } },
+          {
+            model: User,
+            as: "receiver",
+            attributes: { exclude: "password" },
+          },
+        ],
+      });
+      const dms = dmData.map((dm) => dm.get({ plain: true }));
+      res.json(dms);
+      console.log(dms)
+    } catch (error) {
       res.json(error);
     }
   },

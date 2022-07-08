@@ -7,8 +7,8 @@ router.use("/api", apiRoutes);
 
 router.use("/", htmlRoutes);
 
-// router.use((res) => {
-//   res.status(404).end();
-// });
+router.use((req, res) => {
+  res.render("notfound", { layout: "main" });
+});
 
 module.exports = router;

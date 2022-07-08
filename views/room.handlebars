@@ -1,9 +1,5 @@
-{{!--  NOT LOGGED IN BLUR THE BODY AND SHOW MODALS --}}
-{{#if loggedIn}}
-  <div class="modal-blur ">
-{{else}}
-  <div class="modal-blur blur ">
-{{/if}}
+<link rel="stylesheet" href="/css/styles.css" />
+<link rel="stylesheet" href="/css/user-info-modal.css" />
 
 {{!-- HEADER --}}
 <header class="main-header">
@@ -153,7 +149,7 @@
 </aside>
 {{!-- ACCOUNT MENU END --}}
 
-{{!-- BLUR MODAL END --}}
+
 
 </div>
 <svg xmlns="http://www.w3.org/2000/svg" class="svg-bottom" height="500px" viewBox="0 0 1440 320">
@@ -161,14 +157,6 @@
     d="M0,224L15,218.7C30,213,60,203,90,208C120,213,150,235,180,250.7C210,267,240,277,270,277.3C300,277,330,267,360,229.3C390,192,420,128,450,112C480,96,510,128,540,170.7C570,213,600,267,630,256C660,245,690,171,720,144C750,117,780,139,810,176C840,213,870,267,900,250.7C930,235,960,149,990,149.3C1020,149,1050,235,1080,250.7C1110,267,1140,213,1170,192C1200,171,1230,181,1260,181.3C1290,181,1320,171,1350,192C1380,213,1410,267,1425,293.3L1440,320L1440,320L1425,320C1410,320,1380,320,1350,320C1320,320,1290,320,1260,320C1230,320,1200,320,1170,320C1140,320,1110,320,1080,320C1050,320,1020,320,990,320C960,320,930,320,900,320C870,320,840,320,810,320C780,320,750,320,720,320C690,320,660,320,630,320C600,320,570,320,540,320C510,320,480,320,450,320C420,320,390,320,360,320C330,320,300,320,270,320C240,320,210,320,180,320C150,320,120,320,90,320C60,320,30,320,15,320L0,320Z">
   </path>
 </svg>
-{{!--  NOT LOGGED IN SHOW THE LOGIN/REGISTER MODALS --}}
-{{#unless loggedIn}}
-  {{> login-modal}}
-  {{> register-modal}}
-
-  <script src="/js/register.js"></script>
-  <script src="/js/login.js"></script>
-{{/unless}}
 
 {{#if loggedIn}}
   {{!-- script tag must be included in html to have access to the socket method --}}

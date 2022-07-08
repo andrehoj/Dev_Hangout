@@ -17,17 +17,21 @@ async function handleRegister(event) {
         passWord,
       }),
     });
+
     console.log(response);
+
     if (response.ok) {
-      hideAllModals();
+      // hideAllModals()
       document.location.replace("/room/general");
     } else {
       let resErrorMessage = await response.json();
+      console.log(resErrorMessage);
       appendLoginErrorMessage(resErrorMessage);
     }
-  } else appendLoginErrorMessage({
-    message: "You must enter your username and password",
-  });
+  } else
+    appendLoginErrorMessage({
+      message: "You must enter your username and password",
+    });
 }
 
 function appendLoginErrorMessage(errorObject) {
@@ -37,13 +41,13 @@ function appendLoginErrorMessage(errorObject) {
   );
 }
 
-function hideAllModals() {
-  $("#login-modal, #register-modal, .error-message").each(function () {
-    $(this).hide();
-  });
-}
+// function hideAllModals() {
+//   $("#login-modal, #register-modal, .error-message").each(function () {
+//     $(this).hide();
+//   });
+// }
 
-$("#register-instead-link").click(function ()  {
+$("#register-instead-link").click(function () {
   $("#login-modal").hide();
   $("#register-modal").show();
 });

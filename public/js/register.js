@@ -23,25 +23,23 @@ async function handleregister(event) {
     });
 
     if (response.ok) {
-      hideAllModals();
+      //hideAllModals();
       document.location.replace("/room/general");
     } else {
-      let resErrorMessage = await response.json();
-      appendregisterErrorMessage(resErrorMessage);
+      const { message } = await response.json();
+      console.log(message);
+      appendregisterErrorMessage(message);
     }
   } else {
-    appendregisterErrorMessage({
-      message: "You must enter a username and password",
-    });
+    appendregisterErrorMessage("You must enter a username and password");
   }
 }
 
-function appendregisterErrorMessage(errorObject) {
-  console.log(errorObject);
+function appendregisterErrorMessage(message) {
+  console.log(message);
+
   $(".error-message").remove();
-  $("#gitHubUserName").after(
-    `<span class="error-message">${errorObject.message}</span>`
-  );
+  $("#gitHubUserName").after(`<span class="error-message">${message}</span>`);
 }
 
 $("#registerPassword").focus(function () {

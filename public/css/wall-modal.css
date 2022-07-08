@@ -1,11 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&family=VT323&display=swap");
+
 /* modal container start */
+.wall-modal-backdrop{
+  background-image: url(../images/login-img.jpg);
+}
+
 .modal-container {
-  display: flex;
+  display: flex; 
 }
 
 .wall-modal {
   height: fit-content;
-  max-width: calc(25rem + 1vw);
+  max-width: calc(35rem + 1vw);
   padding: 10px;
   border-radius: 8px;
   border: 1px solid var(--main-border-color);
@@ -16,7 +22,6 @@
 
 .wall-modal:hover {
   box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
-  transform: scale(1.1);
   background-color: var(--main-second-bg-color);
 }
 
@@ -25,7 +30,21 @@
 /* modal content start */
 .main-title {
   color: var(--main-title-color);
+  font-family: "VT323";
+  text-align: center;
   white-space: nowrap;
+  font-size: 4.3rem;
+}
+
+@media only screen and (max-width: 375px){
+  .main-title{
+    font-size: 2.5rem;
+  }
+}
+
+.form-title{
+  color: var(--bs-link-color);
+  margin-bottom: 1rem;
 }
 
 .form-styles input {
@@ -74,12 +93,6 @@
   border-top: solid 1px red;
   margin: 10px 0;
   text-align: center;
-}
-
-@media only screen and (max-width: 420px) {
-  .wall-modal:hover {
-    transform: none !important;
-  }
 }
 
 /* modal content end */
