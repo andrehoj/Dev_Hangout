@@ -1,12 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&family=VT323&display=swap");
-
+:root {
+  --main-bg-color: #0d1117;
+  --main-second-bg-color: #161b22;
+  --main-text-color: #c9d1d9;
+  --main-highlight-color: #1f6feb;
+  --main-border-color: #30363d;
+  --main-title-color: #98c379;
+  --null-color: #d19a66;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
 /* modal container start */
-.wall-modal-backdrop{
+.wall-modal-backdrop {
   background-image: url(../images/login-img.jpg);
 }
 
 .modal-container {
-  display: flex; 
+  display: flex;
 }
 
 .wall-modal {
@@ -36,13 +45,13 @@
   font-size: 4.3rem;
 }
 
-@media only screen and (max-width: 375px){
-  .main-title{
+@media only screen and (max-width: 375px) {
+  .main-title {
     font-size: 2.5rem;
   }
 }
 
-.form-title{
+.form-title {
   color: var(--bs-link-color);
   margin-bottom: 1rem;
 }

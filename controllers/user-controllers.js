@@ -1,17 +1,28 @@
 const { User } = require("../models/index");
-const { saveSession } = require("../utils/helpers");
 const { getRandomPfp } = require("../utils/helpers");
 
 const userController = {
   async getUsersSession({ session }, res) {
+    console.log("/session was hit");
+
     res.json(session);
   },
 
   async getUserId({ params }, res) {
+    console.log("/:username was hit");
+
+    let user = await User.findOne({ where: { username: params.username } });
+
+    res.json(user);
+  },
+
+  async getUserByUsername({ params }, res) {
+    console.log("/user-id/:username was hit ");
     try {
       let dbUserData = await User.findOne({
         where: { username: params.username },
       });
+
       res.json(dbUserData);
     } catch (error) {
       res.json(error);
@@ -20,6 +31,7 @@ const userController = {
 
   //get all users
   async getAllUsers({ params, body, session }, res) {
+    console.log("/ was hit");
     try {
       let dbUserData = await User.findAll({
         attributes: { exclude: ["password"] },
@@ -32,6 +44,7 @@ const userController = {
 
   //get a single users info
   async getUserById({ params }, res) {
+    console.log("/:id was hit ");
     try {
       let dbUserData = await User.findOne({ where: { _id: params.id } });
       res.json(dbUserData);
@@ -42,6 +55,7 @@ const userController = {
 
   //single user query
   async getUserById({ params }, res) {
+    console.log("/:id was hit");
     try {
       let userData = await User.findByPk(params.id, {
         attributes: { exclude: ["password"] },
@@ -57,6 +71,7 @@ const userController = {
 
   //log's a user in
   async logUserIn({ body, session }, res) {
+    console.log("/login was hit");
     try {
       if (!body.userName || !body.passWord)
         res.status(400).json({ message: "An error has occured" });
@@ -66,7 +81,7 @@ const userController = {
           username: body.userName,
         },
       });
-      console.log(dbUserData);
+
       if (!dbUserData) {
         res.status(400).json({ message: "Username or password is incorrect" });
         return;
@@ -88,6 +103,7 @@ const userController = {
         session.pfp = plainUserData.pfp;
         session.gitHub = plainUserData.gitHub;
         session.favTech = plainUserData.favTech;
+        session.lastRoom = "general";
 
         User.update(
           { isActive: true },
@@ -108,6 +124,7 @@ const userController = {
 
   //register user
   async registerUser({ body, session }, res) {
+    console.log("/register was it");
     try {
       let dbUserData = await User.findOne({
         where: {
@@ -136,6 +153,7 @@ const userController = {
         session.loggedIn = true;
         session.pfp = newUser.pfp;
         session.gitHub = newUser.gitHub;
+        session.lastRoom = "general";
 
         let payLoad = [dbUserData, session];
 
@@ -149,6 +167,7 @@ const userController = {
 
   //edit a user account
   async editUser({ body, session }, res) {
+    console.log("/edituser was hit");
     try {
       let dbUserData = await User.update(body, {
         where: {
@@ -174,6 +193,7 @@ const userController = {
 
   //log user out
   async logUserOut({ session }, res) {
+    console.log("/logout was hit ");
     try {
       if (session.loggedIn) {
         let loggedOutUser = await User.update(
@@ -199,6 +219,7 @@ const userController = {
 
   //delete a user account
   async deleteAccount({ session }, res) {
+    console.log("/deleteAccount was hit");
     try {
       let deletedUser = await User.destroy({
         where: {
@@ -211,6 +232,22 @@ const userController = {
         res.json(dbUserData);
       }
     } catch (error) {
+      res.json(error);
+    }
+  },
+
+  async saveSocket({ body, session }, res) {
+    console.log("/socket was hit ");
+    try {
+      let dbUserData = await User.update(
+        { socketId: body.socketId },
+        { where: { username: body.username } }
+      );
+      session.socketId = body.socketId;
+
+      res.json(dbUserData);
+    } catch (error) {
+      console.log(error);
       res.json(error);
     }
   },

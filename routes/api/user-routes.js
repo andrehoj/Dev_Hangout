@@ -9,16 +9,24 @@ const {
   editUser,
   logUserOut,
   deleteAccount,
+  getUserByUsername,
+  saveSocket,
   getUserId,
 } = require("../../controllers/user-controllers");
-
-router.get("/user-id/:username", getUserId);
 
 router.get("/", getAllUsers);
 
 router.get("/session", getUsersSession);
 
+router.get("/:username", getUserId);
+
 router.get("/:id", getUserById);
+
+
+
+router.get("/user-id/:username", getUserByUsername);
+
+router.post("/socket", saveSocket);
 
 router.post("/login", logUserIn);
 

@@ -1,21 +1,42 @@
 // Get the userInfoModal
 var userInfoModal = $("#userInfoModal");
 
-//handles user modal, some nasty dom stuff , try to refactor/ look up solutions once app is done
-$(document).click(function (event) {
-  if ($("#userInfoModal").css("display") == "block") {
-    if (!$(event.target).closest("#userInfoModal").length) {
-      $("body").find("#userInfoModal").css("display", "none");
+//handles user modal, some nasty dom stuff , try to refactor/ look up solutions once app finished
+// $(document).click(function (event) {
+//   console.log("click");
+//   if ($("#userInfoModal").css("display") === "block") {
+//     console.log("modal is display: block");
+//     if (!$(event.target).closest("#userInfoModal").length) {
+//       console.log("on click cant find modal");
+//       $("body").find("#userInfoModal").css("display", "none");
+//       $(document).off();
+//     }
+//   }
+//   $("#user-list").on("click", ".user-list-item", function () {
+//     let userId = $(this).data("userId");
+
+//     userInfoModal.animate({ width: "toggle" }, 200);
+
+//     getSingleUser(userId).then(appendUserInfo);
+//   });
+// });
+
+$("#user-list").on("click", ".user-list-item", function () {
+  let userId = $(this).data("userId");
+
+  userInfoModal.animate({ width: "toggle" }, 200);
+
+  getSingleUser(userId).then((userInfo) => {
+    appendUserInfo(userInfo);
+    if (userInfoModal.css("display") == "block") {
+      $(document).click(function (e) {
+        if (!$(e.target).closest("#userInfoModal").length) {
+          userInfoModal.css("display", "none");
+          $(document).off();
+        }
+      });
     }
-  } else {
-    $("#user-list").on("click", ".user-list-item", function () {
-      let userId = $(this).data("userId");
-
-      userInfoModal.animate({ width: "toggle" }, 200);
-
-      getSingleUser(userId).then(appendUserInfo);
-    });
-  }
+  });
 });
 
 async function getSingleUser(id) {
@@ -36,6 +57,7 @@ async function getSingleUser(id) {
 }
 
 function appendUserInfo(userData) {
+  console.log(userData);
   if (userData.favTech != null) {
     $("#modal-fav-tech").show();
     $("#modal-fav-tech").attr("src", userData.favTech);

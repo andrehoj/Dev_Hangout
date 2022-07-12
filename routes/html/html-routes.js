@@ -1,16 +1,9 @@
 const router = require("express").Router();
 
-//entry point to app, renders login/signup modals
-// router.get("/", (req, res) => {
-// if (!req.session.loggedIn) {
-//   res.render("room", { loggedIn: false });
-// } else res.render("room", { loggedIn: true });
-// });
-
 //entry point to app
 router.get("/", (req, res) => {
   if (req.session.loggedIn) {
-    res.render(`room/${lastRoom}`, { layout: "main" });
+    res.render(`room/${req.session.lastRoom}`, { layout: "main" });
   } else {
     res.render("login", { layout: "main" });
   }
@@ -24,7 +17,6 @@ router.get("/login", (req, res) => {
   res.render("login", { layout: "main" });
 });
 
-//renders specified room
 router.get("/room/:roomName", (req, res) => {
   res.render("room", {
     loggedIn: req.session.loggedIn,
@@ -36,8 +28,14 @@ router.get("/settings", (req, res) => {
   res.render("settings");
 });
 
-router.get("/direct-messages", (req, res) => {
-  res.render("directmessages", { loggedIn: true });
+router.get("/directmessages/:receiver", (req, res) => {
+  console.log(req.session);
+  console.log(req.params);
+
+  res.render("directmessages", {
+    layout: "main",
+    loggedIn: req.session.loggedIn,
+  });
 });
 
 module.exports = router;

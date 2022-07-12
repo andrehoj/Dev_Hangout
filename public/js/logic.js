@@ -4,6 +4,11 @@ if (window.io) {
   if (room === "/") room = "general";
 
   var socket = io();
+  socket.on("connect", () => {
+    getCurrentSession().then(async (session) => {
+      let res = await saveSocketId(session, socket.id);
+    });
+  });
 
   // getting all the neccessary data for current room/user
   getAllUsersData().then((userData) => {
@@ -11,16 +16,36 @@ if (window.io) {
   });
 
   getCurrentSession().then((session) => {
-    console.log(session);
     displayCurrentUser(session);
   });
 
-  getAllMessages(room).then((messages) => {
-    appendMessages(messages);
-  });
+  if (document.location.pathname.includes("/directmessages")) {
+    getCurrentSession().then(async (session) => {
+      let receiver = document.location.pathname.split("/")[2];
+
+      let { socketId, id } = await getUserIdByUsername(receiver);
+
+      fetch(`/api/dm/get-dms-by-userid/${id}/${session.user_id}`, {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        res.json(res).then((dms) => {
+          appendDms(dms);
+          //socket.join(socketid)
+        });
+      });
+    });
+  } else {
+    getAllMessages(room).then((messages) => {
+      appendMessages(messages);
+    });
+  }
 
   getCurrentSession().then((session) => {
     getAllDms(session).then(async (dms) => {
+      console.log(dms);
       let userDmList = await activeDms(dms);
       appendDmUsers(userDmList);
     });
@@ -29,21 +54,20 @@ if (window.io) {
   addActiveRoom();
 
   getCurrentSession().then((session) => {
-    console.log(`${session.username} is joining room ${room}`);
     socket.emit("joinRoom", {
       room: room,
       username: session.username,
     });
   });
 
-  socket.on("user connected", function () {
-    console.log("a user connected");
+  socket.on("user connected", function (socketId) {
     getAllUsersData().then((userData) => {
       listAllUsers(userData);
     });
   });
 
   socket.on("chat message", function ({ msg, username, userId, pfp }) {
+    console.log("working");
     let currentTime = getCurrentTime();
     appendCurrentMessage(msg, username, userId, currentTime, pfp);
 
@@ -54,6 +78,17 @@ if (window.io) {
         saveMessage(username, msg, userId, currentTime, room);
       }
     });
+  });
+
+  socket.on("direct message", function ({ message, id, session }) {
+    appendCurrentMessage(
+      message,
+      session.username,
+      session.id,
+      session.currentTime,
+      session.pfp
+    );
+    $("#messages").scrollTop($("#messages")[0].scrollHeight);
   });
 
   socket.on("user disconnect", () => {
@@ -76,21 +111,36 @@ $("#room-list").click(function (event) {
 
 //handles chat message saving
 $("#chat-form").submit(function (event) {
-  let roomName = document.location.pathname.replace("/room/", "");
-  event.preventDefault();
-  getCurrentSession().then((session) => {
-    const message = $("#chat-input").val().trim();
-    if (message) {
-      socket.emit("chat message", {
-        msg: message,
-        username: session.username,
-        userId: session.user_id,
-        pfp: session.pfp,
-        room: roomName,
+  if (!document.location.pathname.includes("/directmessages")) {
+    let roomName = document.location.pathname.replace("/room/", "");
+    event.preventDefault();
+    getCurrentSession().then((session) => {
+      const message = $("#chat-input").val().trim();
+      if (message) {
+        socket.emit("chat message", {
+          msg: message,
+          username: session.username,
+          userId: session.user_id,
+          pfp: session.pfp,
+          room: roomName,
+        });
+        $("#chat-input").val("");
+      }
+    });
+  } else {
+    getCurrentSession().then(async (session) => {
+      let receiver = document.location.pathname.split("/")[2];
+
+      let { socketId, id } = await getUserIdByUsername(receiver);
+      const message = $("#chat-input").val().trim();
+      socket.emit("direct message", {
+        message,
+        to: socketId,
+        session,
       });
       $("#chat-input").val("");
-    }
-  });
+    });
+  }
 });
 
 async function getAllUsersData() {
@@ -239,7 +289,7 @@ $("body").on("click", ".accordion-heading", function () {
   $(this).next(".list-container").addClass("active");
 });
 
-// Direct messages
+// DIRECT MESSAGES
 $("#direct-msg-form").submit(async function (e) {
   e.preventDefault();
 
@@ -248,10 +298,18 @@ $("#direct-msg-form").submit(async function (e) {
 
   if (directMsg && reciever) {
     let session = await getCurrentSession();
-    let recieverData = await getRecieverId(reciever);
+    let recieverData = await getRecieverUsername(reciever);
     let res = await saveDm(directMsg, recieverData, session);
-    if (res.ok) {
+
+    if (res) {
       $("#userInfoModal").hide();
+      $("#direct-msg-input").val("");
+      getCurrentSession().then((session) => {
+        getAllDms(session).then(async (dms) => {
+          let userDmList = await activeDms(dms);
+          appendDmUsers(userDmList);
+        });
+      });
     }
   } else {
     //error message if something goes wrong
@@ -259,8 +317,7 @@ $("#direct-msg-form").submit(async function (e) {
 });
 
 async function saveDm(...args) {
-  let response = await ("/api/dm/save-dm-message",
-  {
+  let response = await fetch("/api/dm/save-dm-message", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -270,7 +327,7 @@ async function saveDm(...args) {
   return response;
 }
 
-async function getRecieverId(username) {
+async function getRecieverUsername(username) {
   let res = await fetch(`/api/users/user-id/${username}`, {
     method: "get",
   });
@@ -286,6 +343,7 @@ async function getAllDms({ user_id }) {
     });
 
     let dms = await response.json();
+
     return dms;
   } catch (error) {
     console.log(error);
@@ -323,6 +381,7 @@ async function activeDms(dms) {
 }
 
 function appendDmUsers(users) {
+  $("#direct-msg-list").empty();
   users.forEach((user) => {
     $("#direct-msg-list").append(
       `<li data-dm-user-id="${user.recieverId}" class="user-list-item" >
@@ -344,6 +403,7 @@ $("#direct-msg-list").on("click", "li", function () {
       },
     }).then((res) => {
       res.json(res).then((dms) => {
+        socket;
         loadDmRoom(dms);
       });
     });
@@ -351,7 +411,40 @@ $("#direct-msg-list").on("click", "li", function () {
 });
 
 function loadDmRoom(dms) {
-  fetch("/direct-messages", {
-    method: "get",
-  }).then((res) => (document.location = res.url));
+  document.location.href = `/directmessages/${dms[0].receiver.username}`;
+}
+
+async function saveSocketId(session, socketId) {
+  session.socketId = socketId;
+  let res = await fetch("/api/users/socket", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(session),
+  });
+
+  if (res.ok) {
+    return res;
+  }
+}
+
+async function getUserIdByUsername(name) {
+  try {
+    let res = await fetch(`/api/users/${name}`);
+    return res.json();
+  } catch (error) {}
+}
+
+function appendDms(dms) {
+  $("#room-name").text("Your chat with " + dms[0].receiver.username);
+  $("#messages").empty();
+  dms.forEach((dm) => {
+    $("#messages").append(`<li>
+    <img src='${dm.sender.pfp}' class='profile-image'></img>
+    <span><strong>${dm.sender.username}</strong>: ${dm.message}</span>
+    <span class="message-date" id="message-time">     ${dm.createdAt}</span>
+    </li>`);
+    $("#messages").scrollTop($("#messages")[0].scrollHeight);
+  });
 }

@@ -20,6 +20,7 @@ User.init(
       type: DataTypes.STRING(15),
       allowNull: false,
     },
+    
     pfp: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -46,6 +47,11 @@ User.init(
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+
+    socketId: {
+      type: DataTypes.STRING,
+      defaultValue: null,
     },
     
     currentRoom: {

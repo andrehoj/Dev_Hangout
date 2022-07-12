@@ -32,6 +32,20 @@ const dmController = {
           },
         ],
       });
+
+      if (!dmData.length) {
+         dmData = await Dm.findAll({
+          where: { receiverId: params.user_id },
+          include: [
+            { model: User, as: "sender", attributes: { exclude: "password" } },
+            {
+              model: User,
+              as: "receiver",
+              attributes: { exclude: "password" },
+            },
+          ],
+        });
+      }
       let dms = dmData.map((dm) => dm.get({ plain: true }));
 
       res.json(dms);
@@ -56,7 +70,6 @@ const dmController = {
       });
       const dms = dmData.map((dm) => dm.get({ plain: true }));
       res.json(dms);
-      console.log(dms)
     } catch (error) {
       res.json(error);
     }
