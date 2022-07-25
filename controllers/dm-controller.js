@@ -34,7 +34,7 @@ const dmController = {
       });
 
       if (!dmData.length) {
-         dmData = await Dm.findAll({
+        dmData = await Dm.findAll({
           where: { receiverId: params.user_id },
           include: [
             { model: User, as: "sender", attributes: { exclude: "password" } },
@@ -50,15 +50,19 @@ const dmController = {
 
       res.json(dms);
     } catch (error) {
-      console.log(error);
       res.json(error);
     }
   },
 
   async getDmsByUser({ params }, res) {
+    //a user can be a sender and a receiver so query both id types
     try {
       let dmData = await Dm.findAll({
-        where: { receiverId: params.dmUserId, senderId: params.user_id },
+        where: {
+          receiverId: [params.receiverId, params.senderId],
+          senderId: [params.receiverId, params.senderId],
+        },
+
         include: [
           { model: User, as: "sender", attributes: { exclude: "password" } },
           {
@@ -68,8 +72,10 @@ const dmController = {
           },
         ],
       });
-      const dms = dmData.map((dm) => dm.get({ plain: true }));
-      res.json(dms);
+      console.log(dmData)
+      const dmsSender = dmData.map((dm) => dm.get({ plain: true }));
+
+      res.json(dmsSender);
     } catch (error) {
       res.json(error);
     }

@@ -1,9 +1,10 @@
 if (window.io) {
-  let room = document.location.pathname.replace("/room/", "");
+  const room = document.location.pathname.replace("/room/", "");
 
-  if (room === "/") room = "general";
+  if (room === "/") room = "General";
 
-  var socket = io();
+  
+  console.log(socket);
   socket.on("connect", () => {
     getCurrentSession().then(async (session) => {
       let res = await saveSocketId(session, socket.id);
@@ -45,7 +46,6 @@ if (window.io) {
 
   getCurrentSession().then((session) => {
     getAllDms(session).then(async (dms) => {
-      console.log(dms);
       let userDmList = await activeDms(dms);
       appendDmUsers(userDmList);
     });
@@ -54,6 +54,7 @@ if (window.io) {
   addActiveRoom();
 
   getCurrentSession().then((session) => {
+    console.log(session, room);
     socket.emit("joinRoom", {
       room: room,
       username: session.username,
@@ -67,7 +68,6 @@ if (window.io) {
   });
 
   socket.on("chat message", function ({ msg, username, userId, pfp }) {
-    console.log("working");
     let currentTime = getCurrentTime();
     appendCurrentMessage(msg, username, userId, currentTime, pfp);
 
@@ -100,7 +100,7 @@ if (window.io) {
 
 //handles room change
 $("#room-list").click(function (event) {
-  let room = $(event.target).text().toLowerCase();
+  let room = $(event.target).text();
 
   loadRoom(room);
 
@@ -116,6 +116,7 @@ $("#chat-form").submit(function (event) {
     event.preventDefault();
     getCurrentSession().then((session) => {
       const message = $("#chat-input").val().trim();
+      console.log(roomName);
       if (message) {
         socket.emit("chat message", {
           msg: message,
@@ -248,7 +249,12 @@ async function getCurrentSession() {
 }
 
 function getCurrentTime() {
-  return new Date().toLocaleString();
+  return new Date().toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function appendCurrentMessage(msg, username, userId, currentTime, pfp) {
@@ -270,7 +276,7 @@ function addActiveRoom() {
   $("#room-list")
     .children()
     .each(function () {
-      if ($(this).text().toLowerCase() === currentRoom) {
+      if ($(this).text() === currentRoom) {
         $(this).addClass("active-room");
       } else $(this).removeClass("active-room");
     });
@@ -403,7 +409,6 @@ $("#direct-msg-list").on("click", "li", function () {
       },
     }).then((res) => {
       res.json(res).then((dms) => {
-        socket;
         loadDmRoom(dms);
       });
     });

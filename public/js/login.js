@@ -18,34 +18,21 @@ async function handleRegister(event) {
       }),
     });
 
-    console.log(response);
-
     if (response.ok) {
-      // hideAllModals()
-      document.location.replace("/room/general");
+      document.location.replace("/room/General");
     } else {
-      let resErrorMessage = await response.json();
-      console.log(resErrorMessage);
-      appendLoginErrorMessage(resErrorMessage);
+      const { errorMessage } = await response.json();
+      appendLoginErrorMessage(errorMessage);
     }
-  } else
-    appendLoginErrorMessage({
-      message: "You must enter your username and password",
-    });
+  } else appendLoginErrorMessage("You must enter your username and password");
 }
 
-function appendLoginErrorMessage(errorObject) {
+function appendLoginErrorMessage(errorMessage) {
   $(".error-message").remove();
   $("#loginPassword").after(
-    `<span class="error-message">${errorObject.message}</span>`
+    `<span class="error-message">${errorMessage}</span>`
   );
 }
-
-// function hideAllModals() {
-//   $("#login-modal, #register-modal, .error-message").each(function () {
-//     $(this).hide();
-//   });
-// }
 
 $("#register-instead-link").click(function () {
   $("#login-modal").hide();

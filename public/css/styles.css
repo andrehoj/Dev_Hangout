@@ -23,7 +23,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 body {
@@ -461,6 +461,15 @@ body {
 
 .logged-out {
   color: red;
+}
+
+.empty-dms {
+  color: var(--null-color);
+}
+
+.empty-dms:hover {
+  cursor: default !important;
+ color: var(--null-color) !important;
 }
 
 /* List styling ends */

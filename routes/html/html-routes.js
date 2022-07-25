@@ -1,40 +1,32 @@
 const router = require("express").Router();
 
 //entry point to app
-router.get("/", (req, res) => {
-  if (req.session.loggedIn) {
-    res.render(`room/${req.session.lastRoom}`, { layout: "main" });
-  } else {
-    res.render("login", { layout: "main" });
-  }
-});
-
-router.get("/register", (req, res) => {
-  res.render("register", { layout: "main" });
+router.get("/", ({ session }, res) => {
+  session.loggedIn ? res.render(`room`) : res.render("login");
 });
 
 router.get("/login", (req, res) => {
-  res.render("login", { layout: "main" });
+  res.render("login");
 });
 
-router.get("/room/:roomName", (req, res) => {
-  res.render("room", {
-    loggedIn: req.session.loggedIn,
-    roomName: req.params.roomName,
-  });
+router.get("/register", (req, res) => {
+  res.render("register");
 });
 
 router.get("/settings", (req, res) => {
   res.render("settings");
 });
 
-router.get("/directmessages/:receiver", (req, res) => {
-  console.log(req.session);
-  console.log(req.params);
+router.get("/room/:roomName", ({ session, params }, res) => {
+  res.render("room", {
+    loggedIn: session.loggedIn,
+    roomName: params.roomName,
+  });
+});
 
+router.get("/directmessages/:receiver", ({ session }, res) => {
   res.render("directmessages", {
-    layout: "main",
-    loggedIn: req.session.loggedIn,
+    loggedIn: session.loggedIn,
   });
 });
 

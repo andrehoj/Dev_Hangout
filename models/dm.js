@@ -1,6 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../config/connection");
-const User = require("./User");
 
 class Dm extends Model {}
 
@@ -32,6 +31,7 @@ Dm.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

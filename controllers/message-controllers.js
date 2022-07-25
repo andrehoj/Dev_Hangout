@@ -13,18 +13,19 @@ const messageController = {
           {
             model: User,
             as: "user",
-            attributes: { exclude: ["password"] },
+            attributes: ["username", "pfp"],
           },
         ],
+        order: [["updatedAt", "ASC"]],
         require: true,
       });
 
       let messages = dbMessageData.map((message) =>
         message.get({ plain: true })
       );
-    
       res.json(messages);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ Error: error });
     }
   },

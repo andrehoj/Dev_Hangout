@@ -9,4 +9,13 @@ async function getRandomPfp(username) {
   }
 }
 
-module.exports = { getRandomPfp };
+function getCurrentTime() {
+  return new Date().toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+module.exports = { getRandomPfp, getCurrentTime };

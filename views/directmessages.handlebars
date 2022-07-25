@@ -157,11 +157,11 @@
     </path>
 </svg>
 
-{{#if loggedIn}}
-    {{!-- script tag must be included in html to have access to the socket method --}}
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/logout.js"></script>
-    <script src="/js/user-info-modal.js"></script>
-    <script src="/js/direct-messages.js"></script>
-{{/if}}
-<script src="/js/logic.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/slideout.js"></script>
+<script src="/js/user-info-modal.js"></script>
+<script src="/js/direct-messages.js"></script>
+<script src="/js/logout.js"></script>
+<script>
+    const socket = io()
+</script>

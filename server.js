@@ -12,9 +12,7 @@ const PORT = process.env.PORT || 3001;
 
 const sess = {
   secret: process.env.SECRET,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24,
-  },
+  cookie: {},
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
@@ -31,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(routes);
 
 const server = require("http").createServer(app);
@@ -40,26 +39,27 @@ const io = new Server(server);
 io.on("connection", (socket) => {
   socket.broadcast.emit("user connected", socket.id);
 
-  socket.on("joinRoom", ({ username, room }) => {
+  socket.on("join room", ({ username, room }) => {
     socket.join(room);
 
-    socket.on("chat message", ({ msg, username, userId, pfp }) => {
-      io.to(room).emit("chat message", { msg, username, userId, pfp });
-    });
+    console.log(`${username} joined the ${room} chat!`);
+  });
+  socket.on("chat message", ({ message, username, pfp, room }) => {
+    io.to(room).emit("chat message", { message, username, pfp });
+  });
 
-    socket.on("direct message", ({ message, to, session }) => {
-      socket.join(to);
-      console.log("got it");
-      io.to(to).emit("direct message", {
-        message,
-        to,
-        session
-      });
-    });
+  socket.on("direct message", ({ message, receiver, sender }) => {
+    socket.join(receiver.socketId);
 
-    socket.on("disconnect", (socket) => {
-      io.emit("user disconnect");
+    io.to(receiver.socketId).emit("direct message", {
+      message: message,
+      receiver: receiver,
+      sender: sender,
     });
+  });
+
+  socket.on("disconnect", (socket) => {
+    io.emit("user disconnected");
   });
 });
 
@@ -68,9 +68,4 @@ sequelize.sync({ force: false }).then(() => {
     console.log("🚀 live on localhost:3001");
   });
 });
-
-//res.redirect
-
-//Notes to self
 //order of middleware and router/routes matter
-//

@@ -3,17 +3,15 @@ const { getRandomPfp } = require("../utils/helpers");
 
 const userController = {
   async getUsersSession({ session }, res) {
-    console.log("/session was hit");
-
     res.json(session);
   },
 
   async getUserId({ params }, res) {
     console.log("/:username was hit");
-
-    let user = await User.findOne({ where: { username: params.username } });
-
-    res.json(user);
+    try {
+      let user = await User.findOne({ where: { username: params.username } });
+      res.json(user.id);
+    } catch (error) {}
   },
 
   async getUserByUsername({ params }, res) {
@@ -47,6 +45,7 @@ const userController = {
     console.log("/:id was hit ");
     try {
       let dbUserData = await User.findOne({ where: { _id: params.id } });
+      console.log(dbUserData);
       res.json(dbUserData);
     } catch (error) {
       res.json(error);
@@ -74,7 +73,7 @@ const userController = {
     console.log("/login was hit");
     try {
       if (!body.userName || !body.passWord)
-        res.status(400).json({ message: "An error has occured" });
+        res.status(400).json({ errorMessage: "An error has occured" });
 
       let dbUserData = await User.findOne({
         where: {
@@ -82,15 +81,26 @@ const userController = {
         },
       });
 
+      if (dbUserData.dataValues.isActive) {
+        res
+          .status(400)
+          .json({ errorMessage: "This user is currenty logged in" });
+        return;
+      }
+
       if (!dbUserData) {
-        res.status(400).json({ message: "Username or password is incorrect" });
+        res
+          .status(400)
+          .json({ errorMessage: "Username or password is incorrect" });
         return;
       }
 
       const validPassword = dbUserData.checkPassword(body.passWord);
 
       if (!validPassword) {
-        res.status(400).json({ message: "Username or password is incorrect" });
+        res
+          .status(400)
+          .json({ errorMessage: "Username or password is incorrect" });
         return;
       }
 
@@ -103,7 +113,6 @@ const userController = {
         session.pfp = plainUserData.pfp;
         session.gitHub = plainUserData.gitHub;
         session.favTech = plainUserData.favTech;
-        session.lastRoom = "general";
 
         User.update(
           { isActive: true },

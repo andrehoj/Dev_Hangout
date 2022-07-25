@@ -1,18 +1,18 @@
 const { Room } = require("../models");
 
 const roomdata = [
-  { roomName: "general" },
-  { roomName: "javascript" },
-  { roomName: "python" },
+  { roomName: "General" },
+  { roomName: "Javascript" },
+  { roomName: "Python" },
   { roomName: "java" },
-  { roomName: "c" },
-  { roomName: "cplusplus" },
-  { roomName: "csharp" },
-  { roomName: "typescript" },
-  { roomName: "objectivec" },
-  { roomName: "swift" },
-  { roomName: "golang" },
-  { roomName: "other" },
+  { roomName: "C" },
+  { roomName: "C++" },
+  { roomName: "Csharp" },
+  { roomName: "TypeScript" },
+  { roomName: "ObjectiveC" },
+  { roomName: "Swift" },
+  { roomName: "Golang" },
+  { roomName: "Other" },
 ];
 
 const seedRooms = () => Room.bulkCreate(roomdata);

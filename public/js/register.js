@@ -23,11 +23,9 @@ async function handleregister(event) {
     });
 
     if (response.ok) {
-      //hideAllModals();
-      document.location.replace("/room/general");
+      document.location.replace("/room/General");
     } else {
       const { message } = await response.json();
-      console.log(message);
       appendregisterErrorMessage(message);
     }
   } else {
@@ -36,8 +34,6 @@ async function handleregister(event) {
 }
 
 function appendregisterErrorMessage(message) {
-  console.log(message);
-
   $(".error-message").remove();
   $("#gitHubUserName").after(`<span class="error-message">${message}</span>`);
 }

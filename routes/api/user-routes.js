@@ -20,9 +20,7 @@ router.get("/session", getUsersSession);
 
 router.get("/:username", getUserId);
 
-router.get("/:id", getUserById);
-
-
+router.get("/userid/:id", getUserById);
 
 router.get("/user-id/:username", getUserByUsername);
 

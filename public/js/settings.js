@@ -35,7 +35,7 @@ $("#edit-user-info").submit((e) => {
   let gitHub = $("#github-account").val();
   let pfp = $("#settings-pfp").attr("src");
   let favTech = $("#currentFavTech").attr("src");
-  
+
   getCurrentSession().then((session) => {
     fetch("/api/users/edit", {
       method: "post",
@@ -64,12 +64,17 @@ $("#generate-pfp").click(function () {
 });
 
 async function generateNewPfp() {
+  $("#generate-pfp").append(
+    `<i id='spinner' class="fa fa-2xl fa-spinner fa-spin"></i>`
+  );
+
   let randomString = getRandomString(5);
   let pfp = await fetch(
     `https://robohash.org/${randomString}?set=set${Math.floor(
       Math.random() * 4
     )}`
   );
+  $("#spinner").remove();
   return pfp.url;
 }
 
