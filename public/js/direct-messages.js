@@ -6,24 +6,33 @@ $(document).ready(async function () {
     const chatInput = $("#chat-input");
     const roomName = $("#room-name");
 
+    roomName.text(
+      `Your chat with  ${document.location.pathname.split("/")[2]}`
+    );
+
     const currentUser = await getCurrentUsersInfo();
+
     currentUser.socketId = socket.id;
+
+    await saveSocketId(currentUser);
 
     const receiver = await getRecieverUsername(
       document.location.pathname.split("/")[2]
     );
 
-    socket.on("user connected", async (socketId) => {
-      receiver.socketId = socketId;
-    });
-
     const dms = await getCurrentDms(receiver, currentUser);
 
-    roomName.text(
-      `Your chat with  ${document.location.pathname.split("/")[2]}`
-    );
-
     appendDms(dms);
+
+    console.log(currentUser, receiver);
+
+    socket.on("user connected", async (socketId) => {
+      console.log(
+        "user connected as fired, the users socket id is: ",
+        socketId
+      );
+      receiver.socketId = socketId;
+    });
 
     chatForm.submit(async function (event) {
       try {
@@ -32,13 +41,17 @@ $(document).ready(async function () {
         const message = chatInput.val().trim();
 
         if (message) {
+          const timeOfMessage = getCurrentTime();
+
           socket.emit("direct message", {
             message: message,
             receiver: receiver,
             sender: currentUser,
+            timeOfMessage: timeOfMessage,
           });
-          saveDm(message, receiver, currentUser);
-          console.log("cleared");
+
+          saveDm(message, receiver, currentUser, timeOfMessage);
+
           chatInput.val("");
         }
       } catch (error) {
@@ -46,8 +59,8 @@ $(document).ready(async function () {
       }
     });
 
-    socket.on("direct message", (message, receiver, sender) => {
-      appendDm(message, receiver, sender);
+    socket.on("direct message", (message, receiver, sender, timeOfMessage) => {
+      appendDm(message, receiver, sender, timeOfMessage);
     });
 
     async function getCurrentDms({ id }, { user_id }) {
@@ -95,13 +108,6 @@ $(document).ready(async function () {
       }
     }
 
-    async function getUserIdByUsername(name) {
-      try {
-        const res = await fetch(`/api/users/${name}`);
-        return res.json();
-      } catch (error) {}
-    }
-
     async function getCurrentUsersInfo() {
       try {
         const userInfo = await fetch("/api/users/session");
@@ -121,11 +127,38 @@ $(document).ready(async function () {
           `<li>
         <img src='${dm.sender.pfp}' class='profile-image'></img>
         <span><strong>${dm.sender.username}</strong>: ${dm.message}</span>
-        <span class="message-date" id="message-time">     ${dm.createdAt}</span>
+        <span class="message-date" id="message-time">     ${dm.timeOfMessage}</span>
         </li>`
         );
       });
       messageContainer.scrollTop(messageContainer[0].scrollHeight);
+    }
+
+    async function saveSocketId(currentUser) {
+      try {
+        const res = await fetch("/api/users/socket", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentUser: currentUser,
+          }),
+        });
+        return res.json();
+      } catch (error) {
+        //error:(
+        console.log(error);
+      }
+    }
+
+    function getCurrentTime() {
+      return new Date().toLocaleDateString("en-us", {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
     }
 
     function appendDm(message) {
@@ -134,10 +167,8 @@ $(document).ready(async function () {
       messageContainer.append(
         `<li>
       <img src='${message.sender.pfp}' class='profile-image'></img>
-      <span><strong>${message.sender.username}</strong>: ${
-          message.message
-        }</span>
-      <span class="message-date" id="message-time">     ${"placeholder time"}</span>
+      <span><strong>${message.sender.username}</strong>: ${message.message}</span>
+      <span class="message-date" id="message-time">     ${message.timeOfMessage}</span>
       </li>`
       );
       messageContainer.scrollTop(messageContainer[0].scrollHeight);

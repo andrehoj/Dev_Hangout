@@ -4,6 +4,14 @@
 //it should be linked before the 'slideout.js file"
 
 $(document).ready(async function () {
+  socket.on("dm started", (directMsg, receiver) => {
+    console.log(directMsg, receiver);
+    // $(".alert").text(`You recieved a message from ${receiver.username}`);
+    $(".alert")
+      .css("opacity", 0, "top", "30px")
+      .animate({ opacity: 1, top: "+=25" }, { queue: false });
+  });
+
   console.log("room.js is connected");
   if (window.io) {
     const currentUser = await getCurrentUsersInfo();
@@ -17,13 +25,6 @@ $(document).ready(async function () {
       username: currentUser.username,
     });
 
-    socket.on("chat message", function ({ message, username, pfp }) {
-      const timeOfMessage = getCurrentTime();
-
-      appendMessage(message, timeOfMessage, username, pfp);
-      saveMessage(username, message, timeOfMessage, room);
-    });
-
     getAllMessagesByRoom(room).then((messages) => {
       chatBox.empty();
       messages.forEach((msg) => {
@@ -31,6 +32,15 @@ $(document).ready(async function () {
         const { message, timeOfMessage } = msg;
         appendMessage(message, timeOfMessage, username, pfp);
       });
+    });
+
+    socket.on("chat message", function ({ message, username, pfp }) {
+      const timeOfMessage = getCurrentTime();
+
+      appendMessage(message, timeOfMessage, username, pfp);
+      if (currentUser.username === username) {
+        saveMessage(username, message, timeOfMessage, room);
+      }
     });
 
     chatForm.submit(function (event) {

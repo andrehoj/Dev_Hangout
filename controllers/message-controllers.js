@@ -31,6 +31,7 @@ const messageController = {
   },
 
   async saveMessage({ body }, res) {
+    console.log(body)
     try {
       let roomId = await Room.findOne({
         where: {

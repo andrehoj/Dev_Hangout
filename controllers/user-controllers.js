@@ -81,17 +81,19 @@ const userController = {
         },
       });
 
-      if (dbUserData.dataValues.isActive) {
-        res
-          .status(400)
-          .json({ errorMessage: "This user is currenty logged in" });
-        return;
-      }
-
       if (!dbUserData) {
         res
           .status(400)
           .json({ errorMessage: "Username or password is incorrect" });
+        return;
+      }
+
+      const user = dbUserData.get({ plain: true });
+
+      if (user.isActive) {
+        res
+          .status(400)
+          .json({ errorMessage: "This user is currenty logged in" });
         return;
       }
 
@@ -104,15 +106,13 @@ const userController = {
         return;
       }
 
-      const plainUserData = dbUserData.get({ plain: true });
-
       await session.save(() => {
         session.loggedIn = true;
-        session.user_id = plainUserData.id;
-        session.username = plainUserData.username;
-        session.pfp = plainUserData.pfp;
-        session.gitHub = plainUserData.gitHub;
-        session.favTech = plainUserData.favTech;
+        session.user_id = user.id;
+        session.username = user.username;
+        session.pfp = user.pfp;
+        session.gitHub = user.gitHub;
+        session.favTech = user.favTech;
 
         User.update(
           { isActive: true },
@@ -245,18 +245,16 @@ const userController = {
     }
   },
 
-  async saveSocket({ body, session }, res) {
+  async saveSocket({ body }, res) {
     console.log("/socket was hit ");
     try {
       let dbUserData = await User.update(
-        { socketId: body.socketId },
-        { where: { username: body.username } }
+        { socketId: body.currentUser.socketId },
+        { where: { username: body.currentUser.username } }
       );
-      session.socketId = body.socketId;
-
+      dbUserData = dbUserData.map((data) => data.get({ plain: true }));
       res.json(dbUserData);
     } catch (error) {
-      console.log(error);
       res.json(error);
     }
   },

@@ -22,6 +22,8 @@ async function handleRegister(event) {
       document.location.replace("/room/General");
     } else {
       const { errorMessage } = await response.json();
+      console.log(errorMessage)
+
       appendLoginErrorMessage(errorMessage);
     }
   } else appendLoginErrorMessage("You must enter your username and password");

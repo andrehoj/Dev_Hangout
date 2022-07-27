@@ -41,25 +41,32 @@ io.on("connection", (socket) => {
 
   socket.on("join room", ({ username, room }) => {
     socket.join(room);
-
-    console.log(`${username} joined the ${room} chat!`);
   });
+
   socket.on("chat message", ({ message, username, pfp, room }) => {
     io.to(room).emit("chat message", { message, username, pfp });
   });
 
-  socket.on("direct message", ({ message, receiver, sender }) => {
-    socket.join(receiver.socketId);
+  socket.on(
+    "direct message",
+    ({ message, receiver, sender, timeOfMessage }) => {
+      socket.join(receiver.socketId);
 
-    io.to(receiver.socketId).emit("direct message", {
-      message: message,
-      receiver: receiver,
-      sender: sender,
-    });
-  });
+      io.to(receiver.socketId).emit("direct message", {
+        message,
+        receiver,
+        sender,
+        timeOfMessage,
+      });
+    }
+  );
 
   socket.on("disconnect", (socket) => {
     io.emit("user disconnected");
+  });
+
+  socket.onAny((event, ...args) => {
+    console.log(event, args);
   });
 });
 

@@ -11,19 +11,10 @@
   --font-stack: "Source Code Pro", "Helvetica";
 }
 
-/* nts: does bootstrap do this? */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-/* fixes padding issues with header on mobile devices */
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
 }
 
 body {
@@ -31,9 +22,8 @@ body {
   font-family: var(--font-stack);
 }
 
-/* apply this class when wall modals are active */
-.blur {
-  filter: blur(100px);
+.wrapper_main {
+  overflow: hidden;
 }
 
 .svg-header {
@@ -469,7 +459,16 @@ body {
 
 .empty-dms:hover {
   cursor: default !important;
- color: var(--null-color) !important;
+  color: var(--null-color) !important;
 }
 
 /* List styling ends */
+
+.alert {
+  opacity: 0;
+  top: -20px;
+  z-index: 5;
+  background-color: var(--main-border-color);
+  color: var(--null-color);
+  transition: all 2s ease-in-out;
+}

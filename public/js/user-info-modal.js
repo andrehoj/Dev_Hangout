@@ -7,7 +7,6 @@ $(document).ready(async function () {
       const userId = $(this).data("userId");
 
       if (window.innerWidth <= 767) {
-        console.log(window.innerWidth);
         userInfoModal.animate(
           {
             height: "toggle",
@@ -15,8 +14,6 @@ $(document).ready(async function () {
           200
         );
       } else {
-        console.log(window.innerWidth);
-
         userInfoModal.animate({ width: "toggle" }, 200);
       }
 
@@ -67,7 +64,7 @@ $(document).ready(async function () {
           `<a href="https://github.com/${userData.gitHub}?tab=repositories" target='blank'>${userData.gitHub}<a/>`
         );
       }
-      $("#message-user-input").attr(
+      $("#direct-msg-input").attr(
         "placeholder",
         `message @${userData.username}`
       );

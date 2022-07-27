@@ -1,12 +1,12 @@
 $("#settings-go-back").click(function () {
-  document.location.replace("/room/general");
+  document.location.replace("/room/General");
 });
 
 getCurrentSession().then((session) => {
   appendUsersData(session);
 });
 
-//session not calling
+
 async function getCurrentSession() {
   try {
     let session = await fetch("/api/users/session", {

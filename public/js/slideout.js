@@ -3,35 +3,31 @@
 
 $(document).ready(async function () {
   if (window.io) {
-    console.log("slideout.js is connected");
-
     const userList = $("#user-list");
     const roomList = $("#room-list");
     const dmList = $("#direct-msg-list");
 
+    const currentUser = await getCurrentUsersInfo();
+    const usersData = await getAllUsersData();
+    const dms = await getAllDms(currentUser);
+    const activeDms = filterActiveDms(dms, currentUser);
+
     socket.on("user connected", async () => {
-      console.log("bonjour");
       const usersData = await getAllUsersData();
       const dms = await getAllDms(currentUser);
-      const activeDms = filterActiveDms(dms);
+      const activeDms = filterActiveDms(dms, currentUser);
       appendActiveDms(activeDms);
       listAllUsers(usersData);
     });
 
     socket.on("user disconnected", async () => {
-      console.log("bonjour");
       const usersData = await getAllUsersData();
       listAllUsers(usersData);
       const dms = await getAllDms(currentUser);
-      const activeDms = filterActiveDms(dms);
+      const activeDms = filterActiveDms(dms, currentUser);
       appendActiveDms(activeDms);
       listAllUsers(usersData);
     });
-
-    const currentUser = await getCurrentUsersInfo();
-    const usersData = await getAllUsersData();
-    const dms = await getAllDms(currentUser);
-    const activeDms = filterActiveDms(dms);
 
     listAllUsers(usersData);
     displayCurrentUser(currentUser);
@@ -116,33 +112,27 @@ $(document).ready(async function () {
     }
 
     //gets a list of usernames to show active dms
-    function filterActiveDms(dms) {
-      console.log(dms);
-      const usersWithDms = dms.map((dm, i) => {
-        const dmObj = {};
+    function filterActiveDms(dms, currentUser) {
+      const userNames = [];
 
-        dmObj.msgId = dm.id;
-        dmObj.receiverId = dm.receiver.id;
-        dmObj.receiver = dm.receiver.username;
-        dmObj.pfp = dm.receiver.pfp;
-        dmObj.isActive = dm.receiver.isActive;
-
-        return dmObj;
+      dms.forEach((dm) => {
+        userNames.push(dm.receiver);
+        userNames.push(dm.sender);
       });
 
-      const uniqueUsers = [];
-      console.log(usersWithDms);
-      const filteredUsers = usersWithDms.filter((user) => {
-        const isDuplicate = uniqueUsers.includes(user.receiver);
-
-        if (!isDuplicate) {
-          uniqueUsers.push(user.receiver);
-          return true;
-        }
-        return false;
+      let activeDms = userNames.filter((user) => {
+        return user.username != currentUser.username;
       });
-      console.log(filteredUsers);
-      return filteredUsers;
+
+      activeDms = activeDms.filter(
+        (user, index, self) =>
+          index ===
+          self.findIndex(
+            (key) => key.username === user.username && key.name === user.name
+          )
+      );
+
+      return activeDms;
     }
 
     function appendActiveDms(users) {
@@ -158,7 +148,7 @@ $(document).ready(async function () {
           `<li data-dm-user-id="${user.receiverId}" class="user-list-item" >
           <img class='active-list-pfp' src='${user.pfp}'></img>
           <span class="username-dm">${
-            user.receiver
+            user.username
           }</span> <span class="${checkIfActive(user.isActive)}">●</span></li>`
         );
       });
@@ -177,7 +167,6 @@ $(document).ready(async function () {
       document.location.href = `/room/${room}`;
     }
 
-    //Dms
     $("#direct-msg-form").submit(async function (e) {
       e.preventDefault();
 
@@ -189,15 +178,16 @@ $(document).ready(async function () {
         const res = await saveDm(directMsg, receiverData, currentUser);
 
         if (res) {
+          socket.emit("dm started", {
+            directMsg,
+            receiver,
+          });
+
           $("#userInfoModal").hide();
           $("#direct-msg-input").val("");
 
-          // socket.emit("dm started", {
-          //   directMsg, receiver
-          // });
-
           const dms = await getAllDms(currentUser);
-          const userDmList = await filterActiveDms(dms);
+          const userDmList = filterActiveDms(dms, currentUser);
           appendActiveDms(userDmList);
         }
       } else {
@@ -206,6 +196,7 @@ $(document).ready(async function () {
     });
 
     async function saveDm(...args) {
+     
       try {
         const response = await fetch("/api/dm/save-dm-message", {
           method: "post",
@@ -231,22 +222,10 @@ $(document).ready(async function () {
       }
     }
 
+    //on click on dms list load the dm chat room
     $("#direct-msg-list").on("click", "li span", async function () {
       loadDmRoom($(this).text());
     });
-
-    async function getDm(dmUserId, { user_id }) {
-      let res = await fetch(
-        `/api/dm/get-dms-by-userid/${dmUserId}/${user_id}`,
-        {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return res.json();
-    }
 
     function loadDmRoom(username) {
       document.location.href = `/directmessages/${username}`;

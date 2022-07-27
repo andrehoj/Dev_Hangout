@@ -19,6 +19,11 @@ Dm.init(
       },
     },
 
+    timeOfMessage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     receiverId: {
       type: DataTypes.INTEGER,
       references: {
