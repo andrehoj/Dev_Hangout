@@ -39,10 +39,9 @@ $(document).ready(async function () {
         event.preventDefault();
 
         const message = chatInput.val().trim();
-
+        const timeOfMessage = getCurrentTime();
+        console.log(message);
         if (message) {
-          const timeOfMessage = getCurrentTime();
-
           socket.emit("direct message", {
             message: message,
             receiver: receiver,
@@ -50,7 +49,7 @@ $(document).ready(async function () {
             timeOfMessage: timeOfMessage,
           });
 
-          saveDm(message, receiver, currentUser, timeOfMessage);
+          saveDm(message, receiver, currentUser);
 
           chatInput.val("");
         }
@@ -59,8 +58,8 @@ $(document).ready(async function () {
       }
     });
 
-    socket.on("direct message", (message, receiver, sender, timeOfMessage) => {
-      appendDm(message, receiver, sender, timeOfMessage);
+    socket.on("direct message", (message, receiver, sender) => {
+      appendDm(message, receiver, sender);
     });
 
     async function getCurrentDms({ id }, { user_id }) {
@@ -82,14 +81,19 @@ $(document).ready(async function () {
       }
     }
 
-    async function saveDm(...args) {
+    async function saveDm(message, receiver, sender, timeOfMessage) {
       try {
         const res = await fetch("/api/dm/save-dm-message", {
           method: "post",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(args),
+          body: JSON.stringify({
+            message: message,
+            receiver: receiver,
+            sender: sender,
+            timeOfMessage: timeOfMessage,
+          }),
         });
         return res.json();
       } catch (error) {

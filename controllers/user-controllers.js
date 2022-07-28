@@ -235,12 +235,14 @@ const userController = {
           id: session.user_id,
         },
       });
-
+      
+      console.log(session, deletedUser);
       if (deletedUser) {
-        session.destroy();
-        res.json(dbUserData);
+        await session.destroy();
+        res.json(deletedUser);
       }
     } catch (error) {
+      console.log("error occured",error);
       res.json(error);
     }
   },

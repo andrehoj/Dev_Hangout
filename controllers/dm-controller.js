@@ -2,16 +2,18 @@ const { User, Dm } = require("../models/index");
 const { getCurrentTime } = require("../utils/helpers");
 
 const dmController = {
+  //save the dm using the users id
   async saveDmMsg({ body }, res) {
-    console.log(body);
+    const { message, receiver, sender } = body;
+    const timeOfMessage = getCurrentTime();
 
     try {
       let newDm = await Dm.create(
         {
-          receiverId: body[1].id,
-          senderId: body[2].user_id,
-          message: body[0],
-          timeOfMessage: body.timeOfMessage,
+          receiverId: receiver.id,
+          senderId: sender.user_id,
+          message: message,
+          timeOfMessage: timeOfMessage,
         },
         { new: true }
       );
@@ -24,6 +26,7 @@ const dmController = {
   },
   // query the dms by the sender and receiver id then concat and return them
   async getAllDms({ params }, res) {
+    const allDms = await Dm.findAll({});
     try {
       let dmData = await Dm.findAll({
         where: { senderId: params.user_id },
@@ -38,7 +41,7 @@ const dmController = {
       });
 
       let userAsSender = dmData.map((dm) => dm.get({ plain: true }));
-
+      console.log("line 42 ", userAsSender);
       dmData = await Dm.findAll({
         where: { receiverId: params.user_id },
         include: [
@@ -54,7 +57,7 @@ const dmController = {
       const userAsReciever = dmData.map((dm) => dm.get({ plain: true }));
 
       const dms = userAsReciever.concat(userAsSender);
-
+      console.log(dms);
       res.json(dms);
     } catch (error) {
       res.json(error);

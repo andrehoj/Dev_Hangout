@@ -10,6 +10,7 @@ $(document).ready(async function () {
     const currentUser = await getCurrentUsersInfo();
     const usersData = await getAllUsersData();
     const dms = await getAllDms(currentUser);
+    console.log(dms);
     const activeDms = filterActiveDms(dms, currentUser);
 
     socket.on("user connected", async () => {
@@ -154,7 +155,7 @@ $(document).ready(async function () {
       });
     }
 
-    //handles room change
+    //handles room change on click of room list item
     roomList.click(function (event) {
       const room = $(event.target).text();
 
@@ -167,6 +168,7 @@ $(document).ready(async function () {
       document.location.href = `/room/${room}`;
     }
 
+    //handles starting dms when a user clicks on a users name and sends a message throught the modal
     $("#direct-msg-form").submit(async function (e) {
       e.preventDefault();
 
@@ -195,15 +197,18 @@ $(document).ready(async function () {
       }
     });
 
-    async function saveDm(...args) {
-     
+    async function saveDm(directMsg, receiverData, currentUser) {
       try {
         const response = await fetch("/api/dm/save-dm-message", {
           method: "post",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(args),
+          body: JSON.stringify({
+            message: directMsg,
+            receiver: receiverData,
+            sender: currentUser,
+          }),
         });
         return response;
       } catch (error) {

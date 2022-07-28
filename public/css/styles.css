@@ -17,13 +17,17 @@
   box-sizing: border-box;
 }
 
+/* fixes padding issues with header on mobile devices */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   background-color: var(--main-bg-color);
   font-family: var(--font-stack);
-}
-
-.wrapper_main {
-  overflow: hidden;
 }
 
 .svg-header {
@@ -228,6 +232,7 @@ body {
 .chat-list-container li {
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--main-border-color);
+  word-wrap: break-word;
 }
 
 .message-date {

@@ -156,3 +156,9 @@ body {
   cursor: pointer;
   filter: brightness(60%);
 }
+
+.remove-account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

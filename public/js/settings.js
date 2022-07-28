@@ -6,7 +6,6 @@ getCurrentSession().then((session) => {
   appendUsersData(session);
 });
 
-
 async function getCurrentSession() {
   try {
     let session = await fetch("/api/users/session", {
@@ -101,7 +100,7 @@ async function handleRemoveAccount() {
   response = await response.json();
 
   if (response) {
-    document.location.replace("/");
+    document.location.assign("/login");
   } else console.log(response);
 }
 

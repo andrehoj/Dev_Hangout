@@ -4,15 +4,19 @@ const path = require("path");
 const session = require("express-session");
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const bcrypt = require("bcrypt");
 const routes = require("./routes");
 const { engine } = require("express-handlebars");
 
 const PORT = process.env.PORT || 3001;
 
+const ONE_HOUR = 1000 * 60 * 60;
+
 const sess = {
   secret: process.env.SECRET,
-  cookie: {},
+  cookie: {
+    maxAge: ONE_HOUR,
+  },
+  rolling: true,
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
@@ -24,11 +28,23 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
+const authMiddleWare = async function ({ session }, res, next) {
+  if (session.cookie.maxAge <= 0) {
+    session.destroy(() => {
+      res.render("login");
+    });
+  } else {
+    next();
+  }
+};
+
 app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(authMiddleWare);
 
 app.use(routes);
 
