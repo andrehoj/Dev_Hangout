@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&family=VT323&display=swap");
+
+:root {
+  --main-bg-color: #0d1117;
+  --main-second-bg-color: #161b22;
+  --main-text-color: #c9d1d9;
+  --main-highlight-color: #1f6feb;
+  --main-border-color: #30363d;
+  --main-title-color: #98c379;
+  --null-color: #d19a66;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
+
+/* modal container start */
+.wall-modal-backdrop {
+  background-image: url(../images/login-img.jpg);
+}
+
+.modal-container {
+  display: flex;
+}
+
+.wall-modal {
+  height: fit-content;
+  max-width: calc(35rem + 1vw);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--main-border-color);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  transition: all 0.5s;
+}
+
+.wall-modal:hover {
+  box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
+  background-color: var(--main-second-bg-color);
+}
+
+/* modal container end */
+
+/* modal content start */
+.main-title {
+  color: var(--main-title-color);
+  font-family: "VT323";
+  text-align: center;
+  white-space: nowrap;
+  font-size: 4.3rem;
+}
+
+@media only screen and (max-width: 410px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+}
+
+.form-title {
+  color: var(--bs-link-color);
+  margin-bottom: 1rem;
+}
+
+.form-styles input {
+  background-color: var(--main-bg-color);
+  border: 1px var(--main-text-color) solid;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  outline: none;
+  color: var(--main-text-color);
+  transition: all 0.5s;
+}
+
+.form-styles input:focus {
+  border: 1px solid var(--bs-link-color);
+}
+
+.wall-modal:hover input {
+  background-color: var(--main-second-bg-color);
+}
+
+.wall-modal-btn {
+  color: var(--main-text-color);
+  width: 81px;
+  border: var(--main-text-color) 1px solid;
+  transition: all 0.3s ease-in-out;
+}
+
+.wall-modal-btn:hover {
+  color: var(--bs-link-color);
+  border: var(--bs-link-color) 1px solid;
+  transform: translateY(1px);
+}
+
+.modal-switch {
+  color: var(--main-text-color);
+  display: inline-block;
+}
+.modal-switch:hover {
+  color: var(--main-highlight-color);
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  border-top: solid 1px red;
+  margin: 10px 0;
+  text-align: center;
+}
+
+/* modal content end */

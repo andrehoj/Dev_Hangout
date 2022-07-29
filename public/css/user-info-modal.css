@@ -1,0 +1,65 @@
+.modal-content {
+  display: none;
+  position: absolute;
+  top: 15%;
+  right: 100%;
+  max-width: 22rem;
+  min-height: fit-content;
+  background-color: #32353b;
+  color: #c9d1d9;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 99;
+}
+
+.modal-pfp-styles {
+  border: #98c379 solid 1px;
+  border-radius: 50%;
+  height: 120px;
+}
+
+.dm-input {
+  color: #98c379;
+  background-color: #5e636b;
+  padding: 10px;
+  color: #c9cdd4;
+  border-radius: 5px;
+  border: none;
+  height: 2.5rem;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.dm-input:focus {
+  outline-width: 0;
+}
+
+.username-modal-styles {
+  font-size: 2.2rem;
+}
+
+.null-color {
+  color: #d19a66;
+}
+
+.favlang-usermodal{
+  margin-top: -10px;
+  width: 100px;
+}
+
+.dropdown-toggle::after{
+  display: none;
+}
+
+@media only screen and (max-width: 770px) {
+  .modal-content {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 767px) { 
+  .modal-content {
+    right: 5%;
+    top: 250px;
+  }
+ }

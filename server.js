@@ -1,46 +1,94 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-
-//handlebars setup
+const session = require("express-session");
+const sequelize = require("./config/connection");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const routes = require("./routes");
 const { engine } = require("express-handlebars");
+
+const PORT = process.env.PORT || 3001;
+
+const ONE_HOUR = 1000 * 60 * 60;
+
+const sess = {
+  secret: process.env.SECRET,
+  cookie: {
+    maxAge: ONE_HOUR,
+  },
+  rolling: true,
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
+};
+
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-//have to use the http module to get the server running
-const server = require("http").createServer(app);
+const authMiddleWare = async function ({ session }, res, next) {
+  if (session.cookie.maxAge <= 0) {
+    session.destroy(() => {
+      res.render("login");
+    });
+  } else {
+    next();
+  }
+};
 
+app.use(session(sess));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(authMiddleWare);
+
+app.use(routes);
+
+const server = require("http").createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-//enable the use of static html and css/js
-app.use(express.static(path.join(__dirname, "public")));
-
-//on the default url "localhost:3000"  send the home page
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-//" io.on" takes two arguments, the first is an event and second is a callback funtion
-// the "connection" event fires when a user goes to localhost3001
-//when a user visits the site a socket.id is generated maybe use to identify current users
 io.on("connection", (socket) => {
-  console.log(`A new user has connected. Their id is ${socket.id}` );
+  socket.broadcast.emit("user connected", socket.id);
 
-  //here we recieve the chat message from the client 
-  socket.on("chat message", (msg) => {
-    console.log(`User ${socket.id} says:${msg}`);
-    // emit sends to the browser
-    io.emit("chat message", msg);
+  socket.on("join room", ({ username, room }) => {
+    socket.join(room);
   });
 
-  //disconnect fires when a user exits the localhost server
+  socket.on("chat message", ({ message, username, pfp, room }) => {
+    io.to(room).emit("chat message", { message, username, pfp });
+  });
+
+  socket.on(
+    "direct message",
+    ({ message, receiver, sender, timeOfMessage }) => {
+      socket.join(receiver.socketId);
+
+      io.to(receiver.socketId).emit("direct message", {
+        message,
+        receiver,
+        sender,
+        timeOfMessage,
+      });
+    }
+  );
+
   socket.on("disconnect", (socket) => {
-    console.log("A user has disconnected.");
+    io.emit("user disconnected");
+  });
+
+  socket.onAny((event, ...args) => {
+    console.log(event, args);
   });
 });
 
-server.listen(3001, () => {
-  console.log("listening on *:3000");
+sequelize.sync({ force: false }).then(() => {
+  server.listen(PORT, () => {
+    console.log("🚀 live on localhost:3001");
+  });
 });
+//order of middleware and router/routes matter
