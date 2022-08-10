@@ -1,7 +1,5 @@
 $(document).ready(async function () {
   if (window.io) {
-    console.log("direct-messages is linked!");
-
     const chatForm = $("#chat-form");
     const chatInput = $("#chat-input");
     const roomName = $("#room-name");
@@ -24,8 +22,6 @@ $(document).ready(async function () {
 
     appendDms(dms);
 
-    console.log(currentUser, receiver);
-
     socket.on("user connected", async (socketId) => {
       console.log(
         "user connected as fired, the users socket id is: ",
@@ -40,7 +36,7 @@ $(document).ready(async function () {
 
         const message = chatInput.val().trim();
         const timeOfMessage = getCurrentTime();
-        console.log(message);
+  
         if (message) {
           socket.emit("direct message", {
             message: message,

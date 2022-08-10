@@ -9,13 +9,9 @@ const { engine } = require("express-handlebars");
 
 const PORT = process.env.PORT || 3001;
 
-const ONE_HOUR = 1000 * 60 * 60;
-
 const sess = {
   secret: process.env.SECRET,
-  cookie: {
-    maxAge: ONE_HOUR,
-  },
+  cookie: {},
   rolling: true,
   resave: false,
   saveUninitialized: true,
@@ -28,23 +24,11 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-const authMiddleWare = async function ({ session }, res, next) {
-  if (session.cookie.maxAge <= 0) {
-    session.destroy(() => {
-      res.render("login");
-    });
-  } else {
-    next();
-  }
-};
-
 app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use(authMiddleWare);
 
 app.use(routes);
 
@@ -81,14 +65,12 @@ io.on("connection", (socket) => {
     io.emit("user disconnected");
   });
 
-  socket.onAny((event, ...args) => {
-    console.log(event, args);
+  socket.on("dm started", (directMsg, receiver) => {
+    io.emit("dm started", { directMsg, receiver });
   });
 });
 
 sequelize.sync({ force: false }).then(() => {
-  server.listen(PORT, () => {
-    console.log("🚀 live on localhost:3001");
-  });
+  server.listen(PORT, () => {});
 });
 //order of middleware and router/routes matter

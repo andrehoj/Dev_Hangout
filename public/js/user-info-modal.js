@@ -1,6 +1,5 @@
 $(document).ready(async function () {
   if (window.io) {
-    console.log("user-info-modal is link");
     const userInfoModal = $("#userInfoModal");
 
     $("#user-list").on("click", ".user-list-item", function () {
@@ -57,7 +56,7 @@ $(document).ready(async function () {
 
       if (userData.gitHub === null) {
         $("#modal-github").empty();
-        $("#modal-github").html("<p>GitHub is not registered<p/>");
+        $("#modal-github").html("<p>GitHub is not registered<p/>").addClass("null-github");
       } else {
         $("#modal-github").empty();
         $("#modal-github").html(

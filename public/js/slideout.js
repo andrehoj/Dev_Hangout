@@ -10,7 +10,7 @@ $(document).ready(async function () {
     const currentUser = await getCurrentUsersInfo();
     const usersData = await getAllUsersData();
     const dms = await getAllDms(currentUser);
-    console.log(dms);
+
     const activeDms = filterActiveDms(dms, currentUser);
 
     socket.on("user connected", async () => {
@@ -22,12 +22,19 @@ $(document).ready(async function () {
     });
 
     socket.on("user disconnected", async () => {
+      socket.emit("this", { currentUser });
       const usersData = await getAllUsersData();
       listAllUsers(usersData);
       const dms = await getAllDms(currentUser);
       const activeDms = filterActiveDms(dms, currentUser);
       appendActiveDms(activeDms);
       listAllUsers(usersData);
+    });
+
+    socket.on("dm started", async (directMsg, receiver) => {
+      const dms = await getAllDms(currentUser);
+      const activeDms = filterActiveDms(dms, currentUser);
+      appendActiveDms(activeDms);
     });
 
     listAllUsers(usersData);
@@ -168,7 +175,7 @@ $(document).ready(async function () {
       document.location.href = `/room/${room}`;
     }
 
-    //handles starting dms when a user clicks on a users name and sends a message throught the modal
+    //handles starting dms when sent through modal
     $("#direct-msg-form").submit(async function (e) {
       e.preventDefault();
 
