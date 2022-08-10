@@ -1,4 +1,4 @@
-# Chatting-App
+# Developer Hangout :raising_hand:
 An application where users can talk to each other live.
 
 # User Story
@@ -51,3 +51,7 @@ An application where users can talk to each other live.
         - References User
         - Contains Message
         - Contains Creation date
+
+# Deployed App :rocket:
+https://dry-journey-51162.herokuapp.com/
+
