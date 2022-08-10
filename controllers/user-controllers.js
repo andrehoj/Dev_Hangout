@@ -7,7 +7,6 @@ const userController = {
   },
 
   async getUserId({ params }, res) {
-    console.log("/:username was hit");
     try {
       let user = await User.findOne({ where: { username: params.username } });
       res.json(user.id);
@@ -15,7 +14,6 @@ const userController = {
   },
 
   async getUserByUsername({ params }, res) {
-    console.log("/user-id/:username was hit ");
     try {
       let dbUserData = await User.findOne({
         where: { username: params.username },
@@ -29,7 +27,6 @@ const userController = {
 
   //get all users
   async getAllUsers({ params, body, session }, res) {
-    console.log("/ was hit");
     try {
       let dbUserData = await User.findAll({
         attributes: { exclude: ["password"] },
@@ -42,7 +39,6 @@ const userController = {
 
   //get a single users info
   async getUserById({ params }, res) {
-    console.log("/:id was hit ");
     try {
       let dbUserData = await User.findOne({ where: { _id: params.id } });
       console.log(dbUserData);
@@ -54,7 +50,6 @@ const userController = {
 
   //single user query
   async getUserById({ params }, res) {
-    console.log("/:id was hit");
     try {
       let userData = await User.findByPk(params.id, {
         attributes: { exclude: ["password"] },
@@ -70,7 +65,6 @@ const userController = {
 
   //log's a user in
   async logUserIn({ body, session }, res) {
-    console.log("/login was hit");
     try {
       if (!body.userName || !body.passWord)
         res.status(400).json({ errorMessage: "An error has occured" });
@@ -126,14 +120,12 @@ const userController = {
         res.json({ message: "you are now logged in!" });
       });
     } catch (error) {
-      console.log(error);
       res.status(400).json(error);
     }
   },
 
   //register user
   async registerUser({ body, session }, res) {
-    console.log("/register was it");
     try {
       let dbUserData = await User.findOne({
         where: {
@@ -176,7 +168,6 @@ const userController = {
 
   //edit a user account
   async editUser({ body, session }, res) {
-    console.log("/edituser was hit");
     try {
       let dbUserData = await User.update(body, {
         where: {
@@ -202,7 +193,6 @@ const userController = {
 
   //log user out
   async logUserOut({ session }, res) {
-    console.log("/logout was hit ");
     try {
       if (session.loggedIn) {
         let loggedOutUser = await User.update(
@@ -228,27 +218,25 @@ const userController = {
 
   //delete a user account
   async deleteAccount({ session }, res) {
-    console.log("/deleteAccount was hit");
     try {
       let deletedUser = await User.destroy({
         where: {
           id: session.user_id,
         },
       });
-      
+
       console.log(session, deletedUser);
       if (deletedUser) {
         await session.destroy();
         res.json(deletedUser);
       }
     } catch (error) {
-      console.log("error occured",error);
+      console.log("error occured", error);
       res.json(error);
     }
   },
 
   async saveSocket({ body }, res) {
-    console.log("/socket was hit ");
     try {
       let dbUserData = await User.update(
         { socketId: body.currentUser.socketId },

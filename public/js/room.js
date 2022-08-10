@@ -4,15 +4,13 @@
 //it should be linked before the 'slideout.js file"
 
 $(document).ready(async function () {
-  socket.on("dm started", (directMsg, receiver) => {
-    console.log(directMsg, receiver);
-    // $(".alert").text(`You recieved a message from ${receiver.username}`);
-    $(".alert")
-      .css("opacity", 0, "top", "30px")
-      .animate({ opacity: 1, top: "+=25" }, { queue: false });
-  });
+  // socket.on("dm started", (directMsg, receiver) => {
+  //   // $(".alert").text(`You recieved a message from ${receiver.username}`);
+  //   $(".alert")
+  //     .css("opacity", 0, "top", "30px")
+  //     .animate({ opacity: 1, top: "+=25" }, { queue: false });
+  // });
 
-  console.log("room.js is connected");
   if (window.io) {
     const currentUser = await getCurrentUsersInfo();
     const chatForm = $("#chat-form");

@@ -25,13 +25,11 @@ const messageController = {
       );
       res.json(messages);
     } catch (error) {
-      console.log(error);
       res.status(500).json({ Error: error });
     }
   },
 
   async saveMessage({ body }, res) {
-    console.log(body)
     try {
       let roomId = await Room.findOne({
         where: {

@@ -5,6 +5,7 @@ const dmController = {
   //save the dm using the users id
   async saveDmMsg({ body }, res) {
     const { message, receiver, sender } = body;
+    
     const timeOfMessage = getCurrentTime();
 
     try {
@@ -26,7 +27,6 @@ const dmController = {
   },
   // query the dms by the sender and receiver id then concat and return them
   async getAllDms({ params }, res) {
-    const allDms = await Dm.findAll({});
     try {
       let dmData = await Dm.findAll({
         where: { senderId: params.user_id },
@@ -41,7 +41,7 @@ const dmController = {
       });
 
       let userAsSender = dmData.map((dm) => dm.get({ plain: true }));
-      console.log("line 42 ", userAsSender);
+      
       dmData = await Dm.findAll({
         where: { receiverId: params.user_id },
         include: [
@@ -57,7 +57,7 @@ const dmController = {
       const userAsReciever = dmData.map((dm) => dm.get({ plain: true }));
 
       const dms = userAsReciever.concat(userAsSender);
-      console.log(dms);
+
       res.json(dms);
     } catch (error) {
       res.json(error);
@@ -81,13 +81,13 @@ const dmController = {
             attributes: { exclude: "password" },
           },
         ],
+        order: [["createdAt", "ASC"]],
       });
 
       const dmsSender = dmData.map((dm) => dm.get({ plain: true }));
 
       res.json(dmsSender);
     } catch (error) {
-      console.log(error);
       res.json(error);
     }
   },
