@@ -53,5 +53,5 @@ An application where users can talk to each other live.
         - Contains Creation date
 
 # Deployed App :rocket:
-https://dry-journey-51162.herokuapp.com/
+https://developer-hangout-657.herokuapp.com/
 
