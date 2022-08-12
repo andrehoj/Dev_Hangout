@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3001;
 const sess = {
   secret: process.env.SECRET,
   cookie: {},
-  rolling: true,
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
@@ -39,7 +38,7 @@ const io = new Server(server);
 io.on("connection", (socket) => {
   socket.broadcast.emit("user connected", socket.id);
 
-  socket.on("join room", ({ username, room }) => {
+  socket.on("join room", ({ room }) => {
     socket.join(room);
   });
 
@@ -73,4 +72,3 @@ io.on("connection", (socket) => {
 sequelize.sync({ force: false }).then(() => {
   server.listen(PORT, () => {});
 });
-//order of middleware and router/routes matter

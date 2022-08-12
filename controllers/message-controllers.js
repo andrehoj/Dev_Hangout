@@ -3,7 +3,7 @@ const { Message, Room, User } = require("../models/index");
 const messageController = {
   async getMessagesByRoom({ params }, res) {
     try {
-      let dbMessageData = await Message.findAll({
+      const dbMessageData = await Message.findAll({
         include: [
           {
             model: Room,
@@ -19,8 +19,7 @@ const messageController = {
         order: [["updatedAt", "ASC"]],
         require: true,
       });
-
-      let messages = dbMessageData.map((message) =>
+      const messages = dbMessageData.map((message) =>
         message.get({ plain: true })
       );
       res.json(messages);

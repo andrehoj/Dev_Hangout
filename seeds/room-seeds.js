@@ -2,16 +2,16 @@ const { Room } = require("../models");
 
 const roomdata = [
   { roomName: "General" },
-  { roomName: "Javascript" },
+  { roomName: "JavaScript" },
   { roomName: "Python" },
-  { roomName: "java" },
+  { roomName: "Java" },
   { roomName: "C" },
   { roomName: "C++" },
-  { roomName: "Csharp" },
+  { roomName: "CSharp" },
   { roomName: "TypeScript" },
   { roomName: "ObjectiveC" },
   { roomName: "Swift" },
-  { roomName: "Golang" },
+  { roomName: "GoLang" },
   { roomName: "Other" },
 ];
 
