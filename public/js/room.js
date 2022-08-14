@@ -1,123 +1,151 @@
-//READ: This file is used to: Get all messages from the data base for the current room and append the messages to the chat box, handle saving new messages to the database and using the socket to live append messages to the chat box.
-
-//this file should only be linked in the room.handlebars html page
-//it should be linked before the 'slideout.js file"
-
-$(document).ready(async function () {
-  // socket.on("dm started", (directMsg, receiver) => {
-  //   // $(".alert").text(`You recieved a message from ${receiver.username}`);
-  //   $(".alert")
-  //     .css("opacity", 0, "top", "30px")
-  //     .animate({ opacity: 1, top: "+=25" }, { queue: false });
-  // });
-
+$(document).ready(function () {
   if (window.io) {
-    const currentUser = await getCurrentUsersInfo();
     const chatForm = $("#chat-form");
     const chatBox = $("#messages");
     const chatInput = $("#chat-input");
-    const room = document.location.pathname.replace("/room/", "");
 
-    socket.emit("join room", {
-      room: room,
-      username: currentUser.username,
-    });
+    class Room {
+      constructor(name) {
+        this.name = name;
+      }
 
-    getAllMessagesByRoom(room).then((messages) => {
-      chatBox.empty();
-      messages.forEach((msg) => {
+      joinRoom() {
+        socket.emit("join room", {
+          room: this.name,
+        });
+      }
+
+      async getMessages() {
+        try {
+          const response = await fetch(`/api/messages/${this.name}`, {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          return response.json();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      appendMessages(msg) {
         const { username, pfp } = msg.user;
         const { message, timeOfMessage } = msg;
-        appendMessage(message, timeOfMessage, username, pfp);
-      });
-    });
 
-    socket.on("chat message", function ({ message, username, pfp }) {
-      const timeOfMessage = getCurrentTime();
-
-      appendMessage(message, timeOfMessage, username, pfp);
-      if (currentUser.username === username) {
-        saveMessage(username, message, timeOfMessage, room);
-      }
-    });
-
-    chatForm.submit(function (event) {
-      event.preventDefault();
-
-      let message = chatInput.val().trim();
-      const { username, pfp } = currentUser;
-
-      if (message) {
-        socket.emit("chat message", {
-          message,
-          username,
-          pfp,
-          room,
-        });
-        chatInput.val("");
-      }
-    });
-
-    async function getCurrentUsersInfo() {
-      try {
-        let userInfo = await fetch("/api/users/session");
-        return userInfo.json();
-      } catch (error) {
-        //error:(
-      }
-    }
-
-    async function getAllMessagesByRoom(room) {
-      try {
-        const response = await fetch(`/api/messages/${room}`, {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        return response.json();
-      } catch (error) {
-        //error:(
-      }
-    }
-
-    async function saveMessage(username, msg, currentTime, room) {
-      const { user_id } = currentUser;
-      try {
-        let response = await fetch("/api/messages/save", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            msg,
-            currentTime,
-            room,
-            userId: user_id,
-          }),
-        });
-      } catch (error) {
-        //error:(
-      }
-    }
-
-    function appendMessage(message, timeOfMessage, username, pfp) {
-      chatBox.append(`<li>
+        $("#messages").append(`<li>
         <img src='${pfp}' class='profile-image'></img>
         <span><strong>${username}</strong>: ${message}</span>
         <span class="message-date" id="message-time">     ${timeOfMessage}</span>
         </li>`);
-      chatBox.scrollTop(chatBox[0].scrollHeight);
+        $("#messages").scrollTop($("#messages")[0].scrollHeight);
+      }
+
+      async saveMessage(username, msg, currentTime, room, user) {
+        try {
+          await fetch("/api/messages/save", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username,
+              msg,
+              currentTime,
+              room,
+              userId: user.user_id,
+            }),
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      appendMessage(message, timeOfMessage, username, pfp) {
+        chatBox.append(`<li>
+          <img src='${pfp}' class='profile-image'></img>
+          <span><strong>${username}</strong>: ${message}</span>
+          <span class="message-date" id="message-time">     ${timeOfMessage}</span>
+          </li>`);
+        chatBox.scrollTop(chatBox[0].scrollHeight);
+      }
+
+      getCurrentTime() {
+        return new Date().toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      async getUsersInfo() {
+        try {
+          let userInfo = await fetch("/api/users/session");
+          return userInfo.json();
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
-    function getCurrentTime() {
-      return new Date().toLocaleDateString("en-us", {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
+    //gets the messages by room name and append them
+    const room = document.location.pathname.replace("/room/", "");
+
+    const testRoom = new Room(document.location.pathname.replace("/room/", ""));
+
+    testRoom.joinRoom();
+
+    testRoom.getMessages().then((messages) => {
+      messages.forEach((msg) => {
+        testRoom.appendMessages(msg);
       });
-    }
-  }
+    });
+
+    testRoom.getUsersInfo().then((userInfo) => {
+      const socketId = socket.id;
+
+      const { username, user_id } = userInfo;
+
+      socket.emit("pushing", { username, user_id, socketId });
+    });
+
+    socket.on("pushed", (users) => {
+      console.log(users);
+    });
+
+    //on chat message append it and save it to the db
+    socket.on("chat message", function ({ message, username, pfp }) {
+      const timeOfMessage = testRoom.getCurrentTime();
+
+      testRoom.appendMessage(message, timeOfMessage, username, pfp);
+
+      testRoom.getUsersInfo().then((user) => {
+        if (user.username === username) {
+          testRoom.saveMessage(username, message, timeOfMessage, room, user);
+        }
+      });
+    });
+
+    //on chat message emit the chat message event
+    chatForm.submit(function (event) {
+      event.preventDefault();
+
+      const message = chatInput.val().trim();
+
+      testRoom.getUsersInfo().then(function (user) {
+        const { username, pfp } = user;
+
+        if (message) {
+          socket.emit("chat message", {
+            message,
+            username,
+            pfp,
+            room,
+          });
+          chatInput.val("");
+        }
+      });
+    });
+  } else document.location.replace("/login");
 });

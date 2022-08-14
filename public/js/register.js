@@ -1,23 +1,23 @@
-$("#register-form").submit(handleregister);
+$("#register-form").submit(handleRegister);
 
-async function handleregister(event) {
+async function handleRegister(event) {
   event.preventDefault();
 
-  let userName = $("#registerUserName").val().trim();
-  let passWord = $("#registerPassword").val().trim();
+  let username = $("#registerUserName").val().trim();
+  let password = $("#registerPassword").val().trim();
   let gitHubUserName = $("#gitHubUserName").val().trim();
 
   if (!gitHubUserName) gitHubUserName = null;
 
-  if (userName && passWord) {
+  if (username && password) {
     let response = await fetch("/api/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userName,
-        passWord,
+        username,
+        password,
         gitHubUserName,
       }),
     });

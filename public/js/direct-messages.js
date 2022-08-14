@@ -5,11 +5,11 @@ $(document).ready(async function () {
     const roomName = $("#room-name");
 
     roomName.text(
-      `Your chat with  ${document.location.pathname.split("/")[2]}`
+      `Your chat with  ${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
     );
 
     const currentUser = await getCurrentUsersInfo();
-
+    
     currentUser.socketId = socket.id;
 
     await saveSocketId(currentUser);

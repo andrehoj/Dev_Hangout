@@ -1,9 +1,5 @@
 const router = require("express").Router();
-
-//entry point to app
-router.get("/", ({ session }, res) => {
-  session.loggedIn ? res.render(`room`) : res.render("login");
-});
+const { middleWareAuth } = require("../../utils/helpers");
 
 router.get("/login", (req, res) => {
   res.render("login");
@@ -13,18 +9,17 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/settings", (req, res) => {
+router.get("/settings", middleWareAuth, (req, res) => {
   res.render("settings");
 });
 
-router.get("/room/:roomName", ({ session, params }, res) => {
+router.get("/room/:roomname", middleWareAuth, ({ session, params }, res) => {
   res.render("room", {
-    loggedIn: session.loggedIn,
-    roomName: params.roomName,
+    roomname: params.roomname,
   });
 });
 
-router.get("/directmessages/:receiver", ({ session }, res) => {
+router.get("/directmessages/:receiver", middleWareAuth, ({ session }, res) => {
   res.render("directmessages", {
     loggedIn: session.loggedIn,
   });

@@ -1,54 +1,152 @@
-//this file is used to handle all things in the aside slide out
-//It handles the slide out on click, appending the users info to the slideout,listing the active users and all the users,the rooms and active rooms and the dm list and all the click events on the lists
-
-$(document).ready(async function () {
+$(document).ready(function () {
   if (window.io) {
+    socket.on("user connected", (id) => {
+      console.log(socket.id);
+    });
     const userList = $("#user-list");
     const roomList = $("#room-list");
     const dmList = $("#direct-msg-list");
 
-    const currentUser = await getCurrentUsersInfo();
-    const usersData = await getAllUsersData();
-    const dms = await getAllDms(currentUser);
-
-    const activeDms = filterActiveDms(dms, currentUser);
-
-    socket.on("user connected", async () => {
-      const usersData = await getAllUsersData();
-      const dms = await getAllDms(currentUser);
-      const activeDms = filterActiveDms(dms, currentUser);
-      appendActiveDms(activeDms);
-      listAllUsers(usersData);
-    });
-
-    socket.on("user disconnected", async () => {
-      socket.emit("this", { currentUser });
-      const usersData = await getAllUsersData();
-      listAllUsers(usersData);
-      const dms = await getAllDms(currentUser);
-      const activeDms = filterActiveDms(dms, currentUser);
-      appendActiveDms(activeDms);
-      listAllUsers(usersData);
-    });
-
-    socket.on("dm started", async (directMsg, receiver) => {
-      const dms = await getAllDms(currentUser);
-      const activeDms = filterActiveDms(dms, currentUser);
-      appendActiveDms(activeDms);
-    });
-
-    listAllUsers(usersData);
-    displayCurrentUser(currentUser);
-
-    appendActiveDms(activeDms);
-
     addActiveRoom();
 
-    function listAllUsers(usersData) {
+    //appends the users current chat dms with other users
+    getCurrentUsersInfo().then((user) => {
+      displayCurrentUser(user);
+
+      //list the users that are online/offline
+      getAllUsersData().then((usersData) => {
+        listAllUsers(usersData, user);
+      });
+
+      getAllDms(user).then((dms) => {
+        const activeDms = filterActiveDms(dms, user);
+
+        appendActiveDms(activeDms);
+      });
+    });
+
+    //when a user connects run the above functions again
+    socket.on("user connected", () => {
+      getCurrentUsersInfo().then((user) => {
+        displayCurrentUser(user);
+
+        getAllUsersData().then((usersData) => {
+          listAllUsers(usersData, user);
+        });
+
+        getAllDms(user).then((dms) => {
+          const activeDms = filterActiveDms(dms, user);
+
+          appendActiveDms(activeDms);
+        });
+      });
+    });
+
+    //when a user disconnnects repeat the above again
+    socket.on("user disconnected", async () => {
+      getCurrentUsersInfo().then((user) => {
+        getAllUsersData().then((usersData) => {
+          listAllUsers(usersData, user);
+        });
+
+        getAllDms(user).then((dms) => {
+          const activeDms = filterActiveDms(dms, user);
+
+          appendActiveDms(activeDms);
+        });
+      });
+    });
+
+    socket.on("dm started", async () => {
+      getCurrentUsersInfo().then((user) => {
+        getAllDms(user).then((dms) => {
+          const activeDms = filterActiveDms(dms, user);
+
+          appendActiveDms(activeDms);
+        });
+      });
+    });
+
+    //handles room change on click of room list item
+    roomList.click(function (event) {
+      const room = $(event.target).text();
+
+      loadRoom(room);
+
+      socket.emit("join room", { username: currentUser.username, room: room });
+    });
+
+    //handles starting dms when sent through modal
+    $("#direct-msg-form").submit(async function (event) {
+      event.preventDefault();
+
+      const directMsg = $("#direct-msg-input").val().trim();
+      const receiver = $("#modal-username").text().trim();
+
+      if (directMsg && receiver) {
+        const receiverData = await getReceiverUsername(receiver);
+        const user = await getCurrentUsersInfo();
+        const res = await saveDm(directMsg, receiverData, user);
+
+        if (res) {
+          socket.emit("dm started", {
+            directMsg,
+            receiver,
+          });
+
+          $("#userInfoModal").hide();
+          $("#direct-msg-input").val("");
+
+          const dms = await getAllDms(user);
+          const userDmList = filterActiveDms(dms, user);
+          appendActiveDms(userDmList);
+        }
+      } else {
+        //error :(
+      }
+    });
+
+    // const currentUser = await getCurrentUsersInfo();
+    // const usersData = await getAllUsersData();
+    // const dms = await getAllDms(currentUser);
+    // const activeDms = filterActiveDms(dms, currentUser);
+
+    // socket.on("user connected", async () => {
+    //   const usersData = await getAllUsersData();
+    //   const dms = await getAllDms(currentUser);
+    //   const activeDms = filterActiveDms(dms, currentUser);
+    //   appendActiveDms(activeDms);
+    //   listAllUsers(usersData);
+    // });
+
+    // socket.on("user disconnected", async () => {
+    //   socket.emit("this", { currentUser });
+    //   const usersData = await getAllUsersData();
+    //   listAllUsers(usersData);
+    //   const dms = await getAllDms(currentUser);
+    //   const activeDms = filterActiveDms(dms, currentUser);
+    //   appendActiveDms(activeDms);
+    //   listAllUsers(usersData);
+    // });
+
+    // socket.on("dm started", async (directMsg, receiver) => {
+    //   const dms = await getAllDms(currentUser);
+    //   const activeDms = filterActiveDms(dms, currentUser);
+    //   appendActiveDms(activeDms);
+    // });
+
+    // listAllUsers(usersData);
+    // displayCurrentUser(currentUser);
+
+    // appendActiveDms(activeDms);
+
+    // addActiveRoom();
+
+    function listAllUsers(usersData, { username }) {
       userList.empty();
 
       usersData.forEach((user) => {
-        if (user.username === currentUser.username) return;
+        if (user.username === username) return;
 
         userList.append(
           `<li data-user-id="${user.id}" class="user-list-item" >
@@ -162,49 +260,11 @@ $(document).ready(async function () {
       });
     }
 
-    //handles room change on click of room list item
-    roomList.click(function (event) {
-      const room = $(event.target).text();
-
-      loadRoom(room);
-
-      socket.emit("join room", { username: currentUser.username, room: room });
-    });
-
     function loadRoom(room) {
       document.location.href = `/room/${room}`;
     }
 
-    //handles starting dms when sent through modal
-    $("#direct-msg-form").submit(async function (e) {
-      e.preventDefault();
-
-      const directMsg = $("#direct-msg-input").val().trim();
-      const receiver = $("#modal-username").text().trim();
-
-      if (directMsg && receiver) {
-        const receiverData = await getReceiverUsername(receiver);
-        const res = await saveDm(directMsg, receiverData, currentUser);
-
-        if (res) {
-          socket.emit("dm started", {
-            directMsg,
-            receiver,
-          });
-
-          $("#userInfoModal").hide();
-          $("#direct-msg-input").val("");
-
-          const dms = await getAllDms(currentUser);
-          const userDmList = filterActiveDms(dms, currentUser);
-          appendActiveDms(userDmList);
-        }
-      } else {
-        //error :(
-      }
-    });
-
-    async function saveDm(directMsg, receiverData, currentUser) {
+    async function saveDm(directMsg, receiverData, user) {
       try {
         const response = await fetch("/api/dm/save-dm-message", {
           method: "post",
@@ -214,7 +274,7 @@ $(document).ready(async function () {
           body: JSON.stringify({
             message: directMsg,
             receiver: receiverData,
-            sender: currentUser,
+            sender: user,
           }),
         });
         return response;
@@ -234,14 +294,14 @@ $(document).ready(async function () {
       }
     }
 
+    function loadDmRoom(username) {
+      document.location.href = `/directmessages/${username}`;
+    }
+
     //on click on dms list load the dm chat room
     $("#direct-msg-list").on("click", "li span", async function () {
       loadDmRoom($(this).text());
     });
-
-    function loadDmRoom(username) {
-      document.location.href = `/directmessages/${username}`;
-    }
 
     $("body").on("click", "#account-btn", function () {
       $("#explore-slide").toggleClass("active");

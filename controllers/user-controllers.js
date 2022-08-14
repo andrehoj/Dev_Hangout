@@ -41,7 +41,6 @@ const userController = {
   async getUserById({ params }, res) {
     try {
       let dbUserData = await User.findOne({ where: { _id: params.id } });
-      console.log(dbUserData);
       res.json(dbUserData);
     } catch (error) {
       res.json(error);
@@ -66,12 +65,12 @@ const userController = {
   //log's a user in
   async logUserIn({ body, session }, res) {
     try {
-      if (!body.userName || !body.passWord)
+      if (!body.username || !body.password)
         res.status(400).json({ errorMessage: "An error has occured" });
 
       let dbUserData = await User.findOne({
         where: {
-          username: body.userName,
+          username: body.username,
         },
       });
 
@@ -84,14 +83,7 @@ const userController = {
 
       const user = dbUserData.get({ plain: true });
 
-      if (user.isActive) {
-        res
-          .status(400)
-          .json({ errorMessage: "This user is currenty logged in" });
-        return;
-      }
-
-      const validPassword = dbUserData.checkPassword(body.passWord);
+      const validPassword = dbUserData.checkPassword(body.password);
 
       if (!validPassword) {
         res
@@ -107,6 +99,7 @@ const userController = {
         session.pfp = user.pfp;
         session.gitHub = user.gitHub;
         session.favTech = user.favTech;
+        session.cookie.maxAge = 1000 * 60 * 60;
 
         User.update(
           { isActive: true },
@@ -116,8 +109,8 @@ const userController = {
             },
           }
         );
-
-        res.json({ message: "you are now logged in!" });
+        
+        res.json(session);
       });
     } catch (error) {
       res.status(400).json(error);
@@ -129,7 +122,7 @@ const userController = {
     try {
       let dbUserData = await User.findOne({
         where: {
-          username: body.userName,
+          username: body.username,
         },
       });
 
@@ -138,11 +131,11 @@ const userController = {
         return;
       }
 
-      let pfp = await getRandomPfp(body.userName);
+      let pfp = await getRandomPfp(body.username);
 
       let newUser = await User.create({
-        username: body.userName,
-        password: body.passWord,
+        username: body.username,
+        password: body.password,
         gitHub: body.gitHubUserName,
         isActive: true,
         pfp: pfp,
@@ -161,7 +154,6 @@ const userController = {
         res.json(payLoad);
       });
     } catch (error) {
-      // const errorMessage = error.errors[0].message;
       res.status(400).json({ message: "password is not strong enough" });
     }
   },
@@ -224,8 +216,6 @@ const userController = {
           id: session.user_id,
         },
       });
-
-      console.log(session, deletedUser);
       if (deletedUser) {
         await session.destroy();
         res.json(deletedUser);
@@ -238,7 +228,7 @@ const userController = {
 
   async saveSocket({ body }, res) {
     try {
-      let dbUserData = await User.update(
+      const dbUserData = await User.update(
         { socketId: body.currentUser.socketId },
         { where: { username: body.currentUser.username } }
       );

@@ -5,9 +5,9 @@
 <header class="main-header">
   <div class="container">
     <section class="row">
-      <div class="col-md-6 col-9 d-flex ">
+      <div class="col-md-6 col-6 d-flex ">
 
-        <ul class="logo-container align-items-center ">
+        <ul class="logo-container align-items-center justify-content-start ps-0">
           <i class="quotes align-items-center ">"</i>
           <li class="main-logo">D</li>
           <li class="main-logo">e</li>
@@ -23,23 +23,12 @@
         </ul>
 
       </div>
-      <nav class=" col-md-6 col-3 d-flex align-items-center justify-content-end gap-5 ">
+      <nav class=" col-md-6 col-6 d-flex align-items-center justify-content-end gap-5 ">
 
         <button id="account-btn" class="hamburger-menu" aria-label="menu">
           <div class="bar"></div>
         </button>
 
-        <div class="dropdown-center">
-          <ul class="dropdown-menu p-0" aria-labelledby="dropdownCenterBtn">
-            <a class="dropdown-item p-2" href="/settings" id="settings-link">Settings</a>
-            <a class="dropdown-item p-2" id="logout-link">Log out</a>
-
-          </ul>
-          <div class=" dropdown-toggle settings" type="button" id="dropdownCenterBtn" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <i class="fa fa-lg fa-gears" aria-label="Settings"></i>
-          </div>
-        </div>
       </nav>
     </section>
   </div>
@@ -48,7 +37,7 @@
 
 {{!-- CHAT  --}}
 <main class="chat-container container " id="main-chat">
-  <h2 class="room-title " id="room-name"># {{roomName}}</h2>
+  <h2 class="room-title " id="room-name"># {{roomname}}</h2>
   <ul class="chat-list-container" id="messages"></ul>
   <section class="row justify-content-center">
     <div class="col-md-10">
@@ -105,8 +94,8 @@
       <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
         <img src='' class='account-pfp' id="current-user-pfp"><img />
         <h2 id="slideout-username" class="slideout-current-username"></h2>
-        <div class="mobile-settings d-flex flex-column align-items-center ms-3">
-          <a href="/settings">Settings</a>
+        <div class="d-flex flex-column align-items-center ms-3" id=" settings-wrapper">
+          <a href="/settings" class="settings-wrapper">Settings</a>
           <a href="#" id="logout-link-mobile">Logout</a>
         </div>
       </div>
@@ -142,7 +131,7 @@
 </div>
 
 {{!-- script tag must be included in html to have access to the socket method --}}
-<script src="/socket.io/socket.io.js"></script>--
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/room.js"></script>
 <script src="/js/slideout.js"></script>
 <script src="/js/user-info-modal.js"></script>

@@ -14,6 +14,7 @@
 * {
   margin: 0;
   padding: 0;
+  /* padding-left: 0 !important; */
   box-sizing: border-box;
 }
 
@@ -49,10 +50,13 @@ body {
   gap: 5px;
 }
 
+.logo-container ul{
+  padding-left: none !important;
+}
+
 .main-header {
   color: var(--main-text-color);
   position: relative;
-  z-index: 2;
   margin-bottom: 1rem;
 }
 
@@ -111,7 +115,7 @@ body {
 
 .settings:hover {
   color: var(--main-highlight-color);
-  cursor: pointer;
+
 }
 
 .dropdown-menu {
@@ -171,6 +175,7 @@ body {
   background: none;
   outline: none !important;
   border: none;
+  z-index: 2;
 }
 
 .hamburger-menu .bar,
@@ -248,6 +253,7 @@ body {
   justify-content: center;
   margin-top: 1em;
 }
+
 .chat-form-input {
   border: none;
   padding: 4px 10px;
@@ -310,6 +316,12 @@ body {
 /* Chat styles end */
 
 /* Account slideout styles */
+#settings-wrapper{
+  pointer-events: all !important;
+  z-index: 3;
+}
+
+
 .account-slideout {
   height: 100vh;
   width: 400px;

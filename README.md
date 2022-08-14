@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Developer Hangout :raising_hand:
+=======
+# Developer Hangout
+>>>>>>> develop
 An application where users can talk to each other live.
 
 # User Story

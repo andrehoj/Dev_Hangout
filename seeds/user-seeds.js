@@ -18,7 +18,7 @@ const userdata = [
     currentRoom: 1,
   },
   {
-    username: "Timmy",
+    username: "timmy",
     password: "secretkey",
     gitHub: "tim01",
     pfp: "https://robohash.org/Timmy",
