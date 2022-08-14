@@ -19,8 +19,10 @@ async function handleLogIn(event) {
     });
 
     if (response.ok) {
-      console.log(response)
-      document.location.replace("/room/General");
+      response.json().then((data) => {
+        console.log(data);
+        document.location.replace("/room/General");
+      });
     } else {
       const { errorMessage } = await response.json();
       appendLoginErrorMessage(errorMessage);

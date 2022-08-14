@@ -35,8 +35,29 @@ const server = require("http").createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+sequelize.sync({ force: false }).then(() => {
+  server.listen(PORT, () => {});
+});
+
+const users = [];
+
 io.on("connection", (socket) => {
   socket.broadcast.emit("user connected", socket.id);
+
+  socket.on("pushing", (userInfo, socketId) => {
+    if (!users.length) users.push(userInfo);
+
+    users.map((user) => {
+      if (user.username === userInfo.username) {
+        user.socketId = userInfo.socketId;
+      } else {
+        users.push(userInfo);
+      }
+    });
+    console.log(users);
+
+    io.emit("pushed", users);
+  });
 
   socket.on("join room", ({ room }) => {
     socket.join(room);
@@ -67,8 +88,8 @@ io.on("connection", (socket) => {
   socket.on("dm started", (directMsg, receiver) => {
     io.emit("dm started", { directMsg, receiver });
   });
-});
 
-sequelize.sync({ force: false }).then(() => {
-  server.listen(PORT, () => {});
+  socket.onAny((eventName, ...args) => {
+    console.log(`${eventName}, was fired.`);
+  });
 });

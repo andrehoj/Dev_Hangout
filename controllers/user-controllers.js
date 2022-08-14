@@ -14,7 +14,6 @@ const userController = {
   },
 
   async getUserByUsername({ params }, res) {
-    console.log(params);
     try {
       let dbUserData = await User.findOne({
         where: { username: params.username },
@@ -42,7 +41,6 @@ const userController = {
   async getUserById({ params }, res) {
     try {
       let dbUserData = await User.findOne({ where: { _id: params.id } });
-      console.log(dbUserData);
       res.json(dbUserData);
     } catch (error) {
       res.json(error);
@@ -85,13 +83,6 @@ const userController = {
 
       const user = dbUserData.get({ plain: true });
 
-      // if (user.isActive) {
-      //   res
-      //     .status(400)
-      //     .json({ errorMessage: "This user is currenty logged in" });
-      //   return;
-      // }
-
       const validPassword = dbUserData.checkPassword(body.password);
 
       if (!validPassword) {
@@ -108,6 +99,7 @@ const userController = {
         session.pfp = user.pfp;
         session.gitHub = user.gitHub;
         session.favTech = user.favTech;
+        session.cookie.maxAge = 1000 * 60 * 60;
 
         User.update(
           { isActive: true },
@@ -117,8 +109,8 @@ const userController = {
             },
           }
         );
-
-        res.json({ message: "You are now logged in!" });
+        
+        res.json(session);
       });
     } catch (error) {
       res.status(400).json(error);
@@ -193,7 +185,6 @@ const userController = {
 
   //log user out
   async logUserOut({ session }, res) {
-    console.log(session)
     try {
       if (session.loggedIn) {
         let loggedOutUser = await User.update(

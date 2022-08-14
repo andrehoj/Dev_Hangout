@@ -8,7 +8,6 @@ router.use("/", htmlRoutes);
 
 //entry point to app
 router.get("/", ({ session }, res) => {
-  console.log(session)
   session.loggedIn ? res.redirect(`room/General`) : res.render("login");
 });
 

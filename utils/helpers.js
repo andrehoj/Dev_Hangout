@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-
+const User = require("../models/index");
 async function getRandomPfp(username) {
   try {
     let response = await fetch(`https://robohash.org/${username}`);
@@ -24,14 +24,11 @@ function middleWareAuth(req, res, next) {
     req.originalUrl === "/api/users/login" ||
     req.originalUrl === "/api/users/register"
   ) {
-    console.log("user is attempting to login or register");
     return next();
   }
   if (!req.session.loggedIn) {
-    console.log("User IS NOT loggedin");
     res.redirect("/login");
   } else {
-    console.log("User IS loggedin");
     return next();
   }
 }

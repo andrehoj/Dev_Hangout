@@ -4,6 +4,7 @@ const messageController = {
   async getMessagesByRoom({ params }, res) {
     try {
       const dbMessageData = await Message.findAll({
+        attributes: ["message", "timeOfMessage"],
         include: [
           {
             model: Room,

@@ -1,4 +1,4 @@
-# Chatting-App
+# Developer Hangout
 An application where users can talk to each other live.
 
 # User Story

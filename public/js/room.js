@@ -4,33 +4,125 @@ $(document).ready(function () {
     const chatBox = $("#messages");
     const chatInput = $("#chat-input");
 
-    //gets the messages by room name and append them
-    const room = document.location.pathname.replace("/room/", "");
-    getAllMessagesByRoom(room).then((messages) => {
-      chatBox.empty();
+    class Room {
+      constructor(name) {
+        this.name = name;
+      }
 
-      messages.forEach((msg) => {
+      joinRoom() {
+        socket.emit("join room", {
+          room: this.name,
+        });
+      }
+
+      async getMessages() {
+        try {
+          const response = await fetch(`/api/messages/${this.name}`, {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          return response.json();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      appendMessages(msg) {
         const { username, pfp } = msg.user;
         const { message, timeOfMessage } = msg;
 
-        appendMessage(message, timeOfMessage, username, pfp);
+        $("#messages").append(`<li>
+        <img src='${pfp}' class='profile-image'></img>
+        <span><strong>${username}</strong>: ${message}</span>
+        <span class="message-date" id="message-time">     ${timeOfMessage}</span>
+        </li>`);
+        $("#messages").scrollTop($("#messages")[0].scrollHeight);
+      }
+
+      async saveMessage(username, msg, currentTime, room, user) {
+        try {
+          await fetch("/api/messages/save", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username,
+              msg,
+              currentTime,
+              room,
+              userId: user.user_id,
+            }),
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      appendMessage(message, timeOfMessage, username, pfp) {
+        chatBox.append(`<li>
+          <img src='${pfp}' class='profile-image'></img>
+          <span><strong>${username}</strong>: ${message}</span>
+          <span class="message-date" id="message-time">     ${timeOfMessage}</span>
+          </li>`);
+        chatBox.scrollTop(chatBox[0].scrollHeight);
+      }
+
+      getCurrentTime() {
+        return new Date().toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      async getUsersInfo() {
+        try {
+          let userInfo = await fetch("/api/users/session");
+          return userInfo.json();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+
+    //gets the messages by room name and append them
+    const room = document.location.pathname.replace("/room/", "");
+
+    const testRoom = new Room(document.location.pathname.replace("/room/", ""));
+
+    testRoom.joinRoom();
+
+    testRoom.getMessages().then((messages) => {
+      messages.forEach((msg) => {
+        testRoom.appendMessages(msg);
       });
     });
 
-    //joins the current room
-    socket.emit("join room", {
-      room: room,
+    testRoom.getUsersInfo().then((userInfo) => {
+      const socketId = socket.id;
+
+      const { username, user_id } = userInfo;
+
+      socket.emit("pushing", { username, user_id, socketId });
+    });
+
+    socket.on("pushed", (users) => {
+      console.log(users);
     });
 
     //on chat message append it and save it to the db
     socket.on("chat message", function ({ message, username, pfp }) {
-      const timeOfMessage = getCurrentTime();
+      const timeOfMessage = testRoom.getCurrentTime();
 
-      appendMessage(message, timeOfMessage, username, pfp);
+      testRoom.appendMessage(message, timeOfMessage, username, pfp);
 
-      getCurrentUsersInfo().then((user) => {
+      testRoom.getUsersInfo().then((user) => {
         if (user.username === username) {
-          saveMessage(user, username, message, timeOfMessage, room);
+          testRoom.saveMessage(username, message, timeOfMessage, room, user);
         }
       });
     });
@@ -41,7 +133,7 @@ $(document).ready(function () {
 
       const message = chatInput.val().trim();
 
-      getCurrentUsersInfo().then(function (user) {
+      testRoom.getUsersInfo().then(function (user) {
         const { username, pfp } = user;
 
         if (message) {
@@ -55,67 +147,5 @@ $(document).ready(function () {
         }
       });
     });
-
-    async function getCurrentUsersInfo() {
-      try {
-        let userInfo = await fetch("/api/users/session");
-        return userInfo.json();
-      } catch (error) {
-        //error:(
-      }
-    }
-
-    async function getAllMessagesByRoom(room) {
-      try {
-        const response = await fetch(`/api/messages/${room}`, {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        return response.json();
-      } catch (error) {
-        //error:(
-      }
-    }
-
-    async function saveMessage(user, username, msg, currentTime, room) {
-      const { user_id } = user;
-      try {
-        await fetch("/api/messages/save", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            msg,
-            currentTime,
-            room,
-            userId: user_id,
-          }),
-        });
-      } catch (error) {
-        //error:(
-      }
-    }
-
-    function appendMessage(message, timeOfMessage, username, pfp) {
-      chatBox.append(`<li>
-        <img src='${pfp}' class='profile-image'></img>
-        <span><strong>${username}</strong>: ${message}</span>
-        <span class="message-date" id="message-time">     ${timeOfMessage}</span>
-        </li>`);
-      chatBox.scrollTop(chatBox[0].scrollHeight);
-    }
-
-    function getCurrentTime() {
-      return new Date().toLocaleDateString("en-us", {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    }
   } else document.location.replace("/login");
 });
