@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# Developer Hangout :raising_hand:
-=======
-# Developer Hangout
->>>>>>> develop
+# Chatting-App
 An application where users can talk to each other live.
 
 # User Story
