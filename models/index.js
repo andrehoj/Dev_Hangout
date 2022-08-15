@@ -1,7 +1,7 @@
 const User = require("./user");
 const Message = require("./message");
-const Room = require("./room");
 const Dm = require("./dm");
+const Room = require("./room");
 
 Message.belongsTo(Room, {
   foreignKey: "roomId",
