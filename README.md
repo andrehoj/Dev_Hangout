@@ -1,53 +1,40 @@
 # Developer Hangout
-An application where users can talk to each other live.
 
-# User Story
-- AS A user
-- I WANT to be able to signup or login to the chat app, see the messages in the app and post my on messages in the app
-- SO THAT I can communicate to anyone on the app
+## Description
 
-# Signup User Story
-- WHEN I arrive to the site root URL
-- THEN I am presented with a signup or login page
-- WHEN I input my credentials into the signup form
-- THEN a POST request is made to the server to create my account
-- IF my credentials are already in the database  
-- THEN it will return with a message saying that I already have an account and to login instead
-- IF my credentials are validated and added to the database 
-- THEN my credentials are saved in session storage and I am logged in
+Developer hangout is an application where developers can communicate and help each other with coding related problems. Its a fullstack app that uses websockets, mysql, express for the back end and handlebars, bootstrap and jquery for the frontend.
 
-# Login User Story
-- WHEN I arrive to the site root URL
-- THEN I am presented with a signup or login page
-- WHEN I input my credentials into the login form
-- THEN a GET request is made to the server to locate my user credentials in the database
-- IF my credentials aren't validated or no record is found in the database
-- THEN a message is returned to the user saying invalid credentials/no account found
-- IF my credentials are validated and a record is found in the database
-- THEN my credentials are saved in session storage and I am logged in
+## How to use
 
-# Credentials Already Saved User Story
-- WHEN I arrive to the site root URL
-- IF credentials are saved in session storage
-- THEN I am automatically logged in
+Visit the deployed app here [https://developer-hangout-657.herokuapp.com/](https://developer-hangout-657.herokuapp.com/)
 
-# Chat Hub User Story
-- WHEN I log in
-- THEN I am directed to a chat hub page where messages are displayed that have been previously added by other users to the database and pulled onto the site
-- WHEN I input a message into the message text field and submit the message
-- THEN a POST request is set to the server with my message and added to the database conversation table with a reference to my user account
-- THEN the message is connected to the live server using Socket.IO and brought onto the front end for all users to see, the message is also timestamped to know where it should be inserted in the conversation
-- WHEN a user subsequently submits a message, their message gets posted and through Socket.IO is displayed live on the front end for all logged in users to see.
+Register with a username and password. From there you can start chatting. To edit your profile settings and access other rooms click on the hamburger menu located on the top right of the screen.
 
-# Database User Story
-- Database should include: 
-    - Conversation table
-        - Contains reference to all active users
-        - Contains reference to all messages
-    - Users table
-        - Contains Username
-        - Contains Password            
-    - Messages table
-        - References User
-        - Contains Message
-        - Contains Creation date
+NOTE: IN order to test the 'live' aspect of this app another user needs to be online with you, OR you can 1: Open a second tab either in the same browser in incognito mode or 2: Open a new tab in a different web browser. Then register a different account and chat with yourself.
+
+## Technologies Used
+
+-Html 
+
+-Css 
+
+-handleBars 
+
+-BootStrap 
+
+-JavaScript 
+
+-Jquery 
+
+-Node.js 
+
+-Express 
+
+-SocketIO 
+
+-Mysql 
+
+-Sequelize 
+
+
+![screen shot of app](./public/images/dev-hangout-image.png)
