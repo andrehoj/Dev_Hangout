@@ -2,6 +2,7 @@ const { Room } = require("../models");
 
 const roomdata = [
   { roomName: "General" },
+  { roomName: "HTML and CSS" },
   { roomName: "JavaScript" },
   { roomName: "Python" },
   { roomName: "Java" },

@@ -1,0 +1,27 @@
+.settings-option:hover {
+  background-color: #c9d1d9;
+  cursor: pointer;
+}
+
+.active-setting-section {
+  background-color: #c9d1d9;
+}
+
+.settings-option > p {
+  font-size: 20px;
+}
+
+.fav-tech-dropdown {
+    max-width: 15rem;
+    height: 15rem;
+  }
+
+.icon-choices {
+    padding: 0 !important;
+    height: 40px;
+  }
+  
+  .icon-choices:hover {
+    cursor: pointer;
+    filter: brightness(60%);
+  }

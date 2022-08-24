@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  $("#theme-toggle").click(() => {
+    $("body").toggleClass("darktheme");
+  });
   if (window.io) {
     const chatForm = $("#chat-form");
     const chatBox = $("#messages");
@@ -33,11 +36,20 @@ $(document).ready(function () {
         const { username, pfp } = msg.user;
         const { message, timeOfMessage } = msg;
 
-        $("#messages").append(`<li>
-        <img src='${pfp}' class='profile-image'></img>
-        <span><strong>${username}</strong>: ${message}</span>
-        <span class="message-date" id="message-time">     ${timeOfMessage}</span>
-        </li>`);
+        $("#messages").append(`<li class="list-group-item d-flex">
+        <div class="">
+          <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+        </div>
+        <div class="ms-2 d-flex flex-column text-start">
+          <div class="d-flex gap-1">
+            <p class=""><u>${username}</u></p>
+            <span class="blockquote-footer">${timeOfMessage}</span>
+          </div>
+          <span class="">
+           ${message}
+          </span>
+        </div>
+      </li>`);
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
       }
 
@@ -62,12 +74,22 @@ $(document).ready(function () {
       }
 
       appendMessage(message, timeOfMessage, username, pfp) {
-        chatBox.append(`<li>
-          <img src='${pfp}' class='profile-image'></img>
-          <span><strong>${username}</strong>: ${message}</span>
-          <span class="message-date" id="message-time">     ${timeOfMessage}</span>
-          </li>`);
-        chatBox.scrollTop(chatBox[0].scrollHeight);
+        chatBox.append(`<li class="list-group-item d-flex">
+        <div class="">
+          <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+        </div>
+        <div class="ms-2 d-flex flex-column text-start">
+          <div class="d-flex gap-1">
+            <p class=""><u>${username}</u></p>
+            <span class="blockquote-footer">${timeOfMessage}</span>
+          </div>
+          <span class="">
+           ${message}
+          </span>
+        </div>
+      </li>`);
+
+        $("#messages").scrollTop($("#messages")[0].scrollHeight);
       }
 
       getCurrentTime() {

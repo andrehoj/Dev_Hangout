@@ -20,6 +20,7 @@ async function getCurrentSession() {
 }
 
 function appendUsersData(session) {
+  $("#sidebar-settings-user-name").text(session.username);
   $("#settings-user-name").val(session.username);
   $("#settings-pfp").attr("src", `${session.pfp}`);
   $("#edit-settings-pfp").attr("src", `${session.pfp}`);
@@ -56,24 +57,29 @@ $("#edit-user-info").submit((e) => {
   });
 });
 
-$("#generate-pfp").click(function () {
+$("#generate-pfp").click(function (event) {
+  event.preventDefault();
   generateNewPfp().then((pfp) => {
     $("#settings-pfp").attr("src", `${pfp}`);
   });
 });
 
 async function generateNewPfp() {
-  $("#generate-pfp").append(
-    `<i id='spinner' class="fa fa-2xl fa-spinner fa-spin"></i>`
-  );
+  if (!$("#spinner").length) {
+    $("#generate-pfp").append(
+      `<i id="spinner" class="fa fa-2xl fa-spinner fa-spin ms-1"></i>`
+    );
+  }
 
-  let randomString = getRandomString(5);
-  let pfp = await fetch(
+  const randomString = getRandomString(5);
+  const pfp = await fetch(
     `https://robohash.org/${randomString}?set=set${Math.floor(
       Math.random() * 4
     )}`
   );
+
   $("#spinner").remove();
+
   return pfp.url;
 }
 

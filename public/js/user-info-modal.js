@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $("#user-list").on("click", ".user-list-item", function () {
       const userId = $(this).data("userId");
-
+      
       if (window.innerWidth <= 767) {
         userInfoModal.animate(
           {

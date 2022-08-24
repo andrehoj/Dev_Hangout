@@ -26,9 +26,11 @@ body {
   overflow: hidden;
 }
 
-body {
-  background-color: var(--main-bg-color);
-  font-family: var(--font-stack);
+
+
+.chat-pfp {
+  height: 40px;
+  width: 40px;
 }
 
 .svg-header {
@@ -50,7 +52,7 @@ body {
   gap: 5px;
 }
 
-.logo-container ul{
+.logo-container ul {
   padding-left: none !important;
 }
 
@@ -115,7 +117,6 @@ body {
 
 .settings:hover {
   color: var(--main-highlight-color);
-
 }
 
 .dropdown-menu {
@@ -316,11 +317,10 @@ body {
 /* Chat styles end */
 
 /* Account slideout styles */
-#settings-wrapper{
+#settings-wrapper {
   pointer-events: all !important;
   z-index: 3;
 }
-
 
 .account-slideout {
   height: 100vh;
@@ -460,14 +460,6 @@ body {
 .dm-list {
   margin: 0;
   padding: 0;
-}
-
-.logged-in {
-  color: green;
-}
-
-.logged-out {
-  color: red;
 }
 
 .empty-dms {

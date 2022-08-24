@@ -1,4 +1,6 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
+<link rel="stylesheet" href="/css/setting-styles.css">
+
+{{!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
 <link rel="stylesheet" href="/css/settings.css" />
 
 <div class="settings-container settings-bg">
@@ -200,7 +202,147 @@
     </div>
   </div>
   <div class="bracket mb-2">}</div>
+</div> --}}
+
+{{!-- sidebar --}}
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class=" border border-top-0 border-bottom-0 border" style="height: 100vh;">
+        <div class="d-flex flex-column align-items-center p-5">
+          <img src="" alt="profile picture" id="settings-pfp" class="rounded-circle border" height="100px">
+          <p id="sidebar-settings-user-name" class="h3"></p>
+        </div>
+
+        <div>
+          <ul class="list-group list-group-flush">
+            <li class="settings-option list-group-item border-top d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-user"></i>
+              <p class="m-0">Account</p>
+            </li>
+            <li class="settings-option list-group-item d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <p class="m-0">Theme</p>
+            </li>
+            <li class="settings-option list-group-item d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              <p class="m-0">Notifications</p>
+            </li>
+            <li class="settings-option list-group-item d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-lock"></i>
+              <p class="m-0">Privacy</p>
+            </li>
+            <li class="settings-option list-group-item border-bottom d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-question"></i>
+              <p class="m-0">About</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {{!-- sidebar end --}}
+
+    {{!-- settings main --}}
+    <div class="col-6 col-md-8 col-xl-10 py-5 pe-5">
+
+      <h2 class="border-bottom pb-2">Account Settings</h2>
+
+      <form id="edit-user-info">
+        <div class="">
+          <div class="col col-lg-6">
+            <div class="form-group">
+              <label for="settings-user-name">Username</label>
+              <input type="text" class="form-control my-2" id="settings-user-name" aria-describedby="username" />
+            </div>
+          </div>
+
+          <div class="col col-lg-6">
+            <div class="form-group">
+              <label for="github-account">Github userame</label>
+              <input type="text" class="form-control my-2" id="github-account" aria-describedby="username" />
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <div class="form-group">
+              <label for="settings-pfp">Profile Picture</label>
+              <button class="btn btn-outline-info d-block my-2" id="generate-pfp" type="none">GenerateNewPfp</button>
+            </div>
+            <div class="dropdown mt-2 mb-2 d-block">
+              <label for="">Favorite Langauge</label>
+              <button type="button" class="btn btn-outline-info fav-tech-btn dropdown-toggle d-block my-2"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <img height="25px" id="currentFavTech" />
+              </button>
+              <ul class="dropdown-menu fav-tech-dropdown">
+                <div class="row m-2">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/objectivec/objectivec-plain.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg"
+                    class="col-3 icon-choices" />
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg"
+                    class="col-3 icon-choices" />
+
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scala/scala-original.svg"
+                    class="col-3 icon-choices" />
+
+
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg"
+                    class="col-3 icon-choices" />
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-3">Save Info</button>
+    </div>
+    </form>
+  </div>
+  {{!-- settings main end--}}
+
 </div>
-
-
+</div>
 <script src="js/settings.js"></script>

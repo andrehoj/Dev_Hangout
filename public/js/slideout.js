@@ -3,6 +3,7 @@ $(document).ready(function () {
     socket.on("user connected", (id) => {
       console.log(socket.id);
     });
+
     const userList = $("#user-list");
     const roomList = $("#room-list");
     const dmList = $("#direct-msg-list");
@@ -69,8 +70,8 @@ $(document).ready(function () {
 
     //handles room change on click of room list item
     roomList.click(function (event) {
-      const room = $(event.target).text();
-
+      const room = $(event.target).text().replace("#", "").trim();
+      console.log(room.length);
       loadRoom(room);
 
       socket.emit("join room", { username: currentUser.username, room: room });
@@ -144,17 +145,62 @@ $(document).ready(function () {
 
     function listAllUsers(usersData, { username }) {
       userList.empty();
-
       usersData.forEach((user) => {
         if (user.username === username) return;
 
-        userList.append(
-          `<li data-user-id="${user.id}" class="user-list-item" >
-                <img class='active-list-pfp' src='${user.pfp}'></img>
-                <span>${user.username} <span class="${checkIfActive(
-            user.isActive
-          )}">●</span></li>`
-        );
+        if (user.favTech) {
+          userList.append(
+            `<li class="list-group-item user-list-item" data-user-id="${
+              user.id
+            }">
+            <div class="d-flex justify-content-center group-user">
+              <div class="position-relative">
+                <img class="border rounded-circle" height="50px" src="${
+                  user.pfp
+                }" alt="users profile">
+                <span class="position-absolute online-status translate-middle badge border border-light rounded-circle ${checkIfActive(
+                  user.isActive
+                )} p-2"><span class="visually-hidden">online status</span></span>
+                
+                <div class="d-flex gap-1">
+                  <p>${user.username}</p>
+                  <img height="20px"
+                    src="${user.favTech}"
+                    alt="language icon" />
+                </div>
+              </div>
+            </div>
+          </li>`
+          );
+        } else {
+          userList.append(
+            `<li class="list-group-item user-list-item" data-user-id="${
+              user.id
+            }">
+            <div class="d-flex justify-content-center group-user">
+              <div class="position-relative">
+                <img class="border rounded-circle" height="50px" src="${
+                  user.pfp
+                }" alt="users profile">
+                <span class="position-absolute online-status translate-middle badge border border-light rounded-circle ${checkIfActive(
+                  user.isActive
+                )} p-2"><span class="visually-hidden">online status</span></span>
+                
+                <div class="d-flex gap-1">
+                  <p>${user.username}</p>
+                </div>
+              </div>
+            </div>
+          </li>`
+          );
+        }
+        // userList.append(
+        //   `<li data-user-id="${user.id}" class="user-list-item" >
+        //         <img class='active-list-pfp' src='${user.pfp}'></img>
+        //         <span>${user.username} <span class="${checkIfActive(
+        //     user.isActive
+        //   )}">●</span></li>`
+        // );
       });
 
       if ($("#user-list").length < 1) {
@@ -197,9 +243,11 @@ $(document).ready(function () {
     }
 
     function addActiveRoom() {
-      const currentRoom = $(".room-title").text().replace("#", "").trim();
+      const inRoom = $(".room-title").text().replace("#", "").trim();
+
       roomList.children().each(function () {
-        if ($(this).text() === currentRoom) {
+        if ($(this).text().replace("#", "").trim() === inRoom) {
+          console.log(inRoom);
           $(this).addClass("active-room");
         } else $(this).removeClass("active-room");
       });
@@ -245,18 +293,57 @@ $(document).ready(function () {
       dmList.empty();
       if (!users.length) {
         dmList.append(
-          "<li class='empty-dms'>You have no dms, to start a dm click on a users name<li/>"
+          "<li class='list-group-item empty-dms'>You have no dms, to start a dm click on a users name</ li>"
         );
         return;
       }
       users.forEach((user) => {
-        dmList.append(
-          `<li data-dm-user-id="${user.receiverId}" class="user-list-item" >
-          <img class='active-list-pfp' src='${user.pfp}'></img>
-          <span class="username-dm">${
-            user.username
-          }</span> <span class="${checkIfActive(user.isActive)}">●</span></li>`
-        );
+        if (user.favTech) {
+          dmList.append(
+            `<li class="list-group-item user-list-item" data-username="${
+              user.username
+            }">
+            <div class="d-flex justify-content-center group-user">
+              <div class="position-relative">
+                <img class="border rounded-circle" height="50px" src="${
+                  user.pfp
+                }" alt="users profile">
+                <span class="position-absolute online-status translate-middle badge border border-light rounded-circle ${checkIfActive(
+                  user.isActive
+                )} p-2"><span class="visually-hidden">online status</span></span>
+                
+                <div class="d-flex gap-1">
+                  <p>${user.username}</p>
+                  <img height="20px"
+                    src="${user.favTech}"
+                    alt="language icon" />
+                </div>
+              </div>
+            </div>
+          </li>`
+          );
+        } else {
+          dmList.append(
+            `<li class="list-group-item user-list-item" data-username="${
+              user.username
+            }">
+            <div class="d-flex justify-content-center group-user">
+              <div class="position-relative">
+                <img class="border rounded-circle" height="50px" src="${
+                  user.pfp
+                }" alt="users profile">
+                <span class="position-absolute online-status translate-middle badge border border-light rounded-circle ${checkIfActive(
+                  user.isActive
+                )} p-2"><span class="visually-hidden">online status</span></span>
+                
+                <div class="d-flex gap-1">
+                  <p>${user.username}</p>
+                </div>
+              </div>
+            </div>
+          </li>`
+          );
+        }
       });
     }
 
@@ -299,8 +386,10 @@ $(document).ready(function () {
     }
 
     //on click on dms list load the dm chat room
-    $("#direct-msg-list").on("click", "li span", async function () {
-      loadDmRoom($(this).text());
+    $("#direct-msg-list").on("click", "li", async function () {
+      const username = $(this).data().username;
+
+      loadDmRoom(username);
     });
 
     $("body").on("click", "#account-btn", function () {

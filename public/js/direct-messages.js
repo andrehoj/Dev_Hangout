@@ -5,11 +5,18 @@ $(document).ready(async function () {
     const roomName = $("#room-name");
 
     roomName.text(
-      `Your chat with  ${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
+      `Your chat with  ${document.location.pathname
+        .split("/")[2]
+        .replace(/%20/g, " ")}`
+    );
+
+    chatInput.attr(
+      "placeholder",
+      `message ${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
     );
 
     const currentUser = await getCurrentUsersInfo();
-    
+
     currentUser.socketId = socket.id;
 
     await saveSocketId(currentUser);
@@ -36,7 +43,7 @@ $(document).ready(async function () {
 
         const message = chatInput.val().trim();
         const timeOfMessage = getCurrentTime();
-  
+
         if (message) {
           socket.emit("direct message", {
             message: message,
@@ -121,14 +128,23 @@ $(document).ready(async function () {
       const messageContainer = $("#messages");
 
       messageContainer.empty();
-
+      console.log(dms);
       dms.forEach((dm) => {
         messageContainer.append(
-          `<li>
-        <img src='${dm.sender.pfp}' class='profile-image'></img>
-        <span><strong>${dm.sender.username}</strong>: ${dm.message}</span>
-        <span class="message-date" id="message-time">     ${dm.timeOfMessage}</span>
-        </li>`
+          `<li class="list-group-item d-flex">
+        <div class="">
+          <img src="${dm.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+        </div>
+        <div class="ms-2 d-flex flex-column text-start">
+          <div class="d-flex gap-1">
+            <p class=""><u>${dm.sender.username}</u></p>
+            <span class="blockquote-footer">${dm.timeOfMessage}</span>
+          </div>
+          <span class="">
+           ${dm.message}
+          </span>
+        </div>
+      </li>`
         );
       });
       messageContainer.scrollTop(messageContainer[0].scrollHeight);
@@ -165,10 +181,19 @@ $(document).ready(async function () {
       const messageContainer = $("#messages");
 
       messageContainer.append(
-        `<li>
-      <img src='${message.sender.pfp}' class='profile-image'></img>
-      <span><strong>${message.sender.username}</strong>: ${message.message}</span>
-      <span class="message-date" id="message-time">     ${message.timeOfMessage}</span>
+        `<li class="list-group-item d-flex">
+        <div class="">
+          <img src="${message.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+        </div>
+        <div class="ms-2 d-flex flex-column text-start">
+          <div class="d-flex gap-1">
+            <p class=""><u>${message.sender.username}</u></p>
+            <span class="blockquote-footer">${message.timeOfMessage}</span>
+          </div>
+          <span class="">
+           ${message.message}
+          </span>
+        </div>
       </li>`
       );
       messageContainer.scrollTop(messageContainer[0].scrollHeight);

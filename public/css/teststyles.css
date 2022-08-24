@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&family=VT323&display=swap");
+
+
+:root {
+  --main-bg-color: #282c34;
+  --main-second-bg-color: #161b22;
+  --main-text-color: #c9d1d9;
+  --main-highlight-color: #1f6feb;
+  --main-border-color: #30363d;
+  --main-title-color: #98c379;
+  --null-color: #d19a66;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
+
+* {
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-stack) !important;
+}
+
+button,
+input[type="submit"] {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.darktheme {
+  background-color: var(--main-bg-color) !important;
+  font-family: var(--main-text-color) !important;
+}
+
+.logged-in {
+  background-color: green;
+}
+
+.logged-out {
+  background: red;
+}
+
+.chat-pfp {
+  height: 40px;
+  width: 40px;
+}
+
+.online-status {
+ top: 12px;
+}
+
+.h-10 {
+  height: 10%;
+}
+
+.h-80 {
+  height: 80%;
+}
+
+.w-90 {
+  width: 95%;
+}
+
+.active-room {
+  background-color: #c9d1d9;
+}
+
+/* aside styles */
+.user-list-item:hover {
+  background-color: #c9d1d9;
+  cursor: pointer;
+}
+
+.room-list-styles:hover {
+  cursor: pointer;
+  background-color: #c9d1d9;
+}
+
+.input-styles:focus {
+  border: none;
+  outline: none;
+}
+/* send icon */
+
+.send-icon {
+  top: 20%;
+  right: 1%;
+  cursor: pointer;
+}
+
+/*account icon styles */
+.fa-user {
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.fa-user:hover {
+  background-color: #c9d1d9;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* slideout styles */
+
+
+
+
+/* Scroll bar styling */
+ul::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+/* Thumb */
+ul::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 5px;
+}
+
+ul::-webkit-scrollbar-thumb:hover {
+  background: var(--main-highlight-color);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--main-highlight-color);
+}
+
+/* hamburger styles */
+.hamburger-menu{
+  cursor: pointer;
+}
+
+.bar{
+  width: 40px;
+  height: 5px;
+  border-radius: 5px;
+  background-color: #d19a66;
+}
+
+
+/* mobile sidebar */
