@@ -74,6 +74,7 @@ const userController = {
         },
       });
 
+
       if (!dbUserData) {
         res
           .status(400)
@@ -85,6 +86,8 @@ const userController = {
 
       const validPassword = dbUserData.checkPassword(body.password);
 
+
+
       if (!validPassword) {
         res
           .status(400)
@@ -93,12 +96,14 @@ const userController = {
       }
 
       await session.save(() => {
+        console.log(user);
         session.loggedIn = true;
         session.user_id = user.id;
         session.username = user.username;
         session.pfp = user.pfp;
         session.gitHub = user.gitHub;
         session.favTech = user.favTech;
+        session.favColor = user.favColor;
         session.cookie.maxAge = 1000 * 60 * 60;
 
         User.update(
@@ -109,7 +114,7 @@ const userController = {
             },
           }
         );
-        
+
         res.json(session);
       });
     } catch (error) {
@@ -176,6 +181,7 @@ const userController = {
       session.pfp = body.pfp;
       session.gitHub = body.gitHub;
       session.favTech = body.favTech;
+      session.favColor = body.favColor;
 
       res.json(dbUserData);
     } catch (error) {

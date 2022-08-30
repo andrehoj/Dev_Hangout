@@ -20,7 +20,6 @@ async function handleLogIn(event) {
 
     if (response.ok) {
       response.json().then((data) => {
-        console.log(data);
         document.location.replace("/room/General");
       });
     } else {

@@ -1,206 +1,220 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
-<link rel="stylesheet" href="/css/settings.css" />
+<link rel="stylesheet" href="/css/setting-styles.css">
+{{!-- sidebar --}}
 
-<div class="settings-container settings-bg">
-  <div class="d-flex justify-content-center mt-3 mb-3">
-
-    <i class="fas fa-lg fa-arrow-left back-arrow align-self-center" id="settings-go-back"></i>
-
-    <h2 class="flex-grow-1 text-center settings-title">function <span class="settings-function">Settings</span>(
-      <p class="settings-variable">myInfo</p>
-      ){
-    </h2>
-
+<!-- Delete Account Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Are you absolutly sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This action cannot be undone. This will permanently delete your account.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="me-3 btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" id="remove-account">Delete</button>
+      </div>
+    </div>
   </div>
-  <div class="container justify-content-center align-items-center" id="accordion">
+</div>
 
-    <div class="row settings-section align-items-center pb-2" data-bs-toggle="collapse" href="#collapseAccount"
-      role="button" aria-expanded="false" aria-controls="collapseExample">
-      <div class="col-7 col-sm-10 d-flex align-items-center me-2">
-        <i class="fa fa-user"></i>
-        <p class="m-0 settings-option ms-3">Account</p>
+<div class="container-fluid p-0">
+  <div class="row ps-0">
+    <div class="col-6 col-md-4 col-xl-2 ps-0">
+      <div class="border-end" style="height: 100vh;">
+        <div class="d-flex flex-column align-items-center p-5">
+          <img src="" alt="profile picture" id="settings-pfp" class="rounded-circle border" height="100px">
+          <p id="sidebar-settings-user-name" class="h3"></p>
+        </div>
+
+        <div>
+          <ul class="list-group list-group-flush" id="sections-container">
+            <li class="settings-option active-section list-group-item border-top d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-user"></i>
+              <p class="m-0" id="menu-account">Account</p>
+            </li>
+            <li class="settings-option list-group-item d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <p class="m-0" id="menu-theme">Theme</p>
+            </li>
+            <li class="settings-option list-group-item d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              <p class="m-0" id="menu-notifications">Notifications</p>
+            </li>
+            <li class="settings-option list-group-item d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-lock"></i>
+              <p class="m-0" id="menu-privacy">Privacy</p>
+            </li>
+            <li class="settings-option list-group-item border-bottom d-flex gap-3 align-items-center py-3">
+              <i class="fa fa-question"></i>
+              <p class="m-0" id="menu-about">About</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {{!-- sidebar end --}}
+
+    {{!-- settings main --}}
+    <div class="col-6 col-md-8 col-xl-10 py-5 pe-5">
+
+      <div class="" id="Notifications" style="display: none;">
+        <h2 class="border-bottom pb-2">Notifications</h2>
+        <p class="mt-2">Coming soon</p>
+      </div>
+      <div class="" id="Privacy" style="display: none;">
+        <h2 class="border-bottom pb-2">Privacy</h2>
+        <p class="mt-2">Coming soon</p>
+
+      </div>
+      <div class="" id="About" style="display: none;">
+        <h2 class="border-bottom pb-2">About</h2>
+        <p class="mt-2">Coming soon</p>
       </div>
 
-      <div class="col-4 col-sm arrow"></div>
+      <div class="" id="Theme" style="display: none;">
+        <h2 class="border-bottom pb-2">Theme</h2>
+        <div class="col-md-6">
+          <label for="theme select">Choose your preferred theme</label>
+          <select class="form-select" aria-label="theme select" id="theme-toggler">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="one-dark-pro">One dark pro</option>
+            <option disabled>dracula (Coming soon...)</option>
+          </select>
+        </div>
+      </div>
 
-    </div>
+      <div class="" id="Account">
 
-    <div class="collapse row align-items-center settings-section mb-2" id="collapseAccount" data-parent="#accordion">
-      <div class="d-flex">
+        <h2 class="border-bottom pb-2">Account Settings</h2>
+
         <form id="edit-user-info">
-          <div class="form-group">
-            <label for="settings-user-name">UserName</label>
-            <input type="text" class="form-control mt-2" id="settings-user-name" aria-describedby="username"
-              autocomplete="" />
-          </div>
 
-          <label for="github-account" class="d-block mb-2 mt-2">Github Username</label>
-          <input type="text" class="form-control mb-2" id="github-account" aria-describedby="username"
-            autocomplete="" />
+          <div class="row">
 
-          <div class="form-group mb-2">
-            <label for="settings-pfp">Profile picture</label>
-            <img src="" class="edit-account-img" id="settings-pfp" />
-            <div class="t edit-profile-picture rounded-2 px-2 py-1 left-0 bottom-0 ml-2 mb-2 border" id="generate-pfp">
-              GenerateNewPfp
+            <div>
+
+              <div class="col-12 col-lg-7">
+                <div class="form-group">
+                  <label for="settings-user-name">Username</label>
+                  <input type="text" class="form-control w-lg-50" id="settings-user-name" aria-describedby="username" />
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-7">
+                <div class="form-group">
+                  <label for="github-account">Github username</label>
+                  <input type="text" class="form-control  " id="github-account" aria-describedby="username" />
+                </div>
+              </div>
+
             </div>
-          </div>
-          <div class="btn-group mt-2 mb-2 d-block">
-            <button type="button" class="btn fav-tech-btn dropdown-toggle d-block" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <img height="25px" id="currentFavTech" />
-              FavoriteLangauge
-            </button>
-            <ul class="dropdown-menu fav-tech-dropdown">
-              <div class="row h-100 m-2">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-                  class="col-3 icon-choices" />
+
+            <div class="col">
+              <div class="form-group">
+                <label for="settings-pfp">Profile Picture</label>
+                <button class="btn btn-outline-info d-block" id="generate-pfp" type="none">GenerateNewPfp</button>
+              </div>
+              <div class="dropdown mt-2 mb-2 d-block">
+                <label for="">Favorite Langauge</label>
+                <button type="button" class="btn btn-outline-info fav-tech-btn dropdown-toggle d-block my-2"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <img height="25px" id="currentFavTech" />
+                </button>
+                <ul class="dropdown-menu fav-tech-dropdown">
+                  <div class="row m-2">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/objectivec/objectivec-plain.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg"
+                      class="col-3 icon-choices" />
+
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg"
+                      class="col-3 icon-choices" />
 
 
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
-                  class="col-3 icon-choices" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scala/scala-original.svg"
+                      class="col-3 icon-choices" />
 
 
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                  class="col-3 icon-choices" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg"
+                      class="col-3 icon-choices" />
+                  </div>
+                </ul>
+              </div>
 
+              <div class="d-flex flex-column">
+                <label for="color input" class="form-label">Your color</label>
+                <input name="color input" type="color" class="form-control form-control-color mt-1" id="color-input"
+                  value="#563d7c" title="Choose your color" />
+              </div>
 
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
-                  class="col-3 icon-choices" />
+              <button type="submit" class="btn btn-success mt-3" id="save-info-btn">Save Info</button>
 
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
-                  class="col-3 icon-choices" />
+              <p class="mt-1" id="edit-message"></p>
 
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/objectivec/objectivec-plain.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg"
-                  class="col-3 icon-choices" />
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg"
-                  class="col-3 icon-choices" />
-
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scala/scala-original.svg"
-                  class="col-3 icon-choices" />
-
-
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg"
-                  class="col-3 icon-choices" />
-
+              <div class="border-top mt-3 pt-1">
+                <label for="delete account" class="my-2">Danger Zone</label>
+                <button name="delete account" type="button" class="btn btn-outline-danger d-block"
+                  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  Remove Account
+                </button>
 
               </div>
-            </ul>
+
+            </div>
+
           </div>
-          <button type="submit" class="btn bg-string mt-3">Save Info</button>
 
       </div>
       </form>
-      <hr>
-      <div class="remove-account-container">
-        <label for="remove-account">DELETE ACCOUNT</label>
-        <button class="btn btn-danger d-block mt-2" id="remove-account" data-toggle="modal"
-          data-target="#removeAccountModal">Remove account</button>
-      </div>
-
-    </div>
-    {{! }}
-    <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
-      href="#collapseAppearance" role="button" aria-expanded="false" aria-controls="collapseExample">
-      <div class="col-7 col-sm-10 d-flex align-items-center me-2">
-        <i class="fa fa-eye" aria-hidden="true"></i>
-        <p class="m-0 settings-option ms-3">Appearance</p>
-      </div>
-
-      <div class="col arrow"></div>
-
-    </div>
-
-    {{! }}
-    <div class="collapse row align-items-center settings-section mb-2" id="collapseAppearance" data-parent="#accordion">
-      <div class="row text-center mt-3">
-        <div class="col">
-          <i class="fa fa-2xl fa-sun d-block mb-1"></i>
-          lightTheme
-        </div>
-        <div class="col active-theme">
-          <i class="fa-xl fa fa-moon d-block mb-1"></i>
-          nightTheme
-        </div>
-
-      </div>
-    </div>
-    {{! }}
-
-    <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
-      href="#collapseNotifications" role="button" aria-expanded="false" aria-controls="collapse">
-      <div class="col-7 col-sm-10 d-flex align-items-center me-2">
-        <i class="fa fa-comments" aria-hidden="true"></i>
-        <p class="m-0 settings-option ms-3">Notifications</p>
-      </div>
-
-      <div class="col arrow"></div>
-      <div class="collapse row" id="collapseNotifications" data-parent="#accordion">
-        <div class="text-center mt-3">
-          Coming Soon!
-        </div>
-      </div>
-    </div>
-
-    <div class="row settings-section align-items-center border-top border-light pb-2 pt-2" data-bs-toggle="collapse"
-      href="#collapsePrivacySecurity" role="button" aria-expanded="false" aria-controls="collapseExample">
-      <div class="col-7 col-sm-10 d-flex align-items-center me-2">
-        <i class="fa fa-lock"></i>
-        <p class="m-0 settings-option ms-3">Privacy & Security</p>
-      </div>
-
-      <div class="col arrow"></div>
-      <div class="collapse row" id="collapsePrivacySecurity" data-parent="#accordion">
-        <div class="text-center mt-3">
-          Coming Soon!
-        </div>
-      </div>
-    </div>
-
-    <div class="row settings-section align-items-center border-bottom border-top border-light pb-2 pt-2"
-      data-bs-toggle="collapse" href="#collapseAbout" role="button" aria-expanded="false"
-      aria-controls="collapseExample">
-      <div class="col-7 col-sm-10 d-flex align-items-center me-2">
-        <i class="fa fa-question"></i>
-        <p class="m-0 settings-option ms-3">About</p>
-      </div>
-
-      <div class="col arrow"></div>
-      <div class="collapse row" id="collapseAbout" data-parent="#accordion">
-        <div class="text-center mt-3">
-          Coming Soon!
-        </div>
-      </div>
     </div>
   </div>
-  <div class="bracket mb-2">}</div>
+  {{!-- settings main end--}}
 </div>
+</div>
+
+
 
 
 <script src="js/settings.js"></script>

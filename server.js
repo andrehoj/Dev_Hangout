@@ -46,8 +46,8 @@ io.on("connection", (socket) => {
     socket.join(room);
   });
 
-  socket.on("chat message", ({ message, username, pfp, room }) => {
-    io.to(room).emit("chat message", { message, username, pfp });
+  socket.on("chat message", ({ message, username, pfp, room, favColor }) => {
+    io.to(room).emit("chat message", { message, username, pfp, favColor });
   });
 
   socket.on(

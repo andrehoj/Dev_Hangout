@@ -5,16 +5,7 @@ $(document).ready(function () {
     $("#user-list").on("click", ".user-list-item", function () {
       const userId = $(this).data("userId");
 
-      if (window.innerWidth <= 767) {
-        userInfoModal.animate(
-          {
-            height: "toggle",
-          },
-          200
-        );
-      } else {
-        userInfoModal.animate({ width: "toggle" }, 200);
-      }
+      userInfoModal.animate({ width: "toggle" }, 200);
 
       getSingleUser(userId).then((userInfo) => {
         appendUserInfo(userInfo);
@@ -44,6 +35,12 @@ $(document).ready(function () {
     }
 
     function appendUserInfo(userData) {
+
+      $("#fav-color-modal").attr(
+        "style",
+        `background-color: ${userData.favColor} !important `
+      );
+
       if (userData.favTech != null) {
         $("#modal-fav-tech").show();
         $("#modal-fav-tech").attr("src", userData.favTech);
@@ -53,12 +50,12 @@ $(document).ready(function () {
 
       $("#modal-pfp").attr("src", userData.pfp);
       $("#modal-username").text(userData.username);
-
-      if (userData.gitHub === null) {
+      console.log(userData);
+      if (!userData.gitHub) {
         $("#modal-github").empty();
         $("#modal-github")
-          .html("<p>GitHub is not registered<p/>")
-          .addClass("null-github");
+          .html("<p>not registered<p/>")
+          .css("color", "#d19a66");
       } else {
         $("#modal-github").empty();
         $("#modal-github").html(
