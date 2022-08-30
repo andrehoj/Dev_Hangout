@@ -26,8 +26,6 @@ body {
   overflow: hidden;
 }
 
-
-
 .chat-pfp {
   height: 40px;
   width: 40px;
@@ -338,8 +336,6 @@ body {
   background-color: var(--main-second-bg-color);
   transition: transform 0.5s ease-in-out;
   transform: translateX(200%);
-  padding-top: 5.3em;
-  color: var(--main-text-color);
 }
 
 .account-slideout.active {

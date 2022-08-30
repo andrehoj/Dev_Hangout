@@ -1,3 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&family=VT323&display=swap");
+
+:root,
+:root.light {
+  --main-bg-color: #ffffff;
+  --main-text-color: #000000;
+  --border-color: ;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
+:root.dark {
+  --main-bg-color: #18191a;
+  --main-text-color: #ffffff;
+  --border-color: #3a3b3c;
+}
+:root.one-dark-pro {
+  --main-bg-color: #282c34;
+  --main-text-color: #c9d1d9;
+  --border-color: #abb2bf;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
+
+* {
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-stack) !important;
+  background-color: var(--main-bg-color) !important;
+  color: var(--main-text-color) !important;
+  overflow-x: hidden;
+}
+
+.border {
+  border-color: var(--border-color) !important;
+}
+
 .settings-option:hover {
   background-color: #c9d1d9;
   cursor: pointer;
@@ -12,16 +49,33 @@
 }
 
 .fav-tech-dropdown {
-    max-width: 15rem;
-    height: 15rem;
-  }
+  max-width: 15rem;
+  height: 15rem;
+}
 
 .icon-choices {
-    padding: 0 !important;
-    height: 40px;
-  }
-  
-  .icon-choices:hover {
-    cursor: pointer;
-    filter: brightness(60%);
-  }
+  padding: 0 !important;
+  height: 40px;
+}
+
+.icon-choices:hover {
+  cursor: pointer;
+  filter: brightness(60%);
+}
+
+.active-section {
+  border-left: var(--border-color) 10px solid !important;
+}
+
+div,
+ul,
+li,
+form,
+input,
+select,
+button,
+p
+.accordion-button {
+  background-color: inherit !important;
+  color: inherit !important;
+}

@@ -14,7 +14,7 @@ const messageController = {
           {
             model: User,
             as: "user",
-            attributes: ["username", "pfp"],
+            attributes: ["username", "pfp", "favColor"],
           },
         ],
         order: [["updatedAt", "ASC"]],

@@ -1,191 +1,196 @@
-{{!-- <link rel="stylesheet" href="/css/styles.css">
-<link rel="stylesheet" href="/css/user-info-modal.css"> --}}
-
 <link rel="stylesheet" href="/css/teststyles.css">
 <link rel="stylesheet" href="/css/user-info-modal.css">
+
 <div class="container-fluid p-0 text-center">
-    <div class="vh-100 row">
-        <div class="vh-100 col-12  col-lg-9 p-0">
-            <!-- CHAT -->
-            <main class="h-100 container-fluid p-0">
-                <div class="h-100">
-                    <div class="h-10 d-flex flex-column justify-content-end align-items-start ps-5 border-bottom">
+  <div class="vh-100 row">
+    <div class="vh-100 col-12 col-md-8 col-lg-9 p-0">
+      <!-- CHAT -->
+      <main class="h-100 container-fluid p-0">
+        <div class="h-100">
+          <div class="h-10 d-flex flex-column justify-content-end align-items-start ps-5 border-bottom">
 
-                        {{!-- <button id="theme-toggle">toggle</button> --}}
-                        <div class="d-flex flex-column gap-2 d-lg-none hamburger-menu align-self-end me-5" id="hamburger-menu">
-                            <div class="bar"></div>
-                            <div class="bar"></div>
-                            <div class="bar"></div>
-                        </div>
-                        <h2 class="room-title " id="room-name"># {{roomname}}</h2>
+            <div class="d-flex flex-column gap-2 d-md-none hamburger-menu align-self-end me-5" id="hamburger-menu">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
 
-                    </div>
-                    <ul class="h-80 position-relative overflow-auto list-group list-group-flush px-3" id="messages">
-                    </ul>
-                    <div class="px-3 pt-1">
-                        <form class="d-flex justify-content-center position-relative border rounded" id="chat-form">
-                            <input type="text" class="p-3 border-0 input-styles w-90"
-                                placeholder="message # {{roomname}}" aria-label="Recipient's username"
-                                aria-describedby="basic-addon2" id="chat-input" />
-                            <button type="submit">
-                                <i class="fa fa-lg fa-paper-plane position-absolute p-2 send-icon"></i>
-                            </button>
-                        </form>
-                    </div>
+            {{!-- <button id="theme-toggle">toggle</button> --}}
+            <h2 class="room-title " id="room-name"># {{roomname}}</h2>
+          </div>
+          <ul class="h-80 position-relative custom-overflow list-group list-group-flush px-3" id="messages"></ul>
+          <div class="px-3 pt-1">
+            <form class="d-flex justify-content-center position-relative border rounded" id="chat-form">
+              <input type="text" class="p-3 border-0 input-styles w-90" placeholder="message # {{roomname}}"
+                aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input" />
+              <button type="submit">
+                <i class="fa fa-lg fa-paper-plane position-absolute p-2 send-icon"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- USER MENU ASIDE-->
+    <aside class="account-slideout position-relative overflow-auto col-4 col-lg-3 vh-100 border-start d-md-block ps-0"
+      id="aside-container">
+
+      <div class="slideout">
+        {{!--  USER INFO/DM MODAL --}}
+        <div class="user-modal-content" id="userInfoModal">
+
+           <div class="fav-color-bg"  id="fav-color-modal"></div>
+
+          <div class="d-relative">
+
+            <img src="" alt="user profile image" id="modal-pfp" class="modal-pfp-styles">
+
+            <div class="d-flex flex-column mt-4 ps-3 text-start">
+              <div class="d-flex">
+                <h5 id="modal-username" class="username-modal-styles"></h5>
+                <img src="" class="favlang-usermodal" alt="favorite language" id="modal-fav-tech">
+              </div>
+
+              <div class="col-12">
+                <div class="d-flex gap-2 mt-2">
+                  <h5 class="">GitHub</h5> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" preserveAspectRatio="none">
+                    <path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                  </svg>
                 </div>
-            </main>
+                <div id="modal-github" class=" mt-1">
+
+                </div>
+              </div>
+
+            </div>
+            <form class="co12 mt-3 p-3" id="direct-msg-form">
+              <input type="text" id="direct-msg-input" class="dm-input border" placeholder="">
+            </form>
+          </div>
+        </div>
+        {{!--  USER INFO/DM MODAL END  --}}
+
+        <div class="text-end p-2 d-md-none"> <img class="p-2 border-rounded text-end" id="close-sidebar"
+            src="https://cdn-icons-png.flaticon.com/512/87/87251.png" height="40px" style="cursor: pointer;"></img>
+        </div>
+        <div class="d-flex justify-content-center gap-5 mb-5 mt-md-5">
+
+          <div class="">
+            <img src="" alt="profile" class="border rounded-circle mb-1" height="50px" id="current-user-pfp">
+            <p id="slideout-username"></p>
+          </div>
+
+          <div class="d-flex flex-column">
+            <a href="/settings" class="settings-wrapper mb-1"><i class="fa fa-2x fa-user" id="account-btn"
+                data-toggle="tooltip" data-placement="top" title="Account Settings"></i></a>
+            <a href="#" id="logout-link-mobile">Logout</a>
+          </div>
+
         </div>
 
-        <!-- USER MENU ASIDE-->
-        <aside class="position-relative overflow-auto d-none d-lg-block col-lg-3 vh-100 border-start pe-4"
-            id="aside-container">
-
-            {{!--  USER INFO/DM MODAL --}}
-            <div class="modal-content border" id="userInfoModal">
-                <div class="container-fluid">
-                    <div class="row m-3">
-                        <div class="col-12 d-flex justify-content-around ttt">
-                            <div class=""><img src="" alt="user profile image" id="modal-pfp" class="modal-pfp-styles">
-                            </div>
-
-                            <div class="d-flex flex-column justify-content-end align-items-center">
-
-                                <h5 id="modal-username" class="username-modal-styles text-center"></h5>
-
-                                <img src="" class="favlang-usermodal" alt="favorite language" id="modal-fav-tech">
-                            </div>
-
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex gap-2 mt-2 ">
-                                <h5 class="">GitHub</h5> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" preserveAspectRatio="none">
-                                    <path
-                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                </svg>
-                            </div>
-                            <div id="modal-github">
-
-                            </div>
-                        </div>
-                        <form class="co12 mt-3" id="direct-msg-form">
-                            <input type="text" id="direct-msg-input" class="dm-input border" placeholder="">
-                        </form>
-                    </div>
+        <div class="row my-5">
+          <div class="">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseOne">
+                    # Users
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body p-0">
+                    <ul class="list-group p-0 list-group-flush" id="user-list"></ul>
+                  </div>
                 </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseTwo">
+                    # Channels
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body">
+                    <ul class="list-group" id="room-list">
+                      <li class="list-group-item room-list-styles d-flex">
+                        # General
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # HTML and CSS
+
+                      </li>
+
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # JavaScript
+
+                      </li>
+
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # Java
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # C
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # C++
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # C Sharp
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # TypeScript
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # ObjectiveC
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # GoLang
+
+                      </li>
+                      <li class="list-group-item room-list-styles d-flex gap-1">
+                        # Other
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseThree">
+                    # Direct Messages
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingThree">
+                  <div class="accordion-body p-0">
+                    <ul class="list-group p-0 list-group-flush" id="direct-msg-list"></ul>
+                  </div>
+                </div>
+              </div>
             </div>
-            {{!--  USER INFO/DM MODAL END  --}}
+          </div>
+        </div>
 
-            <div class="d-flex justify-content-center gap-5 mt-5">
-                <div class="">
-                    <img src="" alt="profile" class="border rounded-circle mb-1" height="50px" id="current-user-pfp">
-                    <p id="slideout-username"></p>
-                </div>
-                <div class="d-flex flex-column">
-                    <a href="/settings" class="settings-wrapper mb-1"><i class="fa fa-2x fa-user" id="account-btn"
-                            data-toggle="tooltip" data-placement="top" title="Account Settings"></i></a>
-                    <a href="#" id="logout-link-mobile">Logout</a>
-                </div>
-            </div>
-
-            <div class="row my-5">
-                <div class="">
-                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                    aria-controls="panelsStayOpen-collapseOne">
-                                    # Users
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body p-0">
-                                    <ul class="list-group p-0 list-group-flush" id="user-list"></ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                                    aria-controls="panelsStayOpen-collapseTwo">
-                                    # Channels
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                                aria-labelledby="panelsStayOpen-headingTwo">
-                                <div class="accordion-body">
-                                    <ul class="list-group" id="room-list">
-                                        <li class="list-group-item room-list-styles d-flex">
-                                            # General
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # HTML and CSS
-
-                                        </li>
-
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # JavaScript
-
-                                        </li>
-
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # Java
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # C
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # C++
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # C Sharp
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # TypeScript
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # ObjectiveC
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # GoLang
-
-                                        </li>
-                                        <li class="list-group-item room-list-styles d-flex gap-1">
-                                            # Other
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                                    aria-controls="panelsStayOpen-collapseThree">
-                                    # Direct Messages
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                                aria-labelledby="panelsStayOpen-headingThree">
-                                <div class="accordion-body p-0">
-                                    <ul class="list-group p-0 list-group-flush" id="direct-msg-list"></ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </aside>
-    </div>
+    </aside>
+  </div>
 </div>
 {{!-- script tag must be included in html to have access to the socket method
 --}}
@@ -195,5 +200,5 @@
 <script src="/js/direct-messages.js"></script>
 <script src="/js/logout.js"></script>
 <script>
-    const socket = io()
+  const socket = io()
 </script>

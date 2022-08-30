@@ -1,5 +1,16 @@
 $(document).ready(function () {
   if (window.io) {
+    //set theme
+    (() => {
+      let theme = localStorage.getItem("theme-preference");
+
+      if (!theme) theme = "light";
+
+      localStorage.setItem("theme-preference", theme);
+
+      document.documentElement.className = theme;
+    })();
+
     socket.on("user connected", (id) => {
       console.log(socket.id);
     });
@@ -244,10 +255,8 @@ $(document).ready(function () {
 
     function addActiveRoom() {
       const inRoom = $(".room-title").text().replace("#", "").trim();
-
       roomList.children().each(function () {
         if ($(this).text().replace("#", "").trim() === inRoom) {
-          console.log(inRoom);
           $(this).addClass("active-room");
         } else $(this).removeClass("active-room");
       });
@@ -392,17 +401,14 @@ $(document).ready(function () {
       loadDmRoom(username);
     });
 
-    $("body").on("click", "#account-btn", function () {
-      $("#explore-slide").toggleClass("active");
+    $("body").on("click", "#close-sidebar", function () {
+      $("#aside-container").toggleClass("active");
       $(".hamburger-menu").toggleClass("is-active");
     });
 
-    $("body").on("click", ".accordion-heading", function () {
-      $(".list-container, .accordion-heading").each(function () {
-        $(this).removeClass("active");
-      });
-      $(this).addClass("active");
-      $(this).next(".list-container").addClass("active");
+    $("body").on("click", "#hamburger-menu", function () {
+      $("#aside-container").toggleClass("active");
+      $(".hamburger-menu").toggleClass("is-active");
     });
   }
 });

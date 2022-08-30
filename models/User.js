@@ -20,7 +20,7 @@ User.init(
       type: DataTypes.STRING(15),
       allowNull: false,
     },
-    
+
     pfp: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -32,6 +32,11 @@ User.init(
     },
 
     favTech: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    favColor: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -53,7 +58,7 @@ User.init(
       type: DataTypes.STRING,
       defaultValue: null,
     },
-    
+
     currentRoom: {
       type: DataTypes.INTEGER,
       defaultValue: null,
@@ -67,6 +72,13 @@ User.init(
     hooks: {
       async beforeCreate(newUserData) {
         newUserData.password = await bcrypt.hash(newUserData.password, 10);
+
+        var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+        const color = "#" + randomColor;
+
+        newUserData.favColor = color;
+
         return newUserData;
       },
     },

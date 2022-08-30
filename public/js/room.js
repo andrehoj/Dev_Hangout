@@ -1,7 +1,4 @@
 $(document).ready(function () {
-  $("#theme-toggle").click(() => {
-    $("body").toggleClass("darktheme");
-  });
   if (window.io) {
     const chatForm = $("#chat-form");
     const chatBox = $("#messages");
@@ -33,21 +30,23 @@ $(document).ready(function () {
       }
 
       appendMessages(msg) {
-        const { username, pfp } = msg.user;
+        const { username, pfp, favColor } = msg.user;
         const { message, timeOfMessage } = msg;
 
-        $("#messages").append(`<li class="list-group-item d-flex">
-        <div class="">
+        console.log(favColor);
+
+        $("#messages").append(`<li class="list-group-item d-flex w-90">
+       
           <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
-        </div>
-        <div class="ms-2 d-flex flex-column text-start">
-          <div class="d-flex gap-1">
-            <p class=""><u>${username}</u></p>
+       
+        <div class="ms-2 d-flex flex-column text-start w-100">
+          <div class="d-flex gap-1 w-100">
+            <p style='color: ${favColor};'><u>${username}</u></p>
             <span class="blockquote-footer">${timeOfMessage}</span>
           </div>
-          <span class="">
-           ${message}
-          </span>
+          <div class="d-flex gap-1 w-100">
+            <span class="break-word w-90 me-2">${message}</span>
+          </div>
         </div>
       </li>`);
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
@@ -73,21 +72,21 @@ $(document).ready(function () {
         }
       }
 
-      appendMessage(message, timeOfMessage, username, pfp) {
-        chatBox.append(`<li class="list-group-item d-flex">
-        <div class="">
-          <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+      appendMessage(message, timeOfMessage, username, pfp, favColor) {
+        chatBox.append(`<li class="list-group-item d-flex w-90">
+       
+        <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+     
+      <div class="ms-2 d-flex flex-column text-start w-100">
+        <div class="d-flex gap-1 w-100">
+          <p style='color: ${favColor};'><u>${username}</u></p>
+          <span class="blockquote-footer">${timeOfMessage}</span>
         </div>
-        <div class="ms-2 d-flex flex-column text-start">
-          <div class="d-flex gap-1">
-            <p class=""><u>${username}</u></p>
-            <span class="blockquote-footer">${timeOfMessage}</span>
-          </div>
-          <span class="">
-           ${message}
-          </span>
+        <div class="d-flex gap-1 w-100">
+          <span class="break-word w-90 me-2">${message}</span>
         </div>
-      </li>`);
+      </div>
+    </li>`);
 
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
       }
@@ -137,10 +136,10 @@ $(document).ready(function () {
     });
 
     //on chat message append it and save it to the db
-    socket.on("chat message", function ({ message, username, pfp }) {
+    socket.on("chat message", function ({ message, username, pfp, favColor }) {
       const timeOfMessage = testRoom.getCurrentTime();
 
-      testRoom.appendMessage(message, timeOfMessage, username, pfp);
+      testRoom.appendMessage(message, timeOfMessage, username, pfp, favColor);
 
       testRoom.getUsersInfo().then((user) => {
         if (user.username === username) {
@@ -156,7 +155,7 @@ $(document).ready(function () {
       const message = chatInput.val().trim();
 
       testRoom.getUsersInfo().then(function (user) {
-        const { username, pfp } = user;
+        const { username, pfp, favColor } = user;
 
         if (message) {
           socket.emit("chat message", {
@@ -164,6 +163,7 @@ $(document).ready(function () {
             username,
             pfp,
             room,
+            favColor,
           });
           chatInput.val("");
         }

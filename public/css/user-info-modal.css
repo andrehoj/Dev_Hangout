@@ -1,10 +1,30 @@
-.modal-content {
+:root,
+:root.light {
+  --main-bg-color: #ffffff;
+  --main-text-color: #000000;
+  --border-color: #000000;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
+:root.dark {
+  --main-bg-color: #18191a;
+  --main-text-color: #ffffff;
+  --border-color: #3a3b3c;
+}
+:root.one-dark-pro {
+  --main-bg-color: #282c34;
+  --main-text-color: #c9d1d9;
+  --border-color: #abb2bf;
+  --font-stack: "Source Code Pro", "Helvetica";
+}
+
+.user-modal-content {
   display: none;
   position: absolute;
   top: 15%;
-  /* right: 100%; */
-  max-width: 22rem;
-  background-color: white;
+  max-width: 50rem;
+  background-color: var(--main-bg-color) !important;
+  color: var(--main-text-color) !important;
+  box-shadow: var(--border-color) 0px 5px 15px;
   min-height: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -12,9 +32,12 @@
 }
 
 .modal-pfp-styles {
-  border: #98c379 solid 1px;
   border-radius: 50%;
-  height: 120px;
+  position: absolute;
+  top: 10px;
+  right: 150px;
+  height: 75px;
+  border: var(--main-text-color) 1px solid;
 }
 
 .dm-input {
@@ -22,7 +45,7 @@
   border-radius: 5px;
   height: 2.5rem;
   font-size: 0.9rem;
-  width: 100%;
+  width: 95%;
 }
 
 .dm-input:focus {
@@ -37,24 +60,23 @@
   color: #d19a66;
 }
 
-.favlang-usermodal{
-  margin-top: -10px;
-  width: 100px;
+.favlang-usermodal {
+ height: 25px;
 }
 
-.dropdown-toggle::after{
+.dropdown-toggle::after {
   display: none;
 }
 
 @media only screen and (max-width: 770px) {
-  .modal-content {
+  .user-modal-content {
     display: none;
   }
 }
 
-@media only screen and (max-width: 767px) { 
-  .modal-content {
+@media only screen and (max-width: 767px) {
+  .user-modal-content {
     right: 5%;
     top: 250px;
   }
- }
+}
