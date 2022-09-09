@@ -31,11 +31,25 @@ $(document).ready(function () {
 
       appendMessages(msg) {
         const { username, pfp, favColor } = msg.user;
-        const { message, timeOfMessage } = msg;
+        const { message, timeOfMessage, isCodeBlock } = msg;
 
-        console.log(favColor);
-
-        $("#messages").append(`<li class="list-group-item d-flex w-90">
+        if (isCodeBlock) {
+          $("#messages").append(`<li class="list-group-item d-flex w-90">
+       
+          <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+       
+        <div class="ms-2 d-flex flex-column text-start w-100">
+          <div class="d-flex gap-1 w-100">
+            <p style='color: ${favColor};'><u>${username}</u></p>
+            <span class="blockquote-footer">${timeOfMessage}</span>
+          </div>
+          <div class="d-flex gap-1 w-100">
+            <span class="break-word w-90 me-2"><pre><code class="javascript">${message}</code></pre></span>
+          </div>
+        </div>
+      </li>`);
+        } else {
+          $("#messages").append(`<li class="list-group-item d-flex w-90">
        
           <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
        
@@ -49,10 +63,12 @@ $(document).ready(function () {
           </div>
         </div>
       </li>`);
+        }
+
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
       }
 
-      async saveMessage(username, msg, currentTime, room, user) {
+      async saveMessage(username, msg, currentTime, room, user, isCodeBlock) {
         try {
           await fetch("/api/messages/save", {
             method: "post",
@@ -65,6 +81,7 @@ $(document).ready(function () {
               currentTime,
               room,
               userId: user.user_id,
+              isCodeBlock,
             }),
           });
         } catch (error) {
@@ -73,7 +90,23 @@ $(document).ready(function () {
       }
 
       appendMessage(message, timeOfMessage, username, pfp, favColor) {
-        chatBox.append(`<li class="list-group-item d-flex w-90">
+        if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+          $("#chat-input").append(`<li class="list-group-item d-flex w-90">
+       
+          <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+       
+        <div class="ms-2 d-flex flex-column text-start w-100">
+          <div class="d-flex gap-1 w-100">
+            <p style='color: ${favColor};'><u>${username}</u></p>
+            <span class="blockquote-footer">${timeOfMessage}</span>
+          </div>
+          <div class="d-flex gap-1 w-100">
+            <span class="break-word w-90 me-2"><pre><code class="javascript">${message}</code></pre></span>
+          </div>
+        </div>
+      </li>`);
+        } else
+        $("#chat-input").append(`<li class="list-group-item d-flex w-90">
        
         <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
      
@@ -131,9 +164,7 @@ $(document).ready(function () {
       socket.emit("pushing", { username, user_id, socketId });
     });
 
-    socket.on("pushed", (users) => {
-      console.log(users);
-    });
+    socket.on("pushed", (users) => {});
 
     //on chat message append it and save it to the db
     socket.on("chat message", function ({ message, username, pfp, favColor }) {
@@ -143,7 +174,27 @@ $(document).ready(function () {
 
       testRoom.getUsersInfo().then((user) => {
         if (user.username === username) {
-          testRoom.saveMessage(username, message, timeOfMessage, room, user);
+          if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+            const isCodeBlock = true;
+            testRoom.saveMessage(
+              username,
+              message,
+              timeOfMessage,
+              room,
+              user,
+              isCodeBlock
+            );
+          } else {
+            const isCodeBlock = false;
+            testRoom.saveMessage(
+              username,
+              message,
+              timeOfMessage,
+              room,
+              user,
+              isCodeBlock
+            );
+          }
         }
       });
     });
@@ -152,7 +203,7 @@ $(document).ready(function () {
     chatForm.submit(function (event) {
       event.preventDefault();
 
-      const message = chatInput.val().trim();
+      const message = $("#chat-input").val().trim();
 
       testRoom.getUsersInfo().then(function (user) {
         const { username, pfp, favColor } = user;
@@ -165,9 +216,23 @@ $(document).ready(function () {
             room,
             favColor,
           });
-          chatInput.val("");
+          $("#chat-input").val("");
         }
       });
+    });
+
+    $("#code-block").click(() => {
+      if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+        $("#chat-input").replaceWith(
+          `<input type='text' class='p-3 ps-4 border-0 input-styles w-90' placeholder='message # ${room}'
+          aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input" />`
+        );
+      } else {
+        $("#chat-input").replaceWith(
+          "<textarea class='p-3 ps-4 border-0 input-styles w-90' rows='1' cols='40' id='chat-input' placeholder='Enter your code block'></textarea>"
+        );
+        $("#chat-input").attr("placeholder", "Enter your code block");
+      }
     });
   } else document.location.replace("/login");
 });

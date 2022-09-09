@@ -12,7 +12,7 @@ $(document).ready(function () {
     })();
 
     socket.on("user connected", (id) => {
-      console.log(socket.id);
+      
     });
 
     const userList = $("#user-list");

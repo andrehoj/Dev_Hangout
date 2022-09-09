@@ -21,10 +21,11 @@
           <ul class="h-80 position-relative custom-overflow list-group list-group-flush px-3" id="messages"></ul>
           <div class="px-3 pt-1">
             <form class="d-flex justify-content-center position-relative border rounded" id="chat-form">
-              <input type="text" class="p-3 border-0 input-styles w-90" placeholder="message # {{roomname}}"
+              <i class="fa fa-code position-absolute code-icon" id="code-block"></i>
+              <input type="text" class="p-3 ps-4 border-0 input-styles w-90" placeholder="message # {{roomname}}"
                 aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input" />
               <button type="submit">
-                <i class="fa fa-lg fa-paper-plane position-absolute p-2 send-icon"></i>
+                <i class="fa fa-lg fa-paper-plane position-absolute p-2 send-icon" id="send-icon"></i>
               </button>
             </form>
           </div>
@@ -40,7 +41,7 @@
         {{!--  USER INFO/DM MODAL --}}
         <div class="user-modal-content" id="userInfoModal">
 
-           <div class="fav-color-bg"  id="fav-color-modal"></div>
+          <div class="fav-color-bg" id="fav-color-modal"></div>
 
           <div class="d-relative">
 

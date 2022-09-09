@@ -10,8 +10,6 @@ const seedAll = async () => {
 
   await seedUsers();
 
-  console.log("all data seeded!");
-
   process.exit(0);
 };
 

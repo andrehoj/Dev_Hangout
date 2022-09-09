@@ -16,7 +16,6 @@ $(document).ready(async function () {
     );
 
     const currentUser = await getCurrentUsersInfo();
-    console.log(currentUser)
 
     currentUser.socketId = socket.id;
 
@@ -129,7 +128,7 @@ $(document).ready(async function () {
       const messageContainer = $("#messages");
 
       messageContainer.empty();
-      console.log(dms);
+
       dms.forEach((dm) => {
         messageContainer.append(
           `<li class="list-group-item d-flex w-90">
@@ -199,5 +198,17 @@ $(document).ready(async function () {
       );
       messageContainer.scrollTop(messageContainer[0].scrollHeight);
     }
+
+    $("#code-block").click(() => {
+      if (chatInput.attr("placeholder") === "Enter your code block") {
+        chatInput.attr(
+          "placeholder",
+          "message # " +
+            `${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
+        );
+      } else {
+        chatInput.attr("placeholder", "Enter your code block");
+      }
+    });
   }
 });

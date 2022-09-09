@@ -18,6 +18,10 @@ Message.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isCodeBlock: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -40,5 +44,5 @@ Message.init(
     modelName: "message",
   }
 );
- 
+
 module.exports = Message;

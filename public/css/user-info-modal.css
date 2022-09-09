@@ -24,7 +24,8 @@
   max-width: 50rem;
   background-color: var(--main-bg-color) !important;
   color: var(--main-text-color) !important;
-  box-shadow: var(--border-color) 0px 5px 15px;
+  border: solid 1px var(--main-text-color);
+  border-left: none;
   min-height: fit-content;
   margin-left: auto;
   margin-right: auto;

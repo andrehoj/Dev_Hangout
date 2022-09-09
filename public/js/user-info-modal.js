@@ -5,7 +5,7 @@ $(document).ready(function () {
     $("#user-list").on("click", ".user-list-item", function () {
       const userId = $(this).data("userId");
 
-      userInfoModal.animate({ width: "toggle" }, 200);
+      userInfoModal.animate({ width: "toggle" }, 300);
 
       getSingleUser(userId).then((userInfo) => {
         appendUserInfo(userInfo);
@@ -50,7 +50,7 @@ $(document).ready(function () {
 
       $("#modal-pfp").attr("src", userData.pfp);
       $("#modal-username").text(userData.username);
-      console.log(userData);
+    
       if (!userData.gitHub) {
         $("#modal-github").empty();
         $("#modal-github")

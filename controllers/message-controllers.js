@@ -4,7 +4,7 @@ const messageController = {
   async getMessagesByRoom({ params }, res) {
     try {
       const dbMessageData = await Message.findAll({
-        attributes: ["message", "timeOfMessage"],
+        attributes: ["message", "timeOfMessage", 'isCodeBlock'],
         include: [
           {
             model: Room,
@@ -30,6 +30,7 @@ const messageController = {
   },
 
   async saveMessage({ body }, res) {
+    
     try {
       let roomId = await Room.findOne({
         where: {
@@ -41,6 +42,7 @@ const messageController = {
 
       let newMessage = await Message.create({
         message: body.msg,
+        isCodeBlock: body.isCodeBlock,
         timeOfMessage: body.currentTime,
         userId: body.userId,
         roomId: roomId.id,

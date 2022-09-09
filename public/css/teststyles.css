@@ -6,6 +6,7 @@
   --main-text-color: #000000;
   --border-color: #ffffff;
   --hover-color: #7a7a7a;
+  --code-bg: #d3d3d3;
   --font-stack: "Source Code Pro", "Helvetica";
 }
 :root.dark {
@@ -13,6 +14,7 @@
   --main-text-color: #ffffff;
   --border-color: #3a3b3c;
   --hover-color: #a5a5a5;
+  --code-bg: #424956;
   --font-stack: "Source Code Pro", "Helvetica";
 }
 :root.one-dark-pro {
@@ -20,6 +22,7 @@
   --main-text-color: #c9d1d9;
   --border-color: #abb2bf;
   --hover-color: #d19a66;
+  --code-bg: #5b6475;
   --font-stack: "Source Code Pro", "Helvetica";
 }
 
@@ -46,11 +49,27 @@ input[type="submit"] {
   outline: inherit;
 }
 
-.fav-color-bg{
+pre {
+  background: var(--code-bg) !important;
+  border-left: 3px solid #f36d33;
+  color: var(--main-text-color) !important;
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 1.6em;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+  word-wrap: break-word;
+}
+
+.fav-color-bg {
   height: 80px;
 }
 
-.break-word{
+.break-word {
   word-wrap: break-word;
   white-space: wrap;
 }
@@ -119,14 +138,22 @@ input[type="submit"] {
   border: none;
   outline: none;
 }
-/* send icon */
+
+/* input icons  */
+
+.code-icon {
+  color: var(--hover-color);
+  top: 35%;
+  left: 10px;
+  cursor: pointer;
+}
 
 .send-icon {
+  color: var(--hover-color);
   top: 20%;
   right: 1%;
   cursor: pointer;
 }
-
 
 /* slideout styles */
 
@@ -209,6 +236,10 @@ ul::-webkit-scrollbar-thumb:hover {
   }
 }
 
+textarea{
+  resize: none;
+}
+
 div,
 ul,
 li,
@@ -216,6 +247,7 @@ form,
 input,
 select,
 button,
+textarea,
 .accordion-button {
   background-color: inherit !important;
   color: inherit !important;

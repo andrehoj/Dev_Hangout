@@ -96,7 +96,6 @@ const userController = {
       }
 
       await session.save(() => {
-        console.log(user);
         session.loggedIn = true;
         session.user_id = user.id;
         session.username = user.username;
