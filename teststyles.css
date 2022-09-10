@@ -30,7 +30,7 @@ body {
 .bar::after{
   content: '';
   position: absolute;
-  width: 32px;
+ 
   height: 5px;
   border-radius: 5px;
   background-color: #98c379;

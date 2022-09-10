@@ -21,7 +21,7 @@
   --main-bg-color: #282c34;
   --main-text-color: #c9d1d9;
   --border-color: #abb2bf;
-  --hover-color: #d19a66;
+  --hover-color: #a5a5a5;
   --code-bg: #5b6475;
   --font-stack: "Source Code Pro", "Helvetica";
 }
@@ -192,8 +192,8 @@ ul::-webkit-scrollbar-thumb:hover {
 }
 
 .bar {
-  width: 40px;
-  height: 5px;
+  width: 22px;
+  height: 3px;
   border-radius: 5px;
   background-color: var(--hover-color) !important;
 }
@@ -236,7 +236,7 @@ ul::-webkit-scrollbar-thumb:hover {
   }
 }
 
-textarea{
+textarea {
   resize: none;
 }
 

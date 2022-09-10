@@ -41,7 +41,7 @@ $(document).ready(function () {
         <div class="ms-2 d-flex flex-column text-start w-100">
           <div class="d-flex gap-1 w-100">
             <p style='color: ${favColor};'><u>${username}</u></p>
-            <span class="blockquote-footer">${timeOfMessage}</span>
+            <span class="blockquote-footer d-none d-sm-block">${timeOfMessage}</span>
           </div>
           <div class="d-flex gap-1 w-100">
             <span class="break-word w-90 me-2"><pre><code class="javascript">${message}</code></pre></span>
@@ -56,7 +56,7 @@ $(document).ready(function () {
         <div class="ms-2 d-flex flex-column text-start w-100">
           <div class="d-flex gap-1 w-100">
             <p style='color: ${favColor};'><u>${username}</u></p>
-            <span class="blockquote-footer">${timeOfMessage}</span>
+            <span class="blockquote-footer d-none d-sm-block">${timeOfMessage}</span>
           </div>
           <div class="d-flex gap-1 w-100">
             <span class="break-word w-90 me-2">${message}</span>
@@ -98,7 +98,7 @@ $(document).ready(function () {
         <div class="ms-2 d-flex flex-column text-start w-100">
           <div class="d-flex gap-1 w-100">
             <p style='color: ${favColor};'><u>${username}</u></p>
-            <span class="blockquote-footer">${timeOfMessage}</span>
+            <span class="blockquote-footer d-none d-sm-block">${timeOfMessage}</span>
           </div>
           <div class="d-flex gap-1 w-100">
             <span class="break-word w-90 me-2"><pre><code class="javascript">${message}</code></pre></span>
@@ -106,14 +106,14 @@ $(document).ready(function () {
         </div>
       </li>`);
         } else
-        $("#chat-input").append(`<li class="list-group-item d-flex w-90">
+          $("#chat-input").append(`<li class="list-group-item d-flex w-90">
        
         <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
      
       <div class="ms-2 d-flex flex-column text-start w-100">
         <div class="d-flex gap-1 w-100">
           <p style='color: ${favColor};'><u>${username}</u></p>
-          <span class="blockquote-footer">${timeOfMessage}</span>
+          <span class="blockquote-footer  d-none d-sm-block">${timeOfMessage}</span>
         </div>
         <div class="d-flex gap-1 w-100">
           <span class="break-word w-90 me-2">${message}</span>
@@ -174,7 +174,9 @@ $(document).ready(function () {
 
       testRoom.getUsersInfo().then((user) => {
         if (user.username === username) {
-          if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+          if (
+            $("#chat-input").attr("placeholder") === "Enter your code block"
+          ) {
             const isCodeBlock = true;
             testRoom.saveMessage(
               username,
@@ -223,11 +225,14 @@ $(document).ready(function () {
 
     $("#code-block").click(() => {
       if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+        $("#code-block").css("color", "")
+
         $("#chat-input").replaceWith(
           `<input type='text' class='p-3 ps-4 border-0 input-styles w-90' placeholder='message # ${room}'
-          aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input" />`
+          aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input"/>`
         );
       } else {
+        $("#code-block").css("color", "#d19a66")
         $("#chat-input").replaceWith(
           "<textarea class='p-3 ps-4 border-0 input-styles w-90' rows='1' cols='40' id='chat-input' placeholder='Enter your code block'></textarea>"
         );
