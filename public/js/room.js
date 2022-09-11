@@ -1,8 +1,6 @@
 $(document).ready(function () {
   if (window.io) {
     const chatForm = $("#chat-form");
-    const chatBox = $("#messages");
-    const chatInput = $("#chat-input");
 
     class Room {
       constructor(name) {
@@ -90,8 +88,9 @@ $(document).ready(function () {
       }
 
       appendMessage(message, timeOfMessage, username, pfp, favColor) {
+        console.log(message, timeOfMessage, username, pfp, favColor);
         if ($("#chat-input").attr("placeholder") === "Enter your code block") {
-          $("#chat-input").append(`<li class="list-group-item d-flex w-90">
+          $("#messages").append(`<li class="list-group-item d-flex w-90">
        
           <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
        
@@ -105,21 +104,20 @@ $(document).ready(function () {
           </div>
         </div>
       </li>`);
-        } else
-          $("#chat-input").append(`<li class="list-group-item d-flex w-90">
-       
-        <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
-     
-      <div class="ms-2 d-flex flex-column text-start w-100">
-        <div class="d-flex gap-1 w-100">
-          <p style='color: ${favColor};'><u>${username}</u></p>
-          <span class="blockquote-footer  d-none d-sm-block">${timeOfMessage}</span>
-        </div>
-        <div class="d-flex gap-1 w-100">
-          <span class="break-word w-90 me-2">${message}</span>
-        </div>
-      </div>
-    </li>`);
+        } else {
+          $("#messages").append(`<li class="list-group-item d-flex w-90">
+            <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+              <div class="ms-2 d-flex flex-column text-start w-100">
+                 <div class="d-flex gap-1 w-100">
+                   <p style='color: ${favColor};'><u>${username}</u></p>
+                   <span class="blockquote-footer  d-none d-sm-block">${timeOfMessage}</span>
+                 </div>
+                 <div class="d-flex gap-1 w-100">
+                  <span class="break-word w-90 me-2">${message}</span>
+                  </div>
+                 </div>
+                  </li>`);
+        }
 
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
       }
@@ -225,14 +223,14 @@ $(document).ready(function () {
 
     $("#code-block").click(() => {
       if ($("#chat-input").attr("placeholder") === "Enter your code block") {
-        $("#code-block").css("color", "")
+        $("#code-block").css("color", "");
 
         $("#chat-input").replaceWith(
           `<input type='text' class='p-3 ps-4 border-0 input-styles w-90' placeholder='message # ${room}'
           aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input"/>`
         );
       } else {
-        $("#code-block").css("color", "#d19a66")
+        $("#code-block").css("color", "#d19a66");
         $("#chat-input").replaceWith(
           "<textarea class='p-3 ps-4 border-0 input-styles w-90' rows='1' cols='40' id='chat-input' placeholder='Enter your code block'></textarea>"
         );
