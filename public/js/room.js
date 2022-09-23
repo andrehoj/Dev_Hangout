@@ -87,9 +87,15 @@ $(document).ready(function () {
         }
       }
 
-      appendMessage(message, timeOfMessage, username, pfp, favColor) {
-        console.log(message, timeOfMessage, username, pfp, favColor);
-        if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+      appendMessage(
+        message,
+        timeOfMessage,
+        username,
+        pfp,
+        favColor,
+        isCodeBlock
+      ) {
+        if (isCodeBlock) {
           $("#messages").append(`<li class="list-group-item d-flex w-90">
        
           <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
@@ -106,17 +112,19 @@ $(document).ready(function () {
       </li>`);
         } else {
           $("#messages").append(`<li class="list-group-item d-flex w-90">
-            <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
-              <div class="ms-2 d-flex flex-column text-start w-100">
-                 <div class="d-flex gap-1 w-100">
-                   <p style='color: ${favColor};'><u>${username}</u></p>
-                   <span class="blockquote-footer  d-none d-sm-block">${timeOfMessage}</span>
-                 </div>
-                 <div class="d-flex gap-1 w-100">
-                  <span class="break-word w-90 me-2">${message}</span>
-                  </div>
-                 </div>
-                  </li>`);
+       
+          <img src="${pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+       
+        <div class="ms-2 d-flex flex-column text-start w-100">
+          <div class="d-flex gap-1 w-100">
+            <p style='color: ${favColor};'><u>${username}</u></p>
+            <span class="blockquote-footer d-none d-sm-block">${timeOfMessage}</span>
+          </div>
+          <div class="d-flex gap-1 w-100">
+            <span class="break-word w-90 me-2">${message}</span>
+          </div>
+        </div>
+      </li>`);
         }
 
         $("#messages").scrollTop($("#messages")[0].scrollHeight);
@@ -165,39 +173,49 @@ $(document).ready(function () {
     socket.on("pushed", (users) => {});
 
     //on chat message append it and save it to the db
-    socket.on("chat message", function ({ message, username, pfp, favColor }) {
-      const timeOfMessage = testRoom.getCurrentTime();
+    socket.on(
+      "chat message",
+      function ({ message, username, pfp, favColor, isCodeBlock }) {
+        const timeOfMessage = testRoom.getCurrentTime();
 
-      testRoom.appendMessage(message, timeOfMessage, username, pfp, favColor);
+        testRoom.appendMessage(
+          message,
+          timeOfMessage,
+          username,
+          pfp,
+          favColor,
+          isCodeBlock
+        );
 
-      testRoom.getUsersInfo().then((user) => {
-        if (user.username === username) {
-          if (
-            $("#chat-input").attr("placeholder") === "Enter your code block"
-          ) {
-            const isCodeBlock = true;
-            testRoom.saveMessage(
-              username,
-              message,
-              timeOfMessage,
-              room,
-              user,
-              isCodeBlock
-            );
-          } else {
-            const isCodeBlock = false;
-            testRoom.saveMessage(
-              username,
-              message,
-              timeOfMessage,
-              room,
-              user,
-              isCodeBlock
-            );
+        testRoom.getUsersInfo().then((user) => {
+          if (user.username === username) {
+            if (
+              $("#chat-input").attr("placeholder") === "Enter your code block"
+            ) {
+              const isCodeBlock = true;
+              testRoom.saveMessage(
+                username,
+                message,
+                timeOfMessage,
+                room,
+                user,
+                isCodeBlock
+              );
+            } else {
+              const isCodeBlock = false;
+              testRoom.saveMessage(
+                username,
+                message,
+                timeOfMessage,
+                room,
+                user,
+                isCodeBlock
+              );
+            }
           }
-        }
-      });
-    });
+        });
+      }
+    );
 
     //on chat message emit the chat message event
     chatForm.submit(function (event) {
@@ -208,6 +226,12 @@ $(document).ready(function () {
       testRoom.getUsersInfo().then(function (user) {
         const { username, pfp, favColor } = user;
 
+        let isCodeBlock;
+
+        $("#chat-input").attr("placeholder") === "Enter your code block"
+          ? (isCodeBlock = true)
+          : (isCodeBlock = false);
+
         if (message) {
           socket.emit("chat message", {
             message,
@@ -215,6 +239,7 @@ $(document).ready(function () {
             pfp,
             room,
             favColor,
+            isCodeBlock,
           });
           $("#chat-input").val("");
         }

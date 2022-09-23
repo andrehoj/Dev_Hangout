@@ -46,9 +46,18 @@ io.on("connection", (socket) => {
     socket.join(room);
   });
 
-  socket.on("chat message", ({ message, username, pfp, room, favColor }) => {
-    io.to(room).emit("chat message", { message, username, pfp, favColor });
-  });
+  socket.on(
+    "chat message",
+    ({ message, username, pfp, room, favColor, isCodeBlock }) => {
+      io.to(room).emit("chat message", {
+        message,
+        username,
+        pfp,
+        favColor,
+        isCodeBlock,
+      });
+    }
+  );
 
   socket.on(
     "direct message",

@@ -42,6 +42,7 @@ $(document).ready(async function () {
         event.preventDefault();
 
         const message = chatInput.val().trim();
+        
         const timeOfMessage = getCurrentTime();
 
         if (message) {
