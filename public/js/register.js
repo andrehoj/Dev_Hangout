@@ -43,7 +43,6 @@ $("#registerPassword").focus(function () {
 });
 
 $("#login-instead-link").click(function () {
-  console.log("Clicked");
   $("#register-modal").hide();
   $("#login-modal").show();
 });

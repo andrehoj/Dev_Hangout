@@ -36,12 +36,18 @@ Dm.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    
+
+    isCodeBlock: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
     },
   },
+
   {
     sequelize,
     freezeTableName: true,

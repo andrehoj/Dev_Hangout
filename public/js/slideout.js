@@ -11,10 +11,6 @@ $(document).ready(function () {
       document.documentElement.className = theme;
     })();
 
-    socket.on("user connected", (id) => {
-      
-    });
-
     const userList = $("#user-list");
     const roomList = $("#room-list");
     const dmList = $("#direct-msg-list");
@@ -82,7 +78,7 @@ $(document).ready(function () {
     //handles room change on click of room list item
     roomList.click(function (event) {
       const room = $(event.target).text().replace("#", "").trim();
-      console.log(room.length);
+
       loadRoom(room);
 
       socket.emit("join room", { username: currentUser.username, room: room });

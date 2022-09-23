@@ -23,7 +23,7 @@ $(document).ready(function () {
           });
           return response.json();
         } catch (error) {
-          console.log(error);
+         
         }
       }
 
@@ -83,7 +83,7 @@ $(document).ready(function () {
             }),
           });
         } catch (error) {
-          console.log(error);
+         
         }
       }
 
@@ -144,7 +144,7 @@ $(document).ready(function () {
           let userInfo = await fetch("/api/users/session");
           return userInfo.json();
         } catch (error) {
-          console.log(error);
+        
         }
       }
     }

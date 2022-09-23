@@ -18,6 +18,7 @@ Message.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+
     isCodeBlock: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

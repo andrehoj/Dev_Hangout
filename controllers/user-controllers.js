@@ -74,7 +74,6 @@ const userController = {
         },
       });
 
-
       if (!dbUserData) {
         res
           .status(400)
@@ -85,8 +84,6 @@ const userController = {
       const user = dbUserData.get({ plain: true });
 
       const validPassword = dbUserData.checkPassword(body.password);
-
-
 
       if (!validPassword) {
         res
@@ -226,7 +223,6 @@ const userController = {
         res.json(deletedUser);
       }
     } catch (error) {
-      console.log("error occured", error);
       res.json(error);
     }
   },

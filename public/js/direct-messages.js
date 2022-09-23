@@ -1,7 +1,6 @@
 $(document).ready(async function () {
   if (window.io) {
     const chatForm = $("#chat-form");
-    const chatInput = $("#chat-input");
     const roomName = $("#room-name");
 
     roomName.text(
@@ -10,7 +9,7 @@ $(document).ready(async function () {
         .replace(/%20/g, " ")}`
     );
 
-    chatInput.attr(
+    $("#chat-input").attr(
       "placeholder",
       `message ${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
     );
@@ -30,10 +29,6 @@ $(document).ready(async function () {
     appendDms(dms);
 
     socket.on("user connected", async (socketId) => {
-      console.log(
-        "user connected as fired, the users socket id is: ",
-        socketId
-      );
       receiver.socketId = socketId;
     });
 
@@ -41,9 +36,15 @@ $(document).ready(async function () {
       try {
         event.preventDefault();
 
-        const message = chatInput.val().trim();
-        
+        const message = $("#chat-input").val().trim();
+
         const timeOfMessage = getCurrentTime();
+
+        let isCodeBlock;
+
+        $("#chat-input").attr("placeholder") === "Enter your code block"
+          ? (isCodeBlock = true)
+          : (isCodeBlock = false);
 
         if (message) {
           socket.emit("direct message", {
@@ -51,19 +52,20 @@ $(document).ready(async function () {
             receiver: receiver,
             sender: currentUser,
             timeOfMessage: timeOfMessage,
+            isCodeBlock: isCodeBlock,
           });
 
-          saveDm(message, receiver, currentUser);
+          saveDm(message, receiver, currentUser, isCodeBlock);
 
-          chatInput.val("");
+          $("#chat-input").val("");
         }
       } catch (error) {
         //error:(
       }
     });
 
-    socket.on("direct message", (message, receiver, sender) => {
-      appendDm(message, receiver, sender);
+    socket.on("direct message", (message, receiver, sender, isCodeBlock) => {
+      appendDm(message, receiver, sender, isCodeBlock);
     });
 
     async function getCurrentDms({ id }, { user_id }) {
@@ -85,7 +87,7 @@ $(document).ready(async function () {
       }
     }
 
-    async function saveDm(message, receiver, sender, timeOfMessage) {
+    async function saveDm(message, receiver, sender, isCodeBlock) {
       try {
         const res = await fetch("/api/dm/save-dm-message", {
           method: "post",
@@ -96,7 +98,7 @@ $(document).ready(async function () {
             message: message,
             receiver: receiver,
             sender: sender,
-            timeOfMessage: timeOfMessage,
+            isCodeBlock: isCodeBlock,
           }),
         });
         return res.json();
@@ -131,22 +133,41 @@ $(document).ready(async function () {
       messageContainer.empty();
 
       dms.forEach((dm) => {
-        messageContainer.append(
-          `<li class="list-group-item d-flex w-90">
-       
-          <img src="${dm.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
-       
-        <div class="ms-2 d-flex flex-column text-start w-100">
-          <div class="d-flex gap-1 w-100">
-            <p style='color: ${dm.sender.favColor};'><u>${dm.sender.username}</u></p>
-            <span class="blockquote-footer">${dm.timeOfMessage}</span>
+        if (dm.isCodeBlock) {
+          messageContainer.append(
+            `<li class="list-group-item d-flex w-90">
+         
+            <img src="${dm.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+         
+          <div class="ms-2 d-flex flex-column text-start w-100">
+            <div class="d-flex gap-1 w-100">
+              <p style='color: ${dm.sender.favColor};'><u>${dm.sender.username}</u></p>
+              <span class="blockquote-footer">${dm.timeOfMessage}</span>
+            </div>
+            <div class="d-flex gap-1 w-100">
+            <span class="break-word w-90 me-2"><pre><code class="javascript">${dm.message}</code></pre></span>
           </div>
-          <div class="d-flex gap-1 w-100">
-            <span class="break-word w-90 me-2">${dm.message}</span>
           </div>
-        </div>
-      </li>`
-        );
+        </li>`
+          );
+        } else {
+          messageContainer.append(
+            `<li class="list-group-item d-flex w-90">
+         
+            <img src="${dm.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+         
+          <div class="ms-2 d-flex flex-column text-start w-100">
+            <div class="d-flex gap-1 w-100">
+              <p style='color: ${dm.sender.favColor};'><u>${dm.sender.username}</u></p>
+              <span class="blockquote-footer">${dm.timeOfMessage}</span>
+            </div>
+            <div class="d-flex gap-1 w-100">
+              <span class="break-word w-90 me-2">${dm.message}</span>
+            </div>
+          </div>
+        </li>`
+          );
+        }
       });
       messageContainer.scrollTop(messageContainer[0].scrollHeight);
     }
@@ -165,7 +186,6 @@ $(document).ready(async function () {
         return res.json();
       } catch (error) {
         //error:(
-        console.log(error);
       }
     }
 
@@ -181,34 +201,85 @@ $(document).ready(async function () {
     function appendDm(message) {
       const messageContainer = $("#messages");
 
-      messageContainer.append(
-        `<li class="list-group-item d-flex w-90">
-       
+      if (message.isCodeBlock) {
+        messageContainer.append(`<li class="list-group-item d-flex w-90">
+     
         <img src="${message.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
      
       <div class="ms-2 d-flex flex-column text-start w-100">
         <div class="d-flex gap-1 w-100">
           <p style='color: ${message.sender.favColor};'><u>${message.sender.username}</u></p>
-          <span class="blockquote-footer">${message.timeOfMessage}</span>
+          <span class="blockquote-footer d-none d-sm-block">${message.timeOfMessage}</span>
+        </div>
+        <div class="d-flex gap-1 w-100">
+          <span class="break-word w-90 me-2"><pre><code class="javascript">${message.message}</code></pre></span>
+        </div>
+      </div>
+    </li>`);
+      } else {
+        messageContainer.append(`<li class="list-group-item d-flex w-90">
+     
+        <img src="${message.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+     
+      <div class="ms-2 d-flex flex-column text-start w-100">
+        <div class="d-flex gap-1 w-100">
+          <p style='color: ${message.sender.favColor};'><u>${message.sender.username}</u></p>
+          <span class="blockquote-footer d-none d-sm-block">${message.timeOfMessage}</span>
         </div>
         <div class="d-flex gap-1 w-100">
           <span class="break-word w-90 me-2">${message.message}</span>
         </div>
       </div>
-    </li>`
-      );
+    </li>`);
+      }
+
+      //   messageContainer.append(
+      //     `<li class="list-group-item d-flex w-90">
+
+      //     <img src="${message.sender.pfp}" alt="profile cover" class="rounded-5 chat-pfp" />
+
+      //   <div class="ms-2 d-flex flex-column text-start w-100">
+      //     <div class="d-flex gap-1 w-100">
+      //       <p style='color: ${message.sender.favColor};'><u>${message.sender.username}</u></p>
+      //       <span class="blockquote-footer">${message.timeOfMessage}</span>
+      //     </div>
+      //     <div class="d-flex gap-1 w-100">
+      //       <span class="break-word w-90 me-2">${message.message}</span>
+      //     </div>
+      //   </div>
+      // </li>`
+      //   );
       messageContainer.scrollTop(messageContainer[0].scrollHeight);
     }
 
+    // $("#code-block").click(() => {
+    //   if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+    //     $("#chat-input").attr(
+    //       "placeholder",
+    //       "message # " +
+    //         `${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
+    //     );
+    //   } else {
+    //     $("#chat-input").attr("placeholder", "Enter your code block");
+    //   }
+    // });
+
     $("#code-block").click(() => {
-      if (chatInput.attr("placeholder") === "Enter your code block") {
-        chatInput.attr(
-          "placeholder",
-          "message # " +
-            `${document.location.pathname.split("/")[2].replace(/%20/g, " ")}`
+      if ($("#chat-input").attr("placeholder") === "Enter your code block") {
+        $("#code-block").css("color", "");
+
+        $("#chat-input").replaceWith(
+          `<input type='text' class='p-3 ps-4 border-0 input-styles w-90' placeholder='message # ${document.location.pathname
+            .split("/")[2]
+            .replace(/%20/g, " ")}'
+          aria-label="Recipient's username" aria-describedby="basic-addon2" id="chat-input"/>`
         );
       } else {
-        chatInput.attr("placeholder", "Enter your code block");
+        $("#code-block").css("color", "#d19a66");
+        $("#chat-input").replaceWith(
+          "<textarea class='p-3 ps-4 border-0 input-styles w-90' rows='1' cols='40' id='chat-input' placeholder='Enter your code block'></textarea>"
+        );
+        $("#chat-input").attr("placeholder", "Enter your code block");
       }
     });
   }

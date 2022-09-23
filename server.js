@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
 
   socket.on(
     "direct message",
-    ({ message, receiver, sender, timeOfMessage }) => {
+    ({ message, receiver, sender, timeOfMessage, isCodeBlock }) => {
       socket.join(receiver.socketId);
 
       io.to(receiver.socketId).emit("direct message", {
@@ -69,6 +69,7 @@ io.on("connection", (socket) => {
         receiver,
         sender,
         timeOfMessage,
+        isCodeBlock,
       });
     }
   );

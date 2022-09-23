@@ -4,8 +4,8 @@ const { getCurrentTime } = require("../utils/helpers");
 const dmController = {
   //save the dm using the users id
   async saveDmMsg({ body }, res) {
-    const { message, receiver, sender } = body;
-    
+    const { message, receiver, sender, isCodeBlock } = body;
+
     const timeOfMessage = getCurrentTime();
 
     try {
@@ -15,9 +15,11 @@ const dmController = {
           senderId: sender.user_id,
           message: message,
           timeOfMessage: timeOfMessage,
+          isCodeBlock: isCodeBlock,
         },
         { new: true }
       );
+
       if (newDm) {
         res.json(newDm);
       }
@@ -41,7 +43,7 @@ const dmController = {
       });
 
       let userAsSender = dmData.map((dm) => dm.get({ plain: true }));
-      
+
       dmData = await Dm.findAll({
         where: { receiverId: params.user_id },
         include: [
