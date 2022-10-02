@@ -114,42 +114,6 @@ $(document).ready(function () {
       }
     });
 
-    // const currentUser = await getCurrentUsersInfo();
-    // const usersData = await getAllUsersData();
-    // const dms = await getAllDms(currentUser);
-    // const activeDms = filterActiveDms(dms, currentUser);
-
-    // socket.on("user connected", async () => {
-    //   const usersData = await getAllUsersData();
-    //   const dms = await getAllDms(currentUser);
-    //   const activeDms = filterActiveDms(dms, currentUser);
-    //   appendActiveDms(activeDms);
-    //   listAllUsers(usersData);
-    // });
-
-    // socket.on("user disconnected", async () => {
-    //   socket.emit("this", { currentUser });
-    //   const usersData = await getAllUsersData();
-    //   listAllUsers(usersData);
-    //   const dms = await getAllDms(currentUser);
-    //   const activeDms = filterActiveDms(dms, currentUser);
-    //   appendActiveDms(activeDms);
-    //   listAllUsers(usersData);
-    // });
-
-    // socket.on("dm started", async (directMsg, receiver) => {
-    //   const dms = await getAllDms(currentUser);
-    //   const activeDms = filterActiveDms(dms, currentUser);
-    //   appendActiveDms(activeDms);
-    // });
-
-    // listAllUsers(usersData);
-    // displayCurrentUser(currentUser);
-
-    // appendActiveDms(activeDms);
-
-    // addActiveRoom();
-
     function listAllUsers(usersData, { username }) {
       userList.empty();
       usersData.forEach((user) => {
