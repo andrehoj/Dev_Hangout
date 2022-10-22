@@ -6,11 +6,12 @@ const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const routes = require("./routes");
 const { engine } = require("express-handlebars");
+// const io = require("./socket")
 
 const PORT = process.env.PORT || 3001;
 
 const sess = {
-  secret: "the secret",
+  secret: "d7rfWOjVd0x6pKN05ZsyT5KM1VKuLg1mtTYusMZR",
   cookie: {},
   resave: false,
   saveUninitialized: true,

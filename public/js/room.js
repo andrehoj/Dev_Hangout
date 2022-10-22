@@ -22,9 +22,7 @@ $(document).ready(function () {
             },
           });
           return response.json();
-        } catch (error) {
-         
-        }
+        } catch (error) {}
       }
 
       appendMessages(msg) {
@@ -82,9 +80,7 @@ $(document).ready(function () {
               isCodeBlock,
             }),
           });
-        } catch (error) {
-         
-        }
+        } catch (error) {}
       }
 
       appendMessage(
@@ -143,9 +139,7 @@ $(document).ready(function () {
         try {
           let userInfo = await fetch("/api/users/session");
           return userInfo.json();
-        } catch (error) {
-        
-        }
+        } catch (error) {}
       }
     }
 

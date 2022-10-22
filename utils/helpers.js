@@ -1,8 +1,8 @@
 const fetch = require("node-fetch");
-const User = require("../models/index");
+
 async function getRandomPfp(username) {
   try {
-    let response = await fetch(`https://robohash.org/${username}`);
+    const response = await fetch(`https://robohash.org/${username}`);
     return response.url;
   } catch (error) {
     return error;
@@ -18,7 +18,7 @@ function getCurrentTime() {
   });
 }
 
-//checks if the user is logging in , logged in or not logged in
+//checks if the user is logged in, if the user is logging in call next()
 function middleWareAuth(req, res, next) {
   if (
     req.originalUrl === "/api/users/login" ||
