@@ -4,7 +4,7 @@ const messageController = {
   async getMessagesByRoom({ params }, res) {
     try {
       const dbMessageData = await Message.findAll({
-        attributes: ["message", "timeOfMessage", 'isCodeBlock'],
+        attributes: ["message", "timeOfMessage", "isCodeBlock"],
         include: [
           {
             model: Room,
@@ -23,7 +23,7 @@ const messageController = {
       const messages = dbMessageData.map((message) =>
         message.get({ plain: true })
       );
-      console.log(messages)
+
       res.json(messages);
     } catch (error) {
       res.status(500).json({ Error: error });
@@ -31,7 +31,6 @@ const messageController = {
   },
 
   async saveMessage({ body }, res) {
-    console.log(body)
     try {
       let roomId = await Room.findOne({
         where: {

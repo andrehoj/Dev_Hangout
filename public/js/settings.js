@@ -126,9 +126,7 @@ async function handleRemoveAccount() {
 
   response = await response.json();
 
-  if (response) {
-    document.location.assign("/login");
-  } else console.log(response);
+  if (response) document.location.assign("/login");
 }
 
 //changes favorite tech
@@ -146,7 +144,7 @@ function setTheme(theme) {
   document.documentElement.className = theme;
 }
 
-// sets the active settings section on click 
+// sets the active settings section on click
 $("#sections-container li").each(function () {
   $(this).click(function () {
     $("#sections-container li").each(function () {
